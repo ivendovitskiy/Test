@@ -23,3 +23,4 @@ namespace TestForm.Data
         public DbSet<Device> Devices { get; set; }
     }
 }
+//https://github.com/ivendovitsky/Test/invitations
