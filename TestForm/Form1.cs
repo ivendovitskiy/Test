@@ -63,6 +63,7 @@ namespace TestForm
             using(StreamReader  sr = File.OpenText(_filePath))
             {
                 nameTextBox.Text = sr.ReadToEnd();
+                string huy;
             }
         }
     }
