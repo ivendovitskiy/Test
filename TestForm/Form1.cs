@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TestForm.Data;
@@ -62,8 +63,15 @@ namespace TestForm
 
             using(StreamReader  sr = File.OpenText(_filePath))
             {
-                nameTextBox.Text = sr.ReadToEnd();
-                string huy;
+                Regex regex = new Regex("[wdwd]");
+
+                MatchCollection matches = regex.Matches(sr.ReadToEnd());
+
+
+                foreach(var x in matches)
+                {
+
+                }
             }
         }
     }
