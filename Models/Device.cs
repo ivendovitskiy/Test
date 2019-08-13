@@ -18,6 +18,6 @@ namespace Models
         public string AppKey { get; set; }
         public string DevAdd { get; set; }
         public string AppSKey { get; set; }
-        public string NwkSKEY { get; set; }
+        public string NwkSKey { get; set; }
     }
 }

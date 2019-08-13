@@ -19,7 +19,10 @@ namespace TestForm
 
         private void Button1_Click(object sender, EventArgs e)
         {
-
+            Form checkin =  new Checkin();
+            this.Hide();
+            checkin.ShowDialog();
+            this.Show();
         }
     }
 }

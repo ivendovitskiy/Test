@@ -16,12 +16,12 @@ namespace TestForm
 {
     public partial class Checkin : Form
     {
+        Device[] devices;
         private string _filePath;
 
         public Checkin()
         {
             InitializeComponent();
-            dataGridView1.AutoGenerateColumns = true;
         }
 
         private void Checkin_Load(object sender, EventArgs e)
@@ -37,6 +37,70 @@ namespace TestForm
                 for (int i = 0; i < checkedListBox1.Items.Count; i++)
                     checkedListBox1.SetItemChecked(i, false);
                 checkedListBox1.SetItemChecked(checkedListBox1.SelectedIndex, true);
+            }
+            devEuiBox.Text = devices[Convert.ToInt32(checkedListBox1.SelectedItem) - 1].DevEui;
+            appEuiBox.Text = devices[Convert.ToInt32(checkedListBox1.SelectedItem) - 1].AppEui;
+            appKeyBox.Text = devices[Convert.ToInt32(checkedListBox1.SelectedItem) - 1].AppKey;
+            devAddBox.Text = devices[Convert.ToInt32(checkedListBox1.SelectedItem) - 1].DevAdd;
+            appSKeyBox.Text = devices[Convert.ToInt32(checkedListBox1.SelectedItem) - 1].AppSKey;
+            nwkSKey.Text = devices[Convert.ToInt32(checkedListBox1.SelectedItem) - 1].NwkSKey;
+        }
+
+        private void CheckedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+        }
+
+        private void ScanButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            var result = dialog.ShowDialog();
+            if (result == DialogResult.OK || result == DialogResult.Yes)
+            {
+                _filePath = dialog.FileName;
+            }
+            using (StreamReader sr = File.OpenText(_filePath))
+            {
+                string s = @"devName:(\r\n|\r|\n)*(?<DevName>.{0,})(\r\n|\r|\n)*DevEui:(\r\n|\r|\n)*(?<DevEui>.{0,})(\r\n|\r|\n)*AppEui:(\r\n|\r|\n)*(?<AppEui>.{0,})(\r\n|\r|\n)*AppKey:(\r\n|\r|\n)*(?<AppKey>.{0,})(\r\n|\r|\n)*DevAdd:(\r\n|\r|\n)*(?<DevAdd>.{0,})(\r\n|\r|\n)*AppSKey:(\r\n|\r|\n)*(?<AppSKey>.{0,})(\r\n|\r|\n)*NwkSKEY:(\r\n|\r|\n)*(?<NwkSKey>.{0,})(\r\n|\r|\n)?";
+                Regex regex = new Regex(s);
+
+                string text = sr.ReadToEnd();
+                MatchCollection matches = regex.Matches(text);
+
+                devices = new Device[5];
+
+                if (matches.Count > 24)
+                {
+                    MessageBox.Show("Ошибка! Отсканируйте не больше 24 сканеров");
+                    return;
+                }
+
+                for (int i = 0; i < matches.Count; ++i)
+                {
+                    devices[i] = new Device()
+                    {
+                        Name = matches[i].Groups["DevName"].Value,
+                        DevEui = matches[i].Groups["DevEui"].Value,
+                        AppEui = matches[i].Groups["AppEui"].Value,
+                        AppKey = matches[i].Groups["AppKey"].Value,
+                        DevAdd = matches[i].Groups["DevAdd"].Value,
+                        AppSKey = matches[i].Groups["AppSKey"].Value,
+                        NwkSKey = matches[i].Groups["NwkSKey"].Value
+                    };
+                }
+            }
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            using (TestDbContext context = new TestDbContext())
+            {
+                toolStripProgressBar1.Value = 0;
+                for (int i = 0; i < devices.Length;++i)
+                {
+                    context.Devices.Add(devices[i]);
+                    toolStripProgressBar1.Value += Convert.ToInt32(100 / devices.Length);
+                }
+                context.SaveChanges();
             }
         }
 
@@ -57,37 +121,6 @@ namespace TestForm
         //    {
         //        context.Devices.Add(device);
         //        context.SaveChanges();
-        //    }
-        //}
-
-        //private void RefreshButton_Click(object sender, EventArgs e)
-        //{
-        //    using (TestDbContext context = new TestDbContext())
-        //    {
-        //        dataGridView1.DataSource = context.Devices.ToList();
-        //    }
-        //}
-
-        //private void OpenFileButton_Click(object sender, EventArgs e)
-        //{
-        //    var result = openFileDialog1.ShowDialog();
-        //    if (result == DialogResult.OK || result == DialogResult.Yes)
-        //    {
-        //        _filePath = openFileDialog1.FileName;
-        //    }
-
-        //    using(StreamReader  sr = File.OpenText(_filePath))
-        //    {
-        //        Regex regex = new Regex("devName:\n* DevEui:.*\n * (?< DevEui >.{ 1, })\n*AppEui:\n" +
-        //            "(?< AppEui >.{ 1,})\n*AppKey:\n.{ 1,}\n *.{ 1,}\n*DevAdd:\n(?< DevAdd >.{ 1,})\n" +
-        //            "*AppSKey:\n(?< AppSKey >.{ 1,})\n*NwkSKEY:\n * (?< NwkSKEY >.{ 1,})\n ? ");
-
-        //        MatchCollection matches = regex.Matches(sr.ReadToEnd());
-
-        //        foreach(var x in matches)
-        //        {
-
-        //        }
         //    }
         //}
     }
