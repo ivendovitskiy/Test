@@ -10,7 +10,13 @@ namespace Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public  int Id { get; set; }
+        public int Id { get; set; }
+
+        [NotMapped]
+        public int Index { get; set; }
+
+        [NotMapped]
+        public bool IsActive { get; set; } = true;
 
         public string Name { get; set; }
         public string DevEui { get; set; }

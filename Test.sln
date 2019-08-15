@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{278FC670-92EC-44E3-B64B-FBAAD27A30BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{278FC670-92EC-44E3-B64B-FBAAD27A30BB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestForm", "TestForm\TestForm.csproj", "{200F5CEC-E9A4-41C5-938A-00990E665490}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApplication", "TestApplication\TestApplication.csproj", "{7665B3F0-DD1D-4F14-9574-2EDF30FD7E16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{200F5CEC-E9A4-41C5-938A-00990E665490}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{200F5CEC-E9A4-41C5-938A-00990E665490}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{200F5CEC-E9A4-41C5-938A-00990E665490}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7665B3F0-DD1D-4F14-9574-2EDF30FD7E16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7665B3F0-DD1D-4F14-9574-2EDF30FD7E16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7665B3F0-DD1D-4F14-9574-2EDF30FD7E16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7665B3F0-DD1D-4F14-9574-2EDF30FD7E16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

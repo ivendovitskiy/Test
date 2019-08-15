@@ -1,0 +1,30 @@
+﻿<Window x:Class="TestApplication.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestApplication"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
+    <Grid>
+
+        
+        <Button Content="Открыть файл" Command="{Binding OpenFileCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96" Margin="686,389,0,0"/>
+        
+        
+        <ListBox HorizontalAlignment="Left" 
+                 Height="358" Margin="10,10,0,0"
+                 VerticalAlignment="Top"
+                 Width="100"
+                 ItemsSource="{Binding Devices}">            
+            <ListBox.ItemTemplate>
+                <DataTemplate >
+                    <RadioButton GroupName="radioList" Content="{Binding Index}" IsEnabled="{Binding IsActive}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+
+    </Grid>
+</Window>
