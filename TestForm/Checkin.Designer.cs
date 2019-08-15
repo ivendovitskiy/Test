@@ -46,6 +46,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.continueTestButton = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,7 +76,6 @@
             // checkedListBox1
             // 
             this.checkedListBox1.AllowDrop = true;
-            this.checkedListBox1.CheckOnClick = true;
             this.checkedListBox1.ColumnWidth = 75;
             this.checkedListBox1.Enabled = false;
             this.checkedListBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -255,11 +255,21 @@
             this.continueTestButton.Text = "Продолжить тестирование";
             this.continueTestButton.UseVisualStyleBackColor = true;
             // 
+            // label7
+            // 
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(100, 388);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(212, 37);
+            this.label7.TabIndex = 58;
+            this.label7.Text = "Используйте стрелочки ↑ и ↓ для переключения счетчиков";
+            // 
             // Checkin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(810, 536);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.continueTestButton);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -306,6 +316,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button continueTestButton;
+        private System.Windows.Forms.Label label7;
     }
 }
 

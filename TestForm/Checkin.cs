@@ -82,9 +82,11 @@ namespace TestForm
                     }
                     else
                     {
+                        checkedListBox1.Items.Clear();
+                        checkedListBox1.Enabled = true;
                         for (int i = 0; i < matches.Count; ++i)
                         {
-                            
+                            checkedListBox1.Items.Add(i + 1, false);
                             devices[i] = new Device()
                             {
                                 Name = matches[i].Groups["DevName"].Value,
