@@ -35,6 +35,7 @@
             // 
             // checkInButton
             // 
+            this.checkInButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkInButton.Location = new System.Drawing.Point(220, 74);
             this.checkInButton.Name = "checkInButton";
             this.checkInButton.Size = new System.Drawing.Size(347, 75);
@@ -45,6 +46,8 @@
             // 
             // testButton
             // 
+            this.testButton.Enabled = false;
+            this.testButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.testButton.Location = new System.Drawing.Point(220, 172);
             this.testButton.Name = "testButton";
             this.testButton.Size = new System.Drawing.Size(347, 75);
@@ -54,24 +57,25 @@
             // 
             // serviceButton
             // 
+            this.serviceButton.Enabled = false;
+            this.serviceButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.serviceButton.Location = new System.Drawing.Point(220, 271);
             this.serviceButton.Name = "serviceButton";
             this.serviceButton.Size = new System.Drawing.Size(347, 75);
             this.serviceButton.TabIndex = 2;
             this.serviceButton.Text = "Сервис";
             this.serviceButton.UseVisualStyleBackColor = true;
-            this.serviceButton.Visible = false;
             // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(750, 469);
             this.Controls.Add(this.serviceButton);
             this.Controls.Add(this.testButton);
             this.Controls.Add(this.checkInButton);
             this.Name = "MainMenu";
-            this.Text = "Form2";
+            this.Text = "Проверка работоспособости счетчиков с LoRa-модулем";
             this.ResumeLayout(false);
 
         }

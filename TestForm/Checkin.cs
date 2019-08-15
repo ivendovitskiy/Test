@@ -46,17 +46,18 @@ namespace TestForm
             nwkSKey.Text = devices[Convert.ToInt32(checkedListBox1.SelectedItem) - 1].NwkSKey;
         }
 
-        private void CheckedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-        }
-
         private void ScanButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Text files(*.txt)|*.txt";
             var result = dialog.ShowDialog();
             if (result == DialogResult.OK || result == DialogResult.Yes)
             {
                 _filePath = dialog.FileName;
+            }
+            else
+            {
+                return;
             }
             using (StreamReader sr = File.OpenText(_filePath))
             {
@@ -66,26 +67,36 @@ namespace TestForm
                 string text = sr.ReadToEnd();
                 MatchCollection matches = regex.Matches(text);
 
-                devices = new Device[5];
+                devices = new Device[matches.Count];
 
                 if (matches.Count > 24)
                 {
-                    MessageBox.Show("Ошибка! Отсканируйте не больше 24 сканеров");
+                    MessageBox.Show("Отсканируйте не больше 24 сканеров");
                     return;
                 }
-
-                for (int i = 0; i < matches.Count; ++i)
+                else
                 {
-                    devices[i] = new Device()
+                    if (matches.Count == 0)
                     {
-                        Name = matches[i].Groups["DevName"].Value,
-                        DevEui = matches[i].Groups["DevEui"].Value,
-                        AppEui = matches[i].Groups["AppEui"].Value,
-                        AppKey = matches[i].Groups["AppKey"].Value,
-                        DevAdd = matches[i].Groups["DevAdd"].Value,
-                        AppSKey = matches[i].Groups["AppSKey"].Value,
-                        NwkSKey = matches[i].Groups["NwkSKey"].Value
-                    };
+                        MessageBox.Show("Отсканируйте хотя бы один сканер");
+                    }
+                    else
+                    {
+                        for (int i = 0; i < matches.Count; ++i)
+                        {
+                            
+                            devices[i] = new Device()
+                            {
+                                Name = matches[i].Groups["DevName"].Value,
+                                DevEui = matches[i].Groups["DevEui"].Value,
+                                AppEui = matches[i].Groups["AppEui"].Value,
+                                AppKey = matches[i].Groups["AppKey"].Value,
+                                DevAdd = matches[i].Groups["DevAdd"].Value,
+                                AppSKey = matches[i].Groups["AppSKey"].Value,
+                                NwkSKey = matches[i].Groups["NwkSKey"].Value
+                            };
+                        }
+                    }
                 }
             }
         }
@@ -95,7 +106,7 @@ namespace TestForm
             using (TestDbContext context = new TestDbContext())
             {
                 toolStripProgressBar1.Value = 0;
-                for (int i = 0; i < devices.Length;++i)
+                for (int i = 0; i < devices.Length; ++i)
                 {
                     context.Devices.Add(devices[i]);
                     toolStripProgressBar1.Value += Convert.ToInt32(100 / devices.Length);
@@ -104,24 +115,20 @@ namespace TestForm
             }
         }
 
-        //private void AddButton_Click(object sender, EventArgs e)
-        //{
-        //    Device device = new Device()
-        //    {
-        //        AppEui = appEuiTextBox.Text,
-        //        AppKey = appKeyTextBox.Text,
-        //        AppSKey = appSKeyTextBox.Text,
-        //        DevAdd = devAddTextBox.Text,
-        //        DevEui = devEuiTextBox.Text,
-        //        Name = nameTextBox.Text,
-        //        NwkSKEY = nwkSKEYTextBox.Text
-        //    };
+        private void CheckedListBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            //int a, b, c, d;
+            ////checkedListBox1.SetItemChecked(checkedListBox1.SelectedIndex, false);
+            ////checkedListBox1.SetItemChecked(checkedListBox1.SelectedIndex + 1, true);
+            //a = checkedListBox1.SelectedIndex;
+            //b = checkedListBox1.
 
-        //    using (TestDbContext context = new TestDbContext())
-        //    {
-        //        context.Devices.Add(device);
-        //        context.SaveChanges();
-        //    }
-        //}
+        }
+
+        private void CheckedListBox1_KeyUp(object sender, KeyEventArgs e)
+        {
+            //checkedListBox1.SetItemChecked(checkedListBox1.SelectedIndex, false);
+            //checkedListBox1.SetItemChecked(checkedListBox1.SelectedIndex - 1, true);
+        }
     }
 }
