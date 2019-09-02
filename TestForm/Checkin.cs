@@ -17,22 +17,17 @@ namespace TestForm
     public partial class Checkin : Form
     {
         Device[] devices;
-        private string _filePath;
+        //private string _filePath;
 
         public Checkin()
         {
             InitializeComponent();
         }
 
-        private void Checkin_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void CheckedListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Если отмечено больше 2 элементов, то снимаем выделение со всех и отмечаем текущий.
-            if (checkedListBox1.CheckedItems.Count > 1)
+            if (checkedListBox1.CheckedItems.Count > 0)
             {
                 for (int i = 0; i < checkedListBox1.Items.Count; i++)
                     checkedListBox1.SetItemChecked(i, false);
@@ -48,18 +43,18 @@ namespace TestForm
 
         private void ScanButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "Text files(*.txt)|*.txt";
-            var result = dialog.ShowDialog();
-            if (result == DialogResult.OK || result == DialogResult.Yes)
-            {
-                _filePath = dialog.FileName;
-            }
-            else
-            {
-                return;
-            }
-            using (StreamReader sr = File.OpenText(_filePath))
+            //OpenFileDialog dialog = new OpenFileDialog();
+            //dialog.Filter = "Text files(*.txt)|*.txt";
+            //var result = dialog.ShowDialog();
+            //if (result == DialogResult.OK || result == DialogResult.Yes)
+            //{
+            //    _filePath = dialog.FileName;
+            //}
+            //else
+            //{
+            //    return;
+            //}
+            using (StreamReader sr = File.OpenText(@"C:\Users\Иван\desktop\test\devices.txt"))
             {
                 string s = @"devName:(\r\n|\r|\n)*(?<DevName>.{0,})(\r\n|\r|\n)*DevEui:(\r\n|\r|\n)*(?<DevEui>.{0,})(\r\n|\r|\n)*AppEui:(\r\n|\r|\n)*(?<AppEui>.{0,})(\r\n|\r|\n)*AppKey:(\r\n|\r|\n)*(?<AppKey>.{0,})(\r\n|\r|\n)*DevAdd:(\r\n|\r|\n)*(?<DevAdd>.{0,})(\r\n|\r|\n)*AppSKey:(\r\n|\r|\n)*(?<AppSKey>.{0,})(\r\n|\r|\n)*NwkSKEY:(\r\n|\r|\n)*(?<NwkSKey>.{0,})(\r\n|\r|\n)?";
                 Regex regex = new Regex(s);
@@ -84,9 +79,12 @@ namespace TestForm
                     {
                         checkedListBox1.Items.Clear();
                         checkedListBox1.Enabled = true;
+                        //continueTestButton.Enabled = true;
+
                         for (int i = 0; i < matches.Count; ++i)
                         {
                             checkedListBox1.Items.Add(i + 1, false);
+                            //checkedListBox1.Items.
                             devices[i] = new Device()
                             {
                                 Name = matches[i].Groups["DevName"].Value,
@@ -117,20 +115,19 @@ namespace TestForm
             }
         }
 
-        private void CheckedListBox1_KeyDown(object sender, KeyEventArgs e)
+        private void RegToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //int a, b, c, d;
-            ////checkedListBox1.SetItemChecked(checkedListBox1.SelectedIndex, false);
-            ////checkedListBox1.SetItemChecked(checkedListBox1.SelectedIndex + 1, true);
-            //a = checkedListBox1.SelectedIndex;
-            //b = checkedListBox1.
 
         }
 
-        private void CheckedListBox1_KeyUp(object sender, KeyEventArgs e)
+        private void TestToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //checkedListBox1.SetItemChecked(checkedListBox1.SelectedIndex, false);
-            //checkedListBox1.SetItemChecked(checkedListBox1.SelectedIndex - 1, true);
+
+        }
+
+        private void ServToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
