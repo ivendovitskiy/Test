@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using VegaServerApi.Dto.UserAuthorization;
 
 namespace VegaServerApi
@@ -19,20 +20,32 @@ namespace VegaServerApi
 
         private readonly ClientWebSocket clientWebSocket;
 
-        public string Auth()
+        public async Task<string> Auth()
         {
             AuthRequest request = new AuthRequest()
             {
                 Login = "root",
                 Password = "123"
             };
+
+            WebSocketSharp.WebSocket wsClient = new WebSocketSharp.WebSocket("ws://127.0.0.1:8002");
+
+
+            wsClient.Send(JsonConvert.SerializeObject(request));
+
+
             byte[] buffer = new byte[1024];
-            
-            clientWebSocket.SendAsync(new ArraySegment<byte>(Encoding.Unicode.GetBytes(JsonConvert.SerializeObject(request))), WebSocketMessageType.Binary, true, CancellationToken.None);
-            clientWebSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+
+            //await clientWebSocket.SendAsync(new ArraySegment<byte>(Encoding.Unicode.GetBytes(JsonConvert.SerializeObject(request))), WebSocketMessageType.Binary, true, CancellationToken.None);
 
 
-            return JsonConvert.DeserializeObject<AuthResponse>(Encoding.Unicode.GetString(buffer)).Command;
+            wsClient.OnMessage += (sender, e) =>
+            {
+                Console.WriteLine("New Message Received From Server : " + e.Data);
+            };
+
+            // return JsonConvert.DeserializeObject<AuthResponse>(Encoding.Unicode.GetString(buffer)).Command;
+            return null;
         }
     }
 }
