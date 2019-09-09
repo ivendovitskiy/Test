@@ -74,9 +74,9 @@ namespace TestApplication.ViewModels
 
             VegaServerApi.Client client = new VegaServerApi.Client();
 
-            var x = client.Auth(new VegaServerApi.Dto.UserAuthorization.AuthRequest() { Login = "root", Password = "123" }).Result;
+            Console.WriteLine(client.Auth(new VegaServerApi.Dto.UserAuthorization.AuthRequest() { Login = "root", Password = "123" }));
 
-            var y = client.AddOrUpdateDevices(vegaDevices, x);
+            var y = client.AddOrUpdateDevices(vegaDevices);
 
             MessageBox.Show(y.Result.ErrorString);
         }
@@ -117,13 +117,13 @@ namespace TestApplication.ViewModels
                                 Devices.Add(new Device
                                 {
                                     Index = i,
-                                    Name = match.Groups["DevName"].Value,
-                                    DevEui = match.Groups["DevEui"].Value,
-                                    AppEui = match.Groups["AppEui"].Value,
-                                    AppKey = match.Groups["AppKey"].Value,
-                                    DevAdd = match.Groups["DevAdd"].Value,
-                                    AppSKey = match.Groups["AppSKey"].Value,
-                                    NwkSKey = match.Groups["NwkSKey"].Value
+                                    Name = match.Groups["DevName"].Value.Trim(),
+                                    DevEui = match.Groups["DevEui"].Value.Trim(),
+                                    AppEui = match.Groups["AppEui"].Value.Trim(),
+                                    AppKey = match.Groups["AppKey"].Value.Trim(),
+                                    DevAdd = match.Groups["DevAdd"].Value.Trim(),
+                                    AppSKey = match.Groups["AppSKey"].Value.Trim(),
+                                    NwkSKey = match.Groups["NwkSKey"].Value.Trim()
                                 });
 
                                 i++;

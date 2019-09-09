@@ -15,8 +15,5 @@ namespace VegaServerApi.Dto
 
         [JsonProperty("err_string")]
         public string ErrorString { get; set; }
-
-        [JsonProperty("token")]
-        public string Token { get; set; }
     }
 }

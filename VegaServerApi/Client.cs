@@ -54,7 +54,7 @@ namespace VegaServerApi
                 {
                     do
                     {
-                        result = await clientWebSocket.ReceiveAsync(buffer, CancellationToken.None);
+                        result = clientWebSocket.ReceiveAsync(buffer, CancellationToken.None).Result;
                         ms.Write(buffer.Array, buffer.Offset, result.Count);
                     } while (!result.EndOfMessage);
 
@@ -66,7 +66,7 @@ namespace VegaServerApi
                     ms.Seek(0, SeekOrigin.Begin);
                     using (var reader = new StreamReader(ms, Encoding.UTF8))
                     {
-                        res = await reader.ReadToEndAsync();
+                        res = reader.ReadToEnd();
                     }
                 }
             } while (true);
@@ -79,14 +79,14 @@ namespace VegaServerApi
         {
             var receive = Receive<AuthResponse>();
             await Task.WhenAll(Send(authRequest), receive);
-            return receive.Result;
+            return receive.Result.Token;
         }
-         
-        public async Task<ManageDevicesResponse> AddOrUpdateDevices(ICollection<Device> devices, string token)
+
+        public async Task<ManageDevicesResponse> AddOrUpdateDevices(ICollection<Device> devices)
         {
             var receive = Receive<ManageDevicesResponse>();
-
-            await Task.WhenAll(Send(new ManageDevicesRequest() { Devices = devices, Token = token }), receive);
+            var send = Send(new ManageDevicesRequest() { Devices = devices });
+            await Task.WhenAll(receive, send);
 
             return receive.Result;
         }
