@@ -6,6 +6,7 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using VegaServerApi.Dto;
 using VegaServerApi.Dto.UserAuthorization;
 
 namespace VegaServerApi
@@ -14,38 +15,57 @@ namespace VegaServerApi
     {
         public Client()
         {
+            unicodeEncoding = new UnicodeEncoding();
+
             clientWebSocket = new ClientWebSocket();
-            clientWebSocket.ConnectAsync(new Uri("ws://127.0.0.1:8002"), CancellationToken.None);
+            clientWebSocket.ConnectAsync(new Uri("ws://127.0.0.1:8002"), CancellationToken.None).Wait();
         }
 
         private readonly ClientWebSocket clientWebSocket;
+        private readonly UnicodeEncoding unicodeEncoding;
+        private string token;
 
-        public async Task<string> Auth()
+        private async Task Send<T>(T type)
         {
-            AuthRequest request = new AuthRequest()
+            if (clientWebSocket.State == WebSocketState.Open)
             {
-                Login = "root",
-                Password = "123"
-            };
+                string jsonString = JsonConvert.SerializeObject(type);
 
-            WebSocketSharp.WebSocket wsClient = new WebSocketSharp.WebSocket("ws://127.0.0.1:8002");
+                await clientWebSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(jsonString)), WebSocketMessageType.Text, true, CancellationToken.None);
+                Console.WriteLine($"Message sent: {jsonString}");
 
+                await Task.Delay(5000);
+            }
+        }
 
-            wsClient.Send(JsonConvert.SerializeObject(request));
+        private async Task<T> Receive<T>()
+        {
+            var buffer = new ArraySegment<byte>(new byte[2048]);
 
+            var result = clientWebSocket.ReceiveAsync(buffer, CancellationToken.None).Result;
 
-            byte[] buffer = new byte[1024];
-
-            //await clientWebSocket.SendAsync(new ArraySegment<byte>(Encoding.Unicode.GetBytes(JsonConvert.SerializeObject(request))), WebSocketMessageType.Binary, true, CancellationToken.None);
-
-
-            wsClient.OnMessage += (sender, e) =>
+            while (result.Count <= 0)
             {
-                Console.WriteLine("New Message Received From Server : " + e.Data);
-            };
+                result =  await clientWebSocket.ReceiveAsync(buffer, CancellationToken.None);
+            }
 
-            // return JsonConvert.DeserializeObject<AuthResponse>(Encoding.Unicode.GetString(buffer)).Command;
+
+            return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(buffer.Array));
+        }
+
+        public async Task<AuthResponse> Auth(AuthRequest authRequest)
+        {
+            //var receive = Receive<AuthResponse>();
+
+           // await Task.WhenAll(Send(authRequest), receive);
+
+            await Task.WhenAll(Send(authRequest), Receive<AuthResponse>());
+
+            // token = receive.Result.Token;
+
+            //return receive.Result;
             return null;
         }
     }
+
 }
