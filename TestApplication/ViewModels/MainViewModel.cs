@@ -18,29 +18,67 @@ namespace TestApplication.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private readonly TestDbContext _context;
+        private readonly TestDbContext context;
 
-        private ObservableCollection<Device> _devices;
+        private ObservableCollection<Device> devices;
         public ObservableCollection<Device> Devices
         {
             get
             {
-                return _devices;
+                return devices;
             }
             set
             {
-                _devices = value;
+                devices = value;
                 RaisePropertyChanged("Devices");
             }
         }
 
         public ICommand OpenFileCommand { get; private set; }
+        public ICommand AddDevicesToVegaCommand { get; private set; }
 
         public MainViewModel(TestDbContext context)
         {
-            _context = context;
+            this.context = context;
 
             OpenFileCommand = new RelayCommand(OpenFile);
+            AddDevicesToVegaCommand = new RelayCommand(AddDevicesToVega);
+        }
+
+        private void AddDevicesToVega()
+        {
+            List<VegaServerApi.Dto.Device> vegaDevices = new List<VegaServerApi.Dto.Device>();
+
+            foreach (var device in this.devices.Where(d => d.IsActive == true))
+            {
+                VegaServerApi.Dto.Device vegaDevice = new VegaServerApi.Dto.Device();
+
+                vegaDevice.Abp = new VegaServerApi.Dto.Abp()
+                {
+                    AppSKey = device.AppSKey,
+                    DevAddress = Convert.ToInt32(device.DevAdd),
+                    NwkSKey = device.NwkSKey
+                };
+
+                vegaDevice.Otaa = new VegaServerApi.Dto.Otaa()
+                {
+                    AppEui = device.AppEui,
+                    AppKey = device.AppKey
+                };
+
+                vegaDevice.DevName = device.Name;
+                vegaDevice.DevEui = device.DevEui;
+
+                vegaDevices.Add(vegaDevice);
+            }
+
+            VegaServerApi.Client client = new VegaServerApi.Client();
+
+            var x = client.Auth(new VegaServerApi.Dto.UserAuthorization.AuthRequest() { Login = "root", Password = "123" }).Result;
+
+            var y = client.AddOrUpdateDevices(vegaDevices, x);
+
+            MessageBox.Show(y.Result.ErrorString);
         }
 
         private void OpenFile()

@@ -12,6 +12,7 @@ namespace VegaServerApi.Dto.UserAuthorization
 
         public AuthResponse()
         {
+
         }
     }
 }

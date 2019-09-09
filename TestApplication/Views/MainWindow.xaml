@@ -11,8 +11,14 @@
 
         
         <Button Content="Открыть файл" Command="{Binding OpenFileCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96" Margin="686,389,0,0"/>
-        
-        
+        <Button Content="Отправить на сервер Vega"
+                Command="{Binding AddDevicesToVegaCommand}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Width="163"
+                Margin="500,389,0,0" />
+
+
         <ListBox HorizontalAlignment="Left" 
                  Height="358" Margin="10,10,0,0"
                  VerticalAlignment="Top"

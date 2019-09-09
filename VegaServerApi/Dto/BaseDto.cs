@@ -9,5 +9,14 @@ namespace VegaServerApi.Dto
     {
         [JsonProperty("cmd")]
         public string Command { get; set; }
+
+        [JsonProperty("status")]
+        public bool Status { get; set; }
+
+        [JsonProperty("err_string")]
+        public string ErrorString { get; set; }
+
+        [JsonProperty("token")]
+        public string Token { get; set; }
     }
 }
