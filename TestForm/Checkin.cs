@@ -38,7 +38,7 @@ namespace TestForm
             appKeyBox.Text = devices[Convert.ToInt32(checkedListBox1.SelectedItem) - 1].AppKey;
             devAddBox.Text = devices[Convert.ToInt32(checkedListBox1.SelectedItem) - 1].DevAdd;
             appSKeyBox.Text = devices[Convert.ToInt32(checkedListBox1.SelectedItem) - 1].AppSKey;
-            nwkSKey.Text = devices[Convert.ToInt32(checkedListBox1.SelectedItem) - 1].NwkSKey;
+            nwkSKeyBox.Text = devices[Convert.ToInt32(checkedListBox1.SelectedItem) - 1].NwkSKey;
         }
 
         private void ScanButton_Click(object sender, EventArgs e)
@@ -97,6 +97,7 @@ namespace TestForm
                             };
                         }
                     }
+                    MessageBox.Show("Сканирование завершено. Протокол сохранен на рабочий стол");
                 }
             }
         }
@@ -117,7 +118,16 @@ namespace TestForm
 
         private void RegToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            scanButton.Visible = true;
+            //continueTestButton.Visible = true;
+            //saveButton.Visible = true;
+            checkedListBox1.Visible = true;
+            devEuiBox.Visible = true;
+            appEuiBox.Visible = true;
+            appKeyBox.Visible = true;
+            devAddBox.Visible = true;
+            appSKeyBox.Visible = true;
+            nwkSKeyBox.Visible = true;
         }
 
         private void TestToolStripMenuItem_Click(object sender, EventArgs e)
