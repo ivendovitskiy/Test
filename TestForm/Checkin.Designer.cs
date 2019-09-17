@@ -38,7 +38,7 @@
             this.appKeyBox = new System.Windows.Forms.TextBox();
             this.devAddBox = new System.Windows.Forms.TextBox();
             this.appSKeyBox = new System.Windows.Forms.TextBox();
-            this.nwkSKey = new System.Windows.Forms.TextBox();
+            this.nwkSKeyBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -72,13 +72,12 @@
             // scanButton
             // 
             this.scanButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.scanButton.Location = new System.Drawing.Point(40, 445);
+            this.scanButton.Location = new System.Drawing.Point(306, 216);
             this.scanButton.Name = "scanButton";
             this.scanButton.Size = new System.Drawing.Size(200, 57);
             this.scanButton.TabIndex = 17;
-            this.scanButton.Text = "Сканировать";
+            this.scanButton.Text = "Создать";
             this.scanButton.UseVisualStyleBackColor = true;
-            this.scanButton.Visible = false;
             this.scanButton.Click += new System.EventHandler(this.ScanButton_Click);
             // 
             // saveButton
@@ -200,15 +199,15 @@
             this.appSKeyBox.TabIndex = 49;
             this.appSKeyBox.Visible = false;
             // 
-            // nwkSKey
+            // nwkSKeyBox
             // 
-            this.nwkSKey.Enabled = false;
-            this.nwkSKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nwkSKey.Location = new System.Drawing.Point(405, 355);
-            this.nwkSKey.Name = "nwkSKey";
-            this.nwkSKey.Size = new System.Drawing.Size(332, 29);
-            this.nwkSKey.TabIndex = 50;
-            this.nwkSKey.Visible = false;
+            this.nwkSKeyBox.Enabled = false;
+            this.nwkSKeyBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nwkSKeyBox.Location = new System.Drawing.Point(405, 355);
+            this.nwkSKeyBox.Name = "nwkSKeyBox";
+            this.nwkSKeyBox.Size = new System.Drawing.Size(332, 29);
+            this.nwkSKeyBox.TabIndex = 50;
+            this.nwkSKeyBox.Visible = false;
             // 
             // label1
             // 
@@ -315,20 +314,25 @@
             this.regToolStripMenuItem.Name = "regToolStripMenuItem";
             this.regToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
             this.regToolStripMenuItem.Text = "Регистрация";
+            this.regToolStripMenuItem.Visible = false;
             this.regToolStripMenuItem.Click += new System.EventHandler(this.RegToolStripMenuItem_Click);
             // 
             // testToolStripMenuItem
             // 
+            this.testToolStripMenuItem.Enabled = false;
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
             this.testToolStripMenuItem.Size = new System.Drawing.Size(96, 20);
             this.testToolStripMenuItem.Text = "Тестирование";
+            this.testToolStripMenuItem.Visible = false;
             this.testToolStripMenuItem.Click += new System.EventHandler(this.TestToolStripMenuItem_Click);
             // 
             // servToolStripMenuItem
             // 
+            this.servToolStripMenuItem.Enabled = false;
             this.servToolStripMenuItem.Name = "servToolStripMenuItem";
             this.servToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.servToolStripMenuItem.Text = "Сервис";
+            this.servToolStripMenuItem.Visible = false;
             this.servToolStripMenuItem.Click += new System.EventHandler(this.ServToolStripMenuItem_Click);
             // 
             // dataGridView1
@@ -439,7 +443,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.nwkSKey);
+            this.Controls.Add(this.nwkSKeyBox);
             this.Controls.Add(this.appSKeyBox);
             this.Controls.Add(this.devAddBox);
             this.Controls.Add(this.appKeyBox);
@@ -452,7 +456,7 @@
             this.Controls.Add(this.scanButton);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Checkin";
-            this.Text = "Регистрация";
+            this.Text = "Модуль создания протокола";
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -474,7 +478,7 @@
         private System.Windows.Forms.TextBox appKeyBox;
         private System.Windows.Forms.TextBox devAddBox;
         private System.Windows.Forms.TextBox appSKeyBox;
-        private System.Windows.Forms.TextBox nwkSKey;
+        private System.Windows.Forms.TextBox nwkSKeyBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
