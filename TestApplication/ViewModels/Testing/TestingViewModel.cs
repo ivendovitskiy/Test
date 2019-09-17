@@ -94,6 +94,7 @@ namespace TestApplication.ViewModels.Testing
                         context.Protocols.Add(Protocol);
                         context.SaveChanges();
                     }
+                    sr.Close();
 
                     var workbook = new XSSFWorkbook();
                     var sheet = workbook.CreateSheet();
@@ -112,7 +113,7 @@ namespace TestApplication.ViewModels.Testing
                     {
                         workbook.Write(fileStream);
                     }
-
+                    File.WriteAllText(@"D:\Стенд LoRa\ПО Вега\v1.2.4\Devices.txt", String.Empty);
                     MessageBox.Show("Протокол успешно создан");
                 }
             }
