@@ -66,7 +66,7 @@ namespace TestApplication.ViewModels
                     AppKey = device.AppKey
                 };
 
-                vegaDevice.DevName = device.Name;
+                vegaDevice.DevName = device.DevName;
                 vegaDevice.DevEui = device.DevEui;
 
                 vegaDevices.Add(vegaDevice);
@@ -117,7 +117,7 @@ namespace TestApplication.ViewModels
                                 Devices.Add(new Device
                                 {
                                     Index = i,
-                                    Name = match.Groups["DevName"].Value.Trim(),
+                                    DevName = match.Groups["DevName"].Value.Trim(),
                                     DevEui = match.Groups["DevEui"].Value.Trim(),
                                     AppEui = match.Groups["AppEui"].Value.Trim(),
                                     AppKey = match.Groups["AppKey"].Value.Trim(),
