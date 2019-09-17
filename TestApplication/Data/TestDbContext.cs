@@ -21,5 +21,6 @@ namespace TestApplication.Data
         }
 
         public DbSet<Device> Devices { get; set; }
+        public DbSet<Protocol> Protocols { get; set; }
     }
 }

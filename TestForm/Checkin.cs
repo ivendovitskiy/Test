@@ -87,7 +87,7 @@ namespace TestForm
                             //checkedListBox1.Items.
                             devices[i] = new Device()
                             {
-                                Name = matches[i].Groups["DevName"].Value,
+                                DevName = matches[i].Groups["DevName"].Value,
                                 DevEui = matches[i].Groups["DevEui"].Value,
                                 AppEui = matches[i].Groups["AppEui"].Value,
                                 AppKey = matches[i].Groups["AppKey"].Value,
