@@ -164,6 +164,7 @@
     <Compile Include="Services\Navigation\FrameNavigationService.cs" />
     <Compile Include="Services\Navigation\IFrameNavigationService.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\Testing\TestingViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
