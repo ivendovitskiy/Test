@@ -26,11 +26,11 @@ namespace TestApplication.ViewModels.Testing
         {
             context = new TestDbContext();
 
-            //DevicesPath = @"D:\Стенд LoRa\ПО Вега\v1.2.4\Devices.txt";
-            //ProtocolPath = @"D:\Стенд LoRa\stand\";
+            DevicesPath = @"D:\Стенд LoRa\ПО Вега\v1.2.4\Devices.txt";
+            ProtocolPath = @"D:\Стенд LoRa\stand\";
 
-            DevicesPath = @"C:\Users\LifarenkoKO\Desktop\Test\Devices.txt";
-            ProtocolPath = @"C:\Users\LifarenkoKO\Desktop\";
+            //DevicesPath = @"C:\Users\Иван\Desktop\devices\Devices.txt";
+            //ProtocolPath = @"C:\Users\Иван\Desktop\protocols";
 
             SetDevicesPathCommand = new RelayCommand(SetDevicesPath);
             SetProtocolPathCommand = new RelayCommand(SetProtocolPath);
@@ -67,10 +67,12 @@ namespace TestApplication.ViewModels.Testing
 
                     if (matches.Count > 24)
                     {
+                        MessageBox.Show("Отсканируйте не больше 24 сканеров");
                         throw new Exception("Отсканируйте не больше 24 сканеров");
                     }
                     else if (matches.Count == 0)
                     {
+                        MessageBox.Show("Отсканируйте хотя бы один сканер");
                         throw new Exception("Отсканируйте хотя бы один сканер");
                     }
                     else
@@ -107,7 +109,7 @@ namespace TestApplication.ViewModels.Testing
 
                     Services.Excel.Export.ProtocolToXlsx(ProtocolPath, Protocol);
 
-                    //File.WriteAllText(DevicesPath, String.Empty);
+                    File.WriteAllText(DevicesPath, String.Empty);
 
                     MessageBox.Show("Протокол успешно создан");
                 }
