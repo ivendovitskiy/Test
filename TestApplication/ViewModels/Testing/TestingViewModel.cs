@@ -49,7 +49,7 @@ namespace TestApplication.ViewModels.Testing
         {
             try
             {
-                using (StreamReader sr = File.OpenText(DevicesPath))
+                using (StreamReader sr = File.OpenText(@"D:\Стенд LoRa\ПО Вега\v1.2.4\Devices.txt"))
                 {
                     string s = @"devName:(\r\n|\r|\n)*(?<DevName>.{0,})(\r\n|\r|\n)*DevEui:(\r\n|\r|\n)*(?<DevEui>.{0,})(\r\n|\r|\n)*AppEui:(\r\n|\r|\n)*(?<AppEui>.{0,})(\r\n|\r|\n)*AppKey:(\r\n|\r|\n)*(?<AppKey>.{0,})(\r\n|\r|\n)*DevAdd:(\r\n|\r|\n)*(?<DevAdd>.{0,})(\r\n|\r|\n)*AppSKey:(\r\n|\r|\n)*(?<AppSKey>.{0,})(\r\n|\r|\n)*NwkSKEY:(\r\n|\r|\n)*(?<NwkSKey>.{0,})(\r\n|\r|\n)?";
                     Regex regex = new Regex(s);
@@ -108,12 +108,12 @@ namespace TestApplication.ViewModels.Testing
 
                     sheet.AddMergedRegion(cra);
 
-                    using (FileStream fileStream = new FileStream(Path.Combine(ProtocolPath, $"Протокол№{Protocol.Id}.xlsx"), FileMode.Create, FileAccess.ReadWrite))
+                    using (FileStream fileStream = new FileStream(Path.Combine(@"D:\Стенд LoRa\stand", $"Протокол№{Protocol.Id}.xlsx"), FileMode.Create, FileAccess.ReadWrite))
                     {
                         workbook.Write(fileStream);
                     }
 
-                    MessageBox.Show("Готово");
+                    MessageBox.Show("Протокол успешно создан");
                 }
             }
             catch (Exception ex)
@@ -122,19 +122,19 @@ namespace TestApplication.ViewModels.Testing
             }
         }
 
-        private string devicesPath;
-        public string DevicesPath
-        {
-            get => devicesPath;
-            set => Notify(ref devicesPath, value);
-        }
+        //private string devicesPath;
+        //public string DevicesPath
+        //{
+        //    get => devicesPath;
+        //    set => Notify(ref devicesPath, value);
+        //}
 
-        private string protocolPath;
-        public string ProtocolPath
-        {
-            get => protocolPath;
-            set => Notify(ref protocolPath, value);
-        }
+        //private string protocolPath;
+        //public string ProtocolPath
+        //{
+        //    get => protocolPath;
+        //    set => Notify(ref protocolPath, value);
+        //}
 
         private Protocol protocol;
         public Protocol Protocol

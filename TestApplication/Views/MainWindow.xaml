@@ -5,19 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestApplication"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="Создание протокола"
         Height="450"
         Width="800"
         DataContext="{Binding Source={StaticResource Locator}, Path=Testing}">
     <StackPanel>
-        <Label>Путь к Devices.txt</Label>
-        <TextBox Margin="10,10"
-                 Text="{Binding DevicesPath}" />
-        <Label>Путь для сохранения протокола</Label>
-        <TextBox Margin="10,10"
-                 Text="{Binding ProtocolPath}" />
         <Button Margin="50, 50"
                 Height="50"
-                Command="{Binding ScanCommand}">Сканировать</Button>
+                Command="{Binding ScanCommand}" Content="Создать"/>
     </StackPanel>
 </Window>
