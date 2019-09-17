@@ -222,19 +222,19 @@ namespace TestApplication.ViewModels.Testing
             }
         }
 
-        //private string devicesPath;
-        //public string DevicesPath
-        //{
-        //    get => devicesPath;
-        //    set => Notify(ref devicesPath, value);
-        //}
+        private string devicesPath;
+        public string DevicesPath
+        {
+            get => devicesPath;
+            set => Notify(ref devicesPath, value);
+        }
 
-        //private string protocolPath;
-        //public string ProtocolPath
-        //{
-        //    get => protocolPath;
-        //    set => Notify(ref protocolPath, value);
-        //}
+        private string protocolPath;
+        public string ProtocolPath
+        {
+            get => protocolPath;
+            set => Notify(ref protocolPath, value);
+        }
 
         private Protocol protocol;
         public Protocol Protocol
