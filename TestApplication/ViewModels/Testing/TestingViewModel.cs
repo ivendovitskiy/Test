@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using Models;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.Util;
+using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using TestApplication.Data;
 
@@ -93,8 +95,8 @@ namespace TestApplication.ViewModels.Testing
                         context.SaveChanges();
                     }
 
-                    var workbook = new HSSFWorkbook();
-                    var sheet = workbook.CreateSheet("Протокол");
+                    var workbook = new XSSFWorkbook();
+                    var sheet = workbook.CreateSheet();
 
                     var row = sheet.CreateRow(0);
                     var cell = row.CreateCell(0);
@@ -106,10 +108,12 @@ namespace TestApplication.ViewModels.Testing
 
                     sheet.AddMergedRegion(cra);
 
-                    using (FileStream fileStream = new FileStream(Path.Combine(ProtocolPath, $"Протокол№{Protocol.Id}"), FileMode.Create, FileAccess.Write))
+                    using (FileStream fileStream = new FileStream(Path.Combine(ProtocolPath, $"Протокол№{Protocol.Id}.xlsx"), FileMode.Create, FileAccess.ReadWrite))
                     {
                         workbook.Write(fileStream);
                     }
+
+                    MessageBox.Show("Готово");
                 }
             }
             catch (Exception ex)
