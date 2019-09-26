@@ -92,7 +92,7 @@ namespace TestApplication.ViewModels.Testing
                                 DevEui = match.Groups["DevEui"].Value.Trim(),
                                 AppEui = match.Groups["AppEui"].Value.Trim(),
                                 AppKey = match.Groups["AppKey"].Value.Trim(),
-                                DevAdd = match.Groups["DevAdd"].Value.Trim(),
+                                DevAdd = int.Parse(match.Groups["DevAdd"].Value.Trim()).ToString("X"),
                                 AppSKey = match.Groups["AppSKey"].Value.Trim(),
                                 NwkSKey = match.Groups["NwkSKey"].Value.Trim()
                             });
