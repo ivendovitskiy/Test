@@ -26,8 +26,8 @@ namespace TestApplication.ViewModels.Testing
         {
             context = new TestDbContext();
 
-            DevicesPath = @"D:\Стенд LoRa\ПО Вега\v1.2.4\Devices.txt";
-            ProtocolPath = @"D:\Стенд LoRa\stand\";
+            DevicesPath = @"D:\StendLoRa\LoRa Scaner 1.3.1\Devices.txt";
+            ProtocolPath = @"D:\StendLoRa\stend\";
 
             //DevicesPath = @"C:\Users\Иван\Desktop\devices\Devices.txt";
             //ProtocolPath = @"C:\Users\Иван\Desktop\protocols";
@@ -59,7 +59,7 @@ namespace TestApplication.ViewModels.Testing
             {
                 using (StreamReader sr = File.OpenText(DevicesPath))
                 {
-                    string s = @"devName:(\r\n|\r|\n)*(?<DevName>.{0,})(\r\n|\r|\n)*DevEui:(\r\n|\r|\n)*(?<DevEui>.{0,})(\r\n|\r|\n)*AppEui:(\r\n|\r|\n)*(?<AppEui>.{0,})(\r\n|\r|\n)*AppKey:(\r\n|\r|\n)*(?<AppKey>.{0,})(\r\n|\r|\n)*DevAdd:(\r\n|\r|\n)*(?<DevAdd>.{0,})(\r\n|\r|\n)*AppSKey:(\r\n|\r|\n)*(?<AppSKey>.{0,})(\r\n|\r|\n)*NwkSKEY:(\r\n|\r|\n)*(?<NwkSKey>.{0,})(\r\n|\r|\n)?";
+                    string s = @"devName:(\r\n|\r|\n)*(?<DevName>.{0,})(\r\n|\r|\n)*DevEui:(\r\n|\r|\n)*(?<DevEui>.{0,})(\r\n|\r|\n)*AppEui:(\r\n|\r|\n)*(?<AppEui>.{0,})(\r\n|\r|\n)*AppKey:(\r\n|\r|\n)*(?<AppKey>.{0,})(\r\n|\r|\n)*DevAddr:(\r\n|\r|\n)*(?<DevAdd>.{0,})(\r\n|\r|\n)*AppSKey:(\r\n|\r|\n)*(?<AppSKey>.{0,})(\r\n|\r|\n)*NwkSKEY:(\r\n|\r|\n)*(?<NwkSKey>.{0,})(\r\n|\r|\n)?";
                     Regex regex = new Regex(s);
 
                     string text = sr.ReadToEnd();
@@ -94,6 +94,7 @@ namespace TestApplication.ViewModels.Testing
                                 DevEui = match.Groups["DevEui"].Value.Trim(),
                                 AppEui = match.Groups["AppEui"].Value.Trim(),
                                 AppKey = match.Groups["AppKey"].Value.Trim(),
+                                //DevAdd = int.Parse(match.Groups["DevAdd"].Value.Trim()).ToString("X"),
                                 DevAdd = match.Groups["DevAdd"].Value.Trim(),
                                 AppSKey = match.Groups["AppSKey"].Value.Trim(),
                                 NwkSKey = match.Groups["NwkSKey"].Value.Trim()
