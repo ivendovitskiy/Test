@@ -110,7 +110,7 @@ namespace TestApplication.ViewModels.Testing
 
                     Services.Excel.Export.ProtocolToXlsx(ProtocolPath, Protocol);
 
-                    File.WriteAllText(DevicesPath, String.Empty);
+                    //File.WriteAllText(DevicesPath, String.Empty);
 
                     MessageBox.Show("Протокол успешно создан");
                 }

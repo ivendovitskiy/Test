@@ -22,7 +22,7 @@ namespace TestApplication.Services.Excel
         public static ExportResult ProtocolToXlsx(string exportPath, Protocol protocol)
         {
             XSSFWorkbook workbook = new XSSFWorkbook();
-            ISheet sheet = workbook.CreateSheet();
+            ISheet sheet = workbook.CreateSheet($"Протокол №{protocol.Id}");
 
             XSSFCellStyle captionCellStyle = (XSSFCellStyle)workbook.CreateCellStyle();
             captionCellStyle.WrapText = true;
@@ -132,8 +132,8 @@ namespace TestApplication.Services.Excel
                 }
             };
 
-            var headerRow = sheet.CreateRow(2);
-            var headerRow2 = sheet.CreateRow(3);
+            var headerRow = sheet.CreateRow(1);
+            var headerRow2 = sheet.CreateRow(2);
 
             foreach (ProtocolHeader protocolHeader in protocolHeaders)
             {
@@ -142,11 +142,11 @@ namespace TestApplication.Services.Excel
 
                 if (protocolHeader.ProtocolHeaders == null)
                 {
-                    sheet.AddMergedRegion(new CellRangeAddress(2, 3, protocolHeader.Index, protocolHeader.Index));
+                    sheet.AddMergedRegion(new CellRangeAddress(1, 2, protocolHeader.Index, protocolHeader.Index));
                 }
                 else
                 {
-                    sheet.AddMergedRegion(new CellRangeAddress(2, 2, protocolHeader.Index, protocolHeader.Index + protocolHeader.ProtocolHeaders.Count - 1));
+                    sheet.AddMergedRegion(new CellRangeAddress(1, 1, protocolHeader.Index, protocolHeader.Index + protocolHeader.ProtocolHeaders.Count - 1));
                     foreach (var item in protocolHeader.ProtocolHeaders)
                     {
                         headerRow2.CreateCell(protocolHeader.Index + item.Index).SetCellValue(item.Name);
@@ -162,11 +162,11 @@ namespace TestApplication.Services.Excel
 
                 if (protocolHeaders[i].ProtocolHeaders == null)
                 {
-                    sheet.AddMergedRegion(new CellRangeAddress(2, 3, protocolHeaders[i].Index, protocolHeaders[i].Index));
+                    sheet.AddMergedRegion(new CellRangeAddress(1, 2, protocolHeaders[i].Index, protocolHeaders[i].Index));
                 }
                 else
                 {
-                    sheet.AddMergedRegion(new CellRangeAddress(2, 2, protocolHeaders[i].Index, protocolHeaders[i].Index + protocolHeaders[i].ProtocolHeaders.Count - 1));
+                    sheet.AddMergedRegion(new CellRangeAddress(1, 1, protocolHeaders[i].Index, protocolHeaders[i].Index + protocolHeaders[i].ProtocolHeaders.Count - 1));
                     if (i + 1 < protocolHeaders.Count)
                     {
                         protocolHeaders[i + 1].Index += protocolHeaders[i].ProtocolHeaders.Count - 1;
@@ -223,44 +223,86 @@ namespace TestApplication.Services.Excel
             cell8.SetCellValue("Качество связи(SNR)");
             cell8.CellStyle = cell2Style;
 
-            sheet.AddMergedRegion(new CellRangeAddress(2, 3, 0, 0));
-            sheet.AddMergedRegion(new CellRangeAddress(2, 3, 1, 1));
-            sheet.AddMergedRegion(new CellRangeAddress(2, 3, 2, 2));
-            sheet.AddMergedRegion(new CellRangeAddress(2, 3, 3, 3));
-            sheet.AddMergedRegion(new CellRangeAddress(2, 3, 4, 4));
-            sheet.AddMergedRegion(new CellRangeAddress(2, 3, 5, 5));
-            sheet.AddMergedRegion(new CellRangeAddress(2, 3, 6, 6));
-            sheet.AddMergedRegion(new CellRangeAddress(2, 3, 11, 11));
+            sheet.AddMergedRegion(new CellRangeAddress(1, 2, 0, 0));
+            sheet.AddMergedRegion(new CellRangeAddress(1, 2, 1, 1));
+            sheet.AddMergedRegion(new CellRangeAddress(1, 2, 2, 2));
+            sheet.AddMergedRegion(new CellRangeAddress(1, 2, 3, 3));
+            sheet.AddMergedRegion(new CellRangeAddress(1, 2, 4, 4));
+            sheet.AddMergedRegion(new CellRangeAddress(1, 2, 5, 5));
+            sheet.AddMergedRegion(new CellRangeAddress(1, 2, 6, 6));
+            sheet.AddMergedRegion(new CellRangeAddress(1, 2, 11, 11));
 
-            int y = 4;
+            int y = 2;
 
             foreach (var device in protocol.Devices)
             {
                 var row = sheet.CreateRow(y + device.Index);
 
-                var cell111 = row.CreateCell(0);
-                cell111.CellStyle = cell2Style;
+                var cell_A = row.CreateCell(0);
+                cell_A.CellStyle = cell2Style;
 
-                cell111.SetCellType(CellType.String);
-                cell111.SetCellValue(device.Index);
+                cell_A.SetCellType(CellType.String);
+                cell_A.SetCellValue(device.Index);
 
-                var cell222 = row.CreateCell(3);
-                cell222.CellStyle = cell2Style;
+                var cell_B = row.CreateCell(1);
+                cell_B.CellStyle = cell2Style;
 
-                cell222.SetCellType(CellType.String);
-                cell222.SetCellValue(device.DevEui);
+                cell_B.SetCellType(CellType.String);
+                //cell_B.SetCellValue(); //Заводской номер
+                
+                var cell_C = row.CreateCell(2);
+                cell_C.CellStyle = cell2Style;
 
-                var cell333 = row.CreateCell(4);
-                cell333.CellStyle = cell2Style;
+                cell_C.SetCellType(CellType.String);
+                //cell_C.SetCellValue(); //Версия ПО
 
-                cell333.SetCellType(CellType.String);
-                cell333.SetCellValue(device.DevAdd + "/\n" + device.NwkSKey);
+                var cell_D = row.CreateCell(3);
+                cell_D.CellStyle = cell2Style;
 
-                var cell444 = row.CreateCell(5);
-                cell444.CellStyle = cell2Style;
+                cell_D.SetCellType(CellType.String);
+                cell_D.SetCellValue(device.DevEui);
 
-                cell444.SetCellType(CellType.String);
-                cell444.SetCellValue(device.AppSKey + "/\n" + device.AppEui + "/\n" + device.AppKey);
+                var cell_E = row.CreateCell(4);
+                cell_E.CellStyle = cell2Style;
+
+                cell_E.SetCellType(CellType.String);
+                cell_E.SetCellValue(device.DevAdd + "/\n" + device.NwkSKey);
+
+                var cell_F = row.CreateCell(5);
+                cell_F.CellStyle = cell2Style;
+
+                cell_F.SetCellType(CellType.String);
+                cell_F.SetCellValue(device.AppSKey + "/\n" + device.AppEui + "/\n" + device.AppKey);
+
+                var cell_G = row.CreateCell(6);
+                cell_G.CellStyle = cell2Style;
+
+                cell_G.SetCellType(CellType.String);
+                //cell_G.SetCellValue(); //Качество связи(SNR)
+                
+                var cell_H = row.CreateCell(7);
+                cell_H.CellStyle = cell2Style;
+
+                cell_H.SetCellType(CellType.String);
+                //cell_H.SetCellValue(); //Отконение по времени до коррекции
+                
+                var cell_I = row.CreateCell(8);
+                cell_I.CellStyle = cell2Style;
+
+                cell_I.SetCellType(CellType.String);
+                //cell_I.SetCellValue(); //Отконение по времени после коррекции
+
+                var cell_J = row.CreateCell(9);
+                cell_J.CellStyle = cell2Style;
+
+                cell_J.SetCellType(CellType.String);
+                //cell_J.SetCellValue(); //Реле
+                
+                var cell_K = row.CreateCell(10);
+                cell_K.CellStyle = cell2Style;
+
+                cell_K.SetCellType(CellType.String);
+                //cell_K.SetCellValue(); //Примечание
 
             }
 
@@ -273,6 +315,7 @@ namespace TestApplication.Services.Excel
             using (FileStream fileStream = new FileStream(Path.Combine(exportPath, $"Протокол №{protocol.Id}.xlsx"), FileMode.Create, FileAccess.ReadWrite))
             {
                 workbook.Write(fileStream);
+                workbook.Close();
             }
 
             return null;
