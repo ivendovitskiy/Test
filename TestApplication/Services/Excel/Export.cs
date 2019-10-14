@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace TestApplication.Services.Excel
 {
@@ -28,14 +29,19 @@ namespace TestApplication.Services.Excel
             captionCellStyle.WrapText = true;
             captionCellStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
             captionCellStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
-            captionCellStyle.SetFont(new XSSFFont() { IsBold = true, FontName = "Segoe UI", FontHeight = 12, Boldweight = (short)FontBoldWeight.Bold });
+            //captionCellStyle.SetFont(new XSSFFont() { IsBold = true, FontName = "Segoe UI", FontHeight = 12, Boldweight = (short)FontBoldWeight.Bold });
+            captionCellStyle.SetFont(new XSSFFont() { IsBold = true, FontName = "Calibri", FontHeight = 14 });
+            captionCellStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
+            captionCellStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
+            captionCellStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
+            captionCellStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
 
             IRow captionRow = sheet.CreateRow(0);
             captionRow.Height = 900;
 
-            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 10));
+            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 11));
 
-            for (int i = 1; i < 10; i++) // ??
+            for (int i = 0; i < 11; i++) // ??
             {
                 captionRow.CreateCell(i).CellStyle = captionCellStyle;
             }
@@ -109,7 +115,7 @@ namespace TestApplication.Services.Excel
                 new ProtocolHeader
                 {
                     Name = "Реле",
-                    Index=8,
+                    Index=9,
                     ProtocolHeaders=new List<ProtocolHeader>
                     {
                         new ProtocolHeader
@@ -127,7 +133,7 @@ namespace TestApplication.Services.Excel
                 new ProtocolHeader
                 {
                     Name = "Примечание",
-                    Index = 9,
+                    Index = 11,
                     ProtocolHeaders = null
                 }
             };
@@ -146,41 +152,39 @@ namespace TestApplication.Services.Excel
                 }
                 else
                 {
-                    sheet.AddMergedRegion(new CellRangeAddress(1, 1, protocolHeader.Index, protocolHeader.Index + protocolHeader.ProtocolHeaders.Count - 1));
+                    sheet.AddMergedRegion(new CellRangeAddress(1, 1, protocolHeader.Index, protocolHeader.Index + 1));
                     foreach (var item in protocolHeader.ProtocolHeaders)
                     {
                         headerRow2.CreateCell(protocolHeader.Index + item.Index).SetCellValue(item.Name);
-                        //headerRow2.Cells[protocolHeader.Index + item.Index].CellStyle = captionCellStyle;
+                        headerRow2.Cells[protocolHeader.Index + item.Index].CellStyle = captionCellStyle;
                     }
                 }
             }
 
-            for (int i = 0; i < protocolHeaders.Count; i++)
-            {
-                headerRow.CreateCell(protocolHeaders[i].Index).SetCellValue(protocolHeaders[i].Name);
-                headerRow.Cells[protocolHeaders[i].Index].CellStyle = captionCellStyle;
+            //for (int i = 0; i < protocolHeaders.Count; i++)
+            //{
+            //    headerRow.CreateCell(protocolHeaders[i].Index).SetCellValue(protocolHeaders[i].Name);
+            //    headerRow.Cells[protocolHeaders[i].Index].CellStyle = captionCellStyle;
 
-                if (protocolHeaders[i].ProtocolHeaders == null)
-                {
-                    sheet.AddMergedRegion(new CellRangeAddress(1, 2, protocolHeaders[i].Index, protocolHeaders[i].Index));
-                }
-                else
-                {
-                    sheet.AddMergedRegion(new CellRangeAddress(1, 1, protocolHeaders[i].Index, protocolHeaders[i].Index + protocolHeaders[i].ProtocolHeaders.Count - 1));
-                    if (i + 1 < protocolHeaders.Count)
-                    {
-                        protocolHeaders[i + 1].Index += protocolHeaders[i].ProtocolHeaders.Count - 1;
-                    }
+            //    if (protocolHeaders[i].ProtocolHeaders == null)
+            //    {
+            //        sheet.AddMergedRegion(new CellRangeAddress(1, 2, protocolHeaders[i].Index, protocolHeaders[i].Index));
+            //    }
+            //    else
+            //    {
+            //        sheet.AddMergedRegion(new CellRangeAddress(1, 1, protocolHeaders[i].Index, protocolHeaders[i].Index + 1));
+            //        if (i + 1 < protocolHeaders.Count)
+            //        {
+            //            protocolHeaders[i + 1].Index += protocolHeaders[i].ProtocolHeaders.Count - 1;
+            //        }
 
-
-
-                    foreach (var item in protocolHeaders[i].ProtocolHeaders)
-                    {
-                        headerRow2.CreateCell(protocolHeaders[i].Index + item.Index).SetCellValue(item.Name);
-                        //headerRow2.Cells[protocolHeader.Index + item.Index].CellStyle = captionCellStyle;
-                    }
-                }
-            }
+            //        foreach (var item in protocolHeaders[i].ProtocolHeaders)
+            //        {
+            //            headerRow2.CreateCell(protocolHeaders[i].Index + item.Index).SetCellValue(item.Name);
+            //            headerRow2.Cells[protocolHeaders[i].Index + item.Index].CellStyle = captionCellStyle;
+            //        }
+            //    }
+            //}
 
 
             XSSFCellStyle cell2Style = (XSSFCellStyle)workbook.CreateCellStyle();

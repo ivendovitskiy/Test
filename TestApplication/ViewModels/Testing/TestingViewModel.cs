@@ -59,7 +59,7 @@ namespace TestApplication.ViewModels.Testing
             {
                 using (StreamReader sr = File.OpenText(DevicesPath))
                 {
-                    string s = @"devName:(\r\n|\r|\n)*(?<DevName>.{0,})(\r\n|\r|\n)*DevEui:(\r\n|\r|\n)*(?<DevEui>.{0,})(\r\n|\r|\n)*AppEui:(\r\n|\r|\n)*(?<AppEui>.{0,})(\r\n|\r|\n)*AppKey:(\r\n|\r|\n)*(?<AppKey>.{0,})(\r\n|\r|\n)*DevAddr:(\r\n|\r|\n)*(?<DevAdd>.{0,})(\r\n|\r|\n)*AppSKey:(\r\n|\r|\n)*(?<AppSKey>.{0,})(\r\n|\r|\n)*NwkSKEY:(\r\n|\r|\n)*(?<NwkSKey>.{0,})(\r\n|\r|\n)?";
+                    string s = @"devName:(\r|\n)*(?<DevName>.+)(\r|\n)*DevEui:(\r|\n)*(?<DevEui>.+)(\r|\n)*AppEui:(\r|\n)*(?<AppEui>.+)(\r|\n)*AppKey:(\r|\n)*(?<AppKey>.+)(\r|\n)*DevAddr:(\r|\n)*(?<DevAdd>.+)(\r|\n)*AppSKey:(\r|\n)*(?<AppSKey>.+)(\r|\n)*NwkSKEY:(\r|\n)*(?<NwkSKey>.+)(\r|\n)*";
                     Regex regex = new Regex(s);
 
                     string text = sr.ReadToEnd();
