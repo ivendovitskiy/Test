@@ -1,5 +1,4 @@
-﻿
-using Models;
+﻿using Models;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
 using NPOI.XSSF.UserModel;
@@ -41,7 +40,7 @@ namespace TestApplication.Services.Excel
 
             sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 11));
 
-            for (int i = 0; i < 11; i++) // ??
+            for (int i = 1; i < 11; i++)
             {
                 captionRow.CreateCell(i).CellStyle = captionCellStyle;
             }
@@ -102,8 +101,8 @@ namespace TestApplication.Services.Excel
                     {
                         new ProtocolHeader
                         {
-                            Name="до корр.",
-                            Index=0
+                            Name = "до корр.",
+                            Index = 0
                         },
                         new ProtocolHeader
                         {
@@ -141,174 +140,123 @@ namespace TestApplication.Services.Excel
             var headerRow = sheet.CreateRow(1);
             var headerRow2 = sheet.CreateRow(2);
 
-            foreach (ProtocolHeader protocolHeader in protocolHeaders)
+            protocolHeaders.ForEach(item =>
             {
-                headerRow.CreateCell(protocolHeader.Index).SetCellValue(protocolHeader.Name);
-                headerRow.Cells[protocolHeader.Index].CellStyle = captionCellStyle;
-
-                if (protocolHeader.ProtocolHeaders == null)
+                headerRow.CreateCell(item.Index).SetCellValue(item.Name);
+                headerRow.Cells.Where(c => c.ColumnIndex == item.Index).FirstOrDefault().CellStyle = captionCellStyle;
+                if (item.ProtocolHeaders != null)
                 {
-                    sheet.AddMergedRegion(new CellRangeAddress(1, 2, protocolHeader.Index, protocolHeader.Index));
+                    item.ProtocolHeaders.ForEach(it =>
+                    {
+                        headerRow2.CreateCell(item.Index + it.Index).SetCellValue(it.Name);
+                        headerRow2.Cells.Where(c => c.ColumnIndex == item.Index + it.Index).FirstOrDefault().CellStyle = captionCellStyle;
+                    });
+
+                    sheet.AddMergedRegion(new CellRangeAddress(1, 1, item.Index, item.Index + item.ProtocolHeaders.Count - 1));
                 }
                 else
                 {
-                    sheet.AddMergedRegion(new CellRangeAddress(1, 1, protocolHeader.Index, protocolHeader.Index + 1));
-                    foreach (var item in protocolHeader.ProtocolHeaders)
-                    {
-                        headerRow2.CreateCell(protocolHeader.Index + item.Index).SetCellValue(item.Name);
-                        headerRow2.Cells[protocolHeader.Index + item.Index].CellStyle = captionCellStyle;
-                    }
+                    sheet.AddMergedRegion(new CellRangeAddress(1, 2, item.Index, item.Index));
                 }
-            }
+            });
 
-            //for (int i = 0; i < protocolHeaders.Count; i++)
-            //{
-            //    headerRow.CreateCell(protocolHeaders[i].Index).SetCellValue(protocolHeaders[i].Name);
-            //    headerRow.Cells[protocolHeaders[i].Index].CellStyle = captionCellStyle;
+            int j = 2;
 
-            //    if (protocolHeaders[i].ProtocolHeaders == null)
-            //    {
-            //        sheet.AddMergedRegion(new CellRangeAddress(1, 2, protocolHeaders[i].Index, protocolHeaders[i].Index));
-            //    }
-            //    else
-            //    {
-            //        sheet.AddMergedRegion(new CellRangeAddress(1, 1, protocolHeaders[i].Index, protocolHeaders[i].Index + 1));
-            //        if (i + 1 < protocolHeaders.Count)
-            //        {
-            //            protocolHeaders[i + 1].Index += protocolHeaders[i].ProtocolHeaders.Count - 1;
-            //        }
-
-            //        foreach (var item in protocolHeaders[i].ProtocolHeaders)
-            //        {
-            //            headerRow2.CreateCell(protocolHeaders[i].Index + item.Index).SetCellValue(item.Name);
-            //            headerRow2.Cells[protocolHeaders[i].Index + item.Index].CellStyle = captionCellStyle;
-            //        }
-            //    }
-            //}
-
-
-            XSSFCellStyle cell2Style = (XSSFCellStyle)workbook.CreateCellStyle();
-            cell2Style.WrapText = true;
-            cell2Style.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
-            cell2Style.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
-            cell2Style.SetFont(new XSSFFont() { IsBold = true, FontName = "Calibri", FontHeight = 10 });
-            cell2Style.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
-            cell2Style.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
-            cell2Style.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
-            cell2Style.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
-
-            //var headerRow = sheet.CreateRow(2);
-
-            var cell2 = headerRow.CreateCell(0);
-            cell2.SetCellValue("№ подвеса");
-            cell2.CellStyle = cell2Style;
-
-            var cell3 = headerRow.CreateCell(1);
-            cell3.SetCellValue("Зав.№*");
-            cell3.CellStyle = cell2Style;
-
-            var cell4 = headerRow.CreateCell(2);
-            cell4.SetCellValue("Версия ПО");
-            cell4.CellStyle = cell2Style;
-
-            var cell5 = headerRow.CreateCell(3);
-            cell5.SetCellValue("DevEui*");
-            cell5.CellStyle = cell2Style;
-
-            var cell6 = headerRow.CreateCell(4);
-            cell6.SetCellValue("DevAdd/NwkSKey*");
-            cell6.CellStyle = cell2Style;
-
-            var cell7 = headerRow.CreateCell(5);
-            cell7.SetCellValue("AppSkey/AppEui/AppKey*");
-            cell7.CellStyle = cell2Style;
-
-            var cell8 = headerRow.CreateCell(6);
-            cell8.SetCellValue("Качество связи(SNR)");
-            cell8.CellStyle = cell2Style;
-
-            sheet.AddMergedRegion(new CellRangeAddress(1, 2, 0, 0));
-            sheet.AddMergedRegion(new CellRangeAddress(1, 2, 1, 1));
-            sheet.AddMergedRegion(new CellRangeAddress(1, 2, 2, 2));
-            sheet.AddMergedRegion(new CellRangeAddress(1, 2, 3, 3));
-            sheet.AddMergedRegion(new CellRangeAddress(1, 2, 4, 4));
-            sheet.AddMergedRegion(new CellRangeAddress(1, 2, 5, 5));
-            sheet.AddMergedRegion(new CellRangeAddress(1, 2, 6, 6));
-            sheet.AddMergedRegion(new CellRangeAddress(1, 2, 11, 11));
-
-            int y = 2;
+            XSSFCellStyle cellStyle = (XSSFCellStyle)workbook.CreateCellStyle();
+            cellStyle.WrapText = true;
+            cellStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+            cellStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+            cellStyle.SetFont(new XSSFFont() { IsBold = true, FontName = "Calibri", FontHeight = 10 });
+            cellStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
+            cellStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
+            cellStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
+            cellStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
 
             foreach (var device in protocol.Devices)
             {
-                var row = sheet.CreateRow(y + device.Index);
+                var row = sheet.CreateRow(j + device.Index);
 
                 var cell_A = row.CreateCell(0);
-                cell_A.CellStyle = cell2Style;
+                cell_A.CellStyle = cellStyle;
 
                 cell_A.SetCellType(CellType.String);
-                cell_A.SetCellValue(device.Index);
-
-                var cell_B = row.CreateCell(1);
-                cell_B.CellStyle = cell2Style;
+                //cell_A.SetCellValue(device.Index); //номер подвеса
+                
+                var cell_B = row.CreateCell(0);
+                cell_B.CellStyle = cellStyle;
 
                 cell_B.SetCellType(CellType.String);
-                //cell_B.SetCellValue(); //Заводской номер
-                
-                var cell_C = row.CreateCell(2);
-                cell_C.CellStyle = cell2Style;
+                //cell_B.SetCellValue(device.Index); //заводской номер
+
+                var cell_C = row.CreateCell(0);
+                cell_C.CellStyle = cellStyle;
 
                 cell_C.SetCellType(CellType.String);
-                //cell_C.SetCellValue(); //Версия ПО
+                //cell_C.SetCellValue(device.Index); //версия ПО
 
                 var cell_D = row.CreateCell(3);
-                cell_D.CellStyle = cell2Style;
+                cell_D.CellStyle = cellStyle;
 
                 cell_D.SetCellType(CellType.String);
                 cell_D.SetCellValue(device.DevEui);
 
                 var cell_E = row.CreateCell(4);
-                cell_E.CellStyle = cell2Style;
+                cell_E.CellStyle = cellStyle;
 
                 cell_E.SetCellType(CellType.String);
-                cell_E.SetCellValue(device.DevAdd + "/\n" + device.NwkSKey);
+                cell_E.SetCellValue(device.DevAdd + "/" + Environment.NewLine + device.NwkSKey);
 
                 var cell_F = row.CreateCell(5);
-                cell_F.CellStyle = cell2Style;
+                cell_F.CellStyle = cellStyle;
 
                 cell_F.SetCellType(CellType.String);
-                cell_F.SetCellValue(device.AppSKey + "/\n" + device.AppEui + "/\n" + device.AppKey);
+                cell_F.SetCellValue(device.AppSKey + "/" + Environment.NewLine + device.AppEui + "/" + Environment.NewLine + device.AppKey);
 
-                var cell_G = row.CreateCell(6);
-                cell_G.CellStyle = cell2Style;
+                var cell_G = row.CreateCell(3);
+                cell_G.CellStyle = cellStyle;
 
                 cell_G.SetCellType(CellType.String);
-                //cell_G.SetCellValue(); //Качество связи(SNR)
-                
-                var cell_H = row.CreateCell(7);
-                cell_H.CellStyle = cell2Style;
+                //cell_G.SetCellValue(device.DevEui); //качество связи(SNR)
+
+                var cell_H = row.CreateCell(3);
+                cell_H.CellStyle = cellStyle;
 
                 cell_H.SetCellType(CellType.String);
-                //cell_H.SetCellValue(); //Отконение по времени до коррекции
-                
-                var cell_I = row.CreateCell(8);
-                cell_I.CellStyle = cell2Style;
+                //cell_H.SetCellValue(device.DevEui); //отклонение времени до коррекции
+
+                var cell_I = row.CreateCell(3);
+                cell_I.CellStyle = cellStyle;
 
                 cell_I.SetCellType(CellType.String);
-                //cell_I.SetCellValue(); //Отконение по времени после коррекции
+                //cell_I.SetCellValue(device.DevEui); //отклонение времени после коррекции
 
-                var cell_J = row.CreateCell(9);
-                cell_J.CellStyle = cell2Style;
+                var cell_J = row.CreateCell(3);
+                cell_J.CellStyle = cellStyle;
 
                 cell_J.SetCellType(CellType.String);
-                //cell_J.SetCellValue(); //Реле
-                
-                var cell_K = row.CreateCell(10);
-                cell_K.CellStyle = cell2Style;
+                //cell_J.SetCellValue(device.DevEui); //реле откл.
+
+                var cell_K = row.CreateCell(3);
+                cell_K.CellStyle = cellStyle; 
 
                 cell_K.SetCellType(CellType.String);
-                //cell_K.SetCellValue(); //Примечание
+                //cell_K.SetCellValue(device.DevEui); //реле вкл.
+
+                var cell_L = row.CreateCell(3);
+                cell_L.CellStyle = cellStyle;
+
+                cell_L.SetCellType(CellType.String);
+                //cell_L.SetCellValue(device.DevEui); //примечания
 
             }
+
+            var testerRow = sheet.CreateRow(j + protocol.Devices.Count + 2);
+
+            testerRow.CreateCell(5).SetCellValue("Испытание провёл:");
+            testerRow.CreateCell(6).SetCellValue(protocol.Tester = "Тестов Тест Тестович");
+
+
+            sheet.AddMergedRegion(new CellRangeAddress(j + protocol.Devices.Count + 2, j + protocol.Devices.Count + 2, 6, 11));
 
 
             for (int i = 0; i <= 11; i++)
@@ -316,10 +264,10 @@ namespace TestApplication.Services.Excel
                 sheet.AutoSizeColumn(i);
             }
 
+
             using (FileStream fileStream = new FileStream(Path.Combine(exportPath, $"Протокол №{protocol.Id}.xlsx"), FileMode.Create, FileAccess.ReadWrite))
             {
                 workbook.Write(fileStream);
-                workbook.Close();
             }
 
             return null;
