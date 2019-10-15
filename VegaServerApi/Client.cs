@@ -40,36 +40,27 @@ namespace VegaServerApi
             var buffer = new ArraySegment<byte>(new byte[2048]);
             string res = string.Empty;
 
-            //var result = clientWebSocket.ReceiveAsync(buffer, CancellationToken.None).Result;
 
-            //while (result.Count <= 0)
-            //{
-            //    result =  await clientWebSocket.ReceiveAsync(buffer, CancellationToken.None);
-            //}
-
-            do
+            WebSocketReceiveResult result;
+            using (var ms = new MemoryStream())
             {
-                WebSocketReceiveResult result;
-                using (var ms = new MemoryStream())
+                do
                 {
-                    do
-                    {
-                        result = clientWebSocket.ReceiveAsync(buffer, CancellationToken.None).Result;
-                        ms.Write(buffer.Array, buffer.Offset, result.Count);
-                    } while (!result.EndOfMessage);
+                    result = await clientWebSocket.ReceiveAsync(buffer, CancellationToken.None);
+                    ms.Write(buffer.Array, buffer.Offset, result.Count);
+                } while (!result.EndOfMessage);
 
-                    if (result.MessageType == WebSocketMessageType.Close)
-                    {
-                        break;
-                    }
+                //if (result.MessageType == WebSocketMessageType.Close)
+                //{
+                //    break;
+                //}
 
-                    ms.Seek(0, SeekOrigin.Begin);
-                    using (var reader = new StreamReader(ms, Encoding.UTF8))
-                    {
-                        res = reader.ReadToEnd();
-                    }
+                ms.Seek(0, SeekOrigin.Begin);
+                using (var reader = new StreamReader(ms, Encoding.UTF8))
+                {
+                    res = reader.ReadToEnd();
                 }
-            } while (true);
+            }
 
 
             return JsonConvert.DeserializeObject<T>(res);
@@ -77,17 +68,21 @@ namespace VegaServerApi
 
         public async Task<string> Auth(AuthRequest authRequest)
         {
+            var send = Send(authRequest);
             var receive = Receive<AuthResponse>();
-            await Task.WhenAll(Send(authRequest), receive);
+
+
+            await Task.WhenAll(receive, send);
             return receive.Result.Token;
         }
 
         public async Task<ManageDevicesResponse> AddOrUpdateDevices(ICollection<Device> devices)
         {
+            var send = Send(devices);
             var receive = Receive<ManageDevicesResponse>();
-            var send = Send(new ManageDevicesRequest() { Devices = devices });
-            await Task.WhenAll(receive, send);
 
+
+            await Task.WhenAll(receive, send);
             return receive.Result;
         }
     }
