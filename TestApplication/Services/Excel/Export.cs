@@ -244,8 +244,7 @@ namespace TestApplication.Services.Excel
             var testerRow = sheet.CreateRow(j + protocol.Devices.Count + 2);
 
             testerRow.CreateCell(5).SetCellValue("Испытание провёл:");
-            protocol.Tester = "Ендовицкий Иван Николаевич";
-            testerRow.CreateCell(6).SetCellValue(protocol.Tester);
+            testerRow.CreateCell(6).SetCellValue(protocol.Tester = "Ендовицкий Иван Николаевич");
 
 
             sheet.AddMergedRegion(new CellRangeAddress(j + protocol.Devices.Count + 2, j + protocol.Devices.Count + 2, 6, 11));
