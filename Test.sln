@@ -9,9 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestForm", "TestForm\TestFo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApplication", "TestApplication\TestApplication.csproj", "{7665B3F0-DD1D-4F14-9574-2EDF30FD7E16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VegaServerApi", "VegaServerApi\VegaServerApi.csproj", "{79BEE39E-5955-4984-BD98-E5CE3B01E0EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VegaServerApi", "VegaServerApi\VegaServerApi.csproj", "{79BEE39E-5955-4984-BD98-E5CE3B01E0EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppTest", "ConsoleAppTest\ConsoleAppTest.csproj", "{1094498E-5F7C-43D6-8D7E-B3EEDCB576FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppTest", "ConsoleAppTest\ConsoleAppTest.csproj", "{1094498E-5F7C-43D6-8D7E-B3EEDCB576FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -48,87 +48,87 @@ namespace TestApplication.Services.Excel
             captionCell.SetCellValue($"Протокол №{protocol.Id}{Environment.NewLine}проверки работоспособности комплекса счётчик - LoRa-модуль{Environment.NewLine}{protocol.DateTime.ToString("dddd, dd MMMM yyyy HH:mm:ss")}");
             captionCell.CellStyle = captionCellStyle;
 
-            List<ProtocolHeader> protocolHeaders = new List<ProtocolHeader>()
+            List<Header> protocolHeaders = new List<Header>()
             {
-                new ProtocolHeader
+                new Header
                 {
                     Name = "№ п/п",
                     Index=0,
                     ProtocolHeaders=null
                 },
-                new ProtocolHeader
+                new Header
                 {
                     Name = "Зав. №",
                     Index=1,
                     ProtocolHeaders=null
                 },
-                new ProtocolHeader
+                new Header
                 {
                     Name = "Версия ПО",
                     Index=2,
                     ProtocolHeaders=null
                 },
-                new ProtocolHeader
+                new Header
                 {
                     Name = "DevEui",
                     Index=3,
                     ProtocolHeaders=null
                 },
-                new ProtocolHeader
+                new Header
                 {
                     Name = "DevAdd/NwkSKey",
                     Index=4,
                     ProtocolHeaders=null
                 },
-                new ProtocolHeader
+                new Header
                 {
                     Name = "AppSKey/AppEui/AppKey",
                     Index=5,
                     ProtocolHeaders=null
                 },
-                new ProtocolHeader
+                new Header
                 {
                     Name = "Качество связи (SNR)",
                     Index=6,
                     ProtocolHeaders=null
                 },
-                new ProtocolHeader
+                new Header
                 {
                     Name = "Отклонение по времени (сек)",
                     Index=7,
-                    ProtocolHeaders=new List<ProtocolHeader>
+                    ProtocolHeaders=new List<Header>
                     {
-                        new ProtocolHeader
+                        new Header
                         {
                             Name = "до корр.",
                             Index = 0
                         },
-                        new ProtocolHeader
+                        new Header
                         {
                             Name = "после корр.",
                             Index = 1
                         }
                     }
                 },
-                new ProtocolHeader
+                new Header
                 {
                     Name = "Реле",
                     Index=9,
-                    ProtocolHeaders=new List<ProtocolHeader>
+                    ProtocolHeaders=new List<Header>
                     {
-                        new ProtocolHeader
+                        new Header
                         {
                             Name="откл.",
                             Index = 0
                         },
-                        new ProtocolHeader
+                        new Header
                         {
                             Name = "вкл.",
                             Index = 1
                         }
                     }
                 },
-                new ProtocolHeader
+                new Header
                 {
                     Name = "Примечание",
                     Index = 11,
@@ -266,10 +266,10 @@ namespace TestApplication.Services.Excel
         }
     }
 
-    internal class ProtocolHeader
+    internal class Header
     {
         public string Name { get; set; }
         public int Index { get; set; }
-        public List<ProtocolHeader> ProtocolHeaders { get; set; }
+        public List<Header> ProtocolHeaders { get; set; }
     }
 }
