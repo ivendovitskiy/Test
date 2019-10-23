@@ -19,6 +19,7 @@ namespace Models
         private string devAdd;
         private string appSKey;
         private string nwkSKey;
+        private string snr;
         private Protocol protocol;
 
 
@@ -91,11 +92,30 @@ namespace Models
             get => nwkSKey;
             set => Notify(ref nwkSKey, value);
         }
-        
+
+        public string Snr
+        {
+            get => snr;
+            set => Notify(ref snr, value);
+        }
+
         public Protocol Protocol
         {
             get => protocol;
             set => Notify(ref protocol, value);
         }
+
+
+        //public string Position { get; set; }
+        //public string ProdNumber { get; set; }
+        //public string SoftwareVersion { get; set; }
+        //public string DevEui { get; set; }
+        //public string DevAdddNwkSKey { get; set; }
+        //public string AppSKeyAppEuiAppKey { get; set; }        
+        //public string TimeBefore { get; set; }
+        //public string TimeAfter { get; set; }
+        //public string RelayOn { get; set; }
+        //public string RelayOff { get; set; }
+        //public string Notes { get; set; }
     }
 }

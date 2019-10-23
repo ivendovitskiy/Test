@@ -26,11 +26,18 @@ namespace TestApplication.ViewModels.Testing
         {
             context = new TestDbContext();
 
-            DevicesPath = @"D:\StendLoRa\LoRa Scaner 1.3.1\Devices.txt";
-            ProtocolPath = @"D:\StendLoRa\stend\Прочие файлы";
+            //DevicesPath = @"D:\StendLoRa\LoRa Scaner 1.3.1\Devices.txt";
+            //ProtocolPath = @"D:\StendLoRa\stend\Прочие файлы";
 
-            //DevicesPath = @"C:\Users\LifarenkoKO\Desktop\Test\Devices.txt";
-            //ProtocolPath = @"C:\Users\LifarenkoKO\Desktop\";
+            watcher = new FileSystemWatcher(@"C:\Users\Morri\Desktop\Test\Прочие файлы\")
+            {
+                NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName,
+                Filter = "Otvet.txt"
+            };
+            watcher.EnableRaisingEvents = true;
+
+            DevicesPath = @"C:\Users\LifarenkoKO\Desktop\Test\Devices.txt";
+            ProtocolPath = @"C:\Users\LifarenkoKO\Desktop\";
 
             SetDevicesPathCommand = new RelayCommand(SetDevicesPath);
             SetProtocolPathCommand = new RelayCommand(SetProtocolPath);
@@ -38,6 +45,7 @@ namespace TestApplication.ViewModels.Testing
         }
 
         private readonly TestDbContext context;
+        private readonly FileSystemWatcher watcher;
 
         public ICommand SetDevicesPathCommand { get; private set; }
         public ICommand SetProtocolPathCommand { get; private set; }
@@ -106,6 +114,11 @@ namespace TestApplication.ViewModels.Testing
                     }
                     sr.Close();
 
+                    watcher.Changed += (sender, e) =>
+                      {
+
+                      };
+
                     Services.Excel.Export.ProtocolToXlsx(ProtocolPath, Protocol);
 
                     //File.WriteAllText(DevicesPath, String.Empty);
@@ -117,6 +130,11 @@ namespace TestApplication.ViewModels.Testing
             {
                 throw ex;
             }
+        }
+
+        private void Watcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            MessageBox.Show("Пошёл нахуй");
         }
 
         private string devicesPath;
