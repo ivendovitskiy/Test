@@ -187,12 +187,12 @@ namespace TestApplication.Services.Excel
                 var cell_B = row.CreateCell(1);
                 cell_B.CellStyle = cellStyle;
                 cell_B.SetCellType(CellType.String);
-                //cell_B.SetCellValue(device.DevEui); //заводской номер
+                cell_B.SetCellValue(device.FactoryNumber); //заводской номер
 
                 var cell_C = row.CreateCell(2);
                 cell_C.CellStyle = cellStyle;
                 cell_C.SetCellType(CellType.String);
-                //cell_C.SetCellValue(device.DevEui); //версия ПО
+                cell_C.SetCellValue(device.DevEui); //версия ПО
 
                 var cell_D = row.CreateCell(3);
                 cell_D.CellStyle = cellStyle;

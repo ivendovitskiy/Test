@@ -20,8 +20,8 @@ namespace Models
         private string appSKey;
         private string nwkSKey;
         private string snr;
+        private string factoryNumber;
         private Protocol protocol;
-
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -99,15 +99,19 @@ namespace Models
             set => Notify(ref snr, value);
         }
 
+        public string FactoryNumber
+        {
+            set => Notify(ref factoryNumber, value);
+            get => factoryNumber;
+        }
+
         public Protocol Protocol
         {
             get => protocol;
             set => Notify(ref protocol, value);
         }
 
-
         //public string Position { get; set; }
-        //public string ProdNumber { get; set; }
         //public string SoftwareVersion { get; set; }
         //public string DevEui { get; set; }
         //public string DevAdddNwkSKey { get; set; }

@@ -26,21 +26,28 @@ namespace TestApplication.ViewModels.Testing
         {
             context = new TestDbContext();
 
+            //DevicesPath = @"C:\Users\LifarenkoKO\Desktop\Test\Devices.txt";
+            //ProtocolPath = @"C:\Users\LifarenkoKO\Desktop\";
+
+            //DevicesPath = @"C:\Users\Morri\Desktop\Test\Прочие файлы\Протокол №56.txt";
+            //ProtocolPath = @"C:\Users\Morri\Desktop\";
+
             //DevicesPath = @"D:\StendLoRa\LoRa Scaner 1.3.1\Devices.txt";
             //ProtocolPath = @"D:\StendLoRa\stend\Прочие файлы";
 
-            watcher = new FileSystemWatcher(@"C:\Users\Morri\Desktop\Test\Прочие файлы\")
+            DevicesPath = @"C:\Users\Иван\Desktop\Test\Прочие файлы\Протокол №56.txt";
+            ProtocolPath = @"C:\Users\Иван\Desktop\Test\Прочие файлы";
+
+            //watcher = new FileSystemWatcher(@"C:\Users\Morri\Desktop\Test\Прочие файлы\")
+            //watcher = new FileSystemWatcher(@"D:\StendLoRa\stend\Прочие файлы")
+            watcher = new FileSystemWatcher(@"C:\Users\Иван\Desktop\Test\Прочие файлы\")
             {
                 NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName,
                 Filter = "Otvet.txt"
             };
             watcher.EnableRaisingEvents = true;
 
-            //DevicesPath = @"C:\Users\LifarenkoKO\Desktop\Test\Devices.txt";
-            //ProtocolPath = @"C:\Users\LifarenkoKO\Desktop\";
 
-            DevicesPath = @"C:\Users\Morri\Desktop\Test\Прочие файлы\Протокол №56.txt";
-            ProtocolPath = @"C:\Users\Morri\Desktop\";
 
             SetDevicesPathCommand = new RelayCommand(SetDevicesPath);
             SetProtocolPathCommand = new RelayCommand(SetProtocolPath);
@@ -120,8 +127,25 @@ namespace TestApplication.ViewModels.Testing
                     FileSystemEventHandler fileChangedEventHandler = null;
                     fileChangedEventHandler = delegate (object sender, FileSystemEventArgs e)
                     {
-                        MessageBox.Show("Huy");
+                        using (StreamReader sr2 = File.OpenText(@"C:\Users\Иван\Desktop\Test\Прочие файлы\Otvet.txt"))
+                        {
+                            
+                            string s2 = @"(?<DevEui>\w{16})\s+(?<Snr>\w+|\w+\.\w{1})\s+(?<PackageType>\w{2})(?<FactoryNumber>\w{8})(?<Time>\w{8})(?<NenuzhnayaHuynya>\w{54}$)";
+                            Regex regex2 = new Regex(s2);
 
+                            string text2 = sr2.ReadToEnd();
+                            MatchCollection matches2 = regex.Matches(text2);
+
+                            foreach (Match match in matches2)
+                            {
+                                Device device = context.Devices.Where(d => d.DevEui == match.Groups["DevEui"].Value.Trim()).FirstOrDefault();
+                                device.Snr = match.Groups["Snr"].Value.Trim();
+                                device.FactoryNumber = BitConverter.ToString(Encoding.GetEncoding(1251).GetBytes(match.Groups["FactoryNumber"].Value));
+                                context.SaveChanges();
+                            }
+
+                            //MessageBox.Show("Huy");
+                        }
                         watcher.Changed -= fileChangedEventHandler;
                     };
                     watcher.Changed += fileChangedEventHandler;
@@ -137,11 +161,6 @@ namespace TestApplication.ViewModels.Testing
             {
                 throw ex;
             }
-        }
-
-        private void Watcher_Changed(object sender, FileSystemEventArgs e)
-        {
-            MessageBox.Show("Пошёл нахуй");
         }
 
         private string devicesPath;
