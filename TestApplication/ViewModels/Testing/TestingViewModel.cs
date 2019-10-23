@@ -27,7 +27,7 @@ namespace TestApplication.ViewModels.Testing
             context = new TestDbContext();
 
             DevicesPath = @"D:\StendLoRa\LoRa Scaner 1.3.1\Devices.txt";
-            ProtocolPath = @"D:\StendLoRa\stend\";
+            ProtocolPath = @"D:\StendLoRa\stend\Прочие файлы";
 
             //DevicesPath = @"C:\Users\LifarenkoKO\Desktop\Test\Devices.txt";
             //ProtocolPath = @"C:\Users\LifarenkoKO\Desktop\";
