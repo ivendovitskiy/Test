@@ -36,8 +36,11 @@ namespace TestApplication.ViewModels.Testing
             };
             watcher.EnableRaisingEvents = true;
 
-            DevicesPath = @"C:\Users\LifarenkoKO\Desktop\Test\Devices.txt";
-            ProtocolPath = @"C:\Users\LifarenkoKO\Desktop\";
+            //DevicesPath = @"C:\Users\LifarenkoKO\Desktop\Test\Devices.txt";
+            //ProtocolPath = @"C:\Users\LifarenkoKO\Desktop\";
+
+            DevicesPath = @"C:\Users\Morri\Desktop\Test\Прочие файлы\Протокол №56.txt";
+            ProtocolPath = @"C:\Users\Morri\Desktop\";
 
             SetDevicesPathCommand = new RelayCommand(SetDevicesPath);
             SetProtocolPathCommand = new RelayCommand(SetProtocolPath);
@@ -114,10 +117,14 @@ namespace TestApplication.ViewModels.Testing
                     }
                     sr.Close();
 
-                    watcher.Changed += (sender, e) =>
-                      {
+                    FileSystemEventHandler fileChangedEventHandler = null;
+                    fileChangedEventHandler = delegate (object sender, FileSystemEventArgs e)
+                    {
+                        MessageBox.Show("Huy");
 
-                      };
+                        watcher.Changed -= fileChangedEventHandler;
+                    };
+                    watcher.Changed += fileChangedEventHandler;
 
                     Services.Excel.Export.ProtocolToXlsx(ProtocolPath, Protocol);
 
