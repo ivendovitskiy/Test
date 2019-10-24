@@ -192,7 +192,7 @@ namespace TestApplication.Services.Excel
                 var cell_C = row.CreateCell(2);
                 cell_C.CellStyle = cellStyle;
                 cell_C.SetCellType(CellType.String);
-                cell_C.SetCellValue(device.DevEui); //версия ПО
+                //cell_C.SetCellValue(device.DevEui); //версия ПО
 
                 var cell_D = row.CreateCell(3);
                 cell_D.CellStyle = cellStyle;
@@ -212,7 +212,7 @@ namespace TestApplication.Services.Excel
                 var cell_G = row.CreateCell(6);
                 cell_G.CellStyle = cellStyle;
                 cell_G.SetCellType(CellType.String);
-                //cell_G.SetCellValue(device.DevEui); //качество связи
+                cell_G.SetCellValue(device.Snr); //качество связи
 
                 var cell_H = row.CreateCell(7);
                 cell_H.CellStyle = cellStyle;

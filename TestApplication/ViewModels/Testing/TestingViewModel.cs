@@ -26,21 +26,21 @@ namespace TestApplication.ViewModels.Testing
         {
             context = new TestDbContext();
 
+            DevicesPath = @"D:\StendLoRa\LoRa Scaner 1.3.1\Devices.txt";
+            ProtocolPath = @"D:\StendLoRa\stend\Прочие файлы\С номерами";
+
             //DevicesPath = @"C:\Users\LifarenkoKO\Desktop\Test\Devices.txt";
             //ProtocolPath = @"C:\Users\LifarenkoKO\Desktop\";
 
             //DevicesPath = @"C:\Users\Morri\Desktop\Test\Прочие файлы\Протокол №56.txt";
-            //ProtocolPath = @"C:\Users\Morri\Desktop\";
+            //ProtocolPath = @"C:\Users\Morri\Desktop;
 
-            //DevicesPath = @"D:\StendLoRa\LoRa Scaner 1.3.1\Devices.txt";
-            //ProtocolPath = @"D:\StendLoRa\stend\Прочие файлы";
-
-            DevicesPath = @"C:\Users\Иван\Desktop\Test\Прочие файлы\Протокол №56.txt";
-            ProtocolPath = @"C:\Users\Иван\Desktop\Test\Прочие файлы";
+            //DevicesPath = @"C:\Users\Иван\Desktop\Test\Прочие файлы\Протокол №56.txt";
+            //ProtocolPath = @"C:\Users\Иван\Desktop\Test\Прочие файлы";
 
             //watcher = new FileSystemWatcher(@"C:\Users\Morri\Desktop\Test\Прочие файлы\")
-            //watcher = new FileSystemWatcher(@"D:\StendLoRa\stend\Прочие файлы")
-            watcher = new FileSystemWatcher(@"C:\Users\Иван\Desktop\Test\Прочие файлы\")
+            //watcher = new FileSystemWatcher(@"C:\Users\Иван\Desktop\Test\Прочие файлы\")
+            watcher = new FileSystemWatcher(@"D:\StendLoRa\stend\Прочие файлы")
             {
                 NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName,
                 Filter = "Otvet.txt"
@@ -127,7 +127,7 @@ namespace TestApplication.ViewModels.Testing
                     FileSystemEventHandler fileChangedEventHandler = null;
                     fileChangedEventHandler = delegate (object sender, FileSystemEventArgs e)
                     {
-                        using (StreamReader sr2 = File.OpenText(@"C:\Users\Иван\Desktop\Test\Прочие файлы\Otvet.txt"))
+                        using (StreamReader sr2 = File.OpenText(@"D:\StendLoRa\stend\Прочие файлы\Otvet.txt"))
                         {
                             
                             string s2 = @"(?<DevEui>\w{16})\s+(?<Snr>\w+|\w+\.\w{1})\s+(?<PackageType>\w{2})(?<FactoryNumber>\w{8})(?<Time>\w{8})(?<NenuzhnayaHuynya>\w{54}$)";

@@ -180,6 +180,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\TestDbContext.cs" />
+    <Compile Include="Migrations\TestDbContextModelSnapshot.cs" />
     <Compile Include="Services\Excel\Export.cs" />
     <Compile Include="Services\Excel\ExportResult.cs" />
     <Compile Include="Services\FileDialog\IFileDialog.cs" />
