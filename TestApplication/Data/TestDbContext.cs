@@ -17,8 +17,8 @@ namespace TestApplication.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=WIN-INFMG8OPRNS;Database=Test;Trusted_Connection=True;");
-            //optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDb;Database=Test;Trusted_Connection=True;");
+            //optionsBuilder.UseSqlServer(@"Server=WIN-INFMG8OPRNS;Database=Test;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDb;Database=Test;Trusted_Connection=True;");
         }
 
         public DbSet<Device> Devices { get; set; }

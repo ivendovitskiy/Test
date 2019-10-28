@@ -9,9 +9,37 @@
         Height="450"
         Width="800"
         DataContext="{Binding Source={StaticResource Locator}, Path=Testing}">
-    <StackPanel>
-        <Button Margin="50, 50"
-                Height="50"
-                Command="{Binding ScanCommand}" Content="Создать"/>
-    </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <DataGrid Grid.Column="0"
+                  Margin="10 10"
+                  AutoGenerateColumns="True"
+                  ItemsSource="{Binding Protocols, Mode=OneWay}" 
+                  IsReadOnly="True"/>
+
+        <StackPanel Grid.Column="1">
+            <Button Margin="50, 50"
+                    Height="50"
+                    Command="{Binding StartOrStopCommand}">
+                <Button.Style>
+                    <Style TargetType="Button"
+                           BasedOn="{StaticResource {x:Type Button}}">
+                        <Setter Property="Content"
+                                Value="Старт" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsWorking}"
+                                         Value="True">
+                                <Setter Property="Content"
+                                        Value="Стоп" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </StackPanel>
+    </Grid>
 </Window>
