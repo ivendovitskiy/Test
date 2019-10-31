@@ -28,11 +28,12 @@ namespace TestApplication.ViewModels.Testing
         public TestingViewModel()
         {
             context = new TestDbContext();
-            context.Protocols.Where(p => p.IsClosed == false).Load();
+            context.Protocols.Include(i => i.Devices).Where(p => p.IsClosed == false).Load();
 
             Protocols = context.Protocols.Local.ToObservableCollection();
 
             DevicesPath = @"C:\Users\LifarenkoKO\Desktop\Devices.txt";
+            ResponsePath = @"C:\Users\LifarenkoKO\Desktop\Otvet.txt";
             ProtocolPath = @"D:\StendLoRa\stend\Прочие файлы\С номерами";
 
             IsWorking = false;
@@ -59,8 +60,16 @@ namespace TestApplication.ViewModels.Testing
             {
                 NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName,
                 Filter = Path.GetFileName(DevicesPath),
+                EnableRaisingEvents = true
             };
-            devicesFileWatcher.EnableRaisingEvents = true;
+
+            responseFileWatcher = new FileSystemWatcher(Path.GetDirectoryName(DevicesPath))
+            {
+                NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName,
+                Filter = Path.GetFileName(ResponsePath),
+                EnableRaisingEvents = true
+            };
+
 
             ScanCommand = new RelayCommand(Scan);
             StartOrStopCommand = new RelayCommand(StartOrStop);
@@ -77,12 +86,12 @@ namespace TestApplication.ViewModels.Testing
             if (IsWorking)
             {
                 devicesFileWatcher.Changed -= AddProtocolFromFile;
-                //responseFileWatcher.Changed -= null;
+                responseFileWatcher.Changed -= UpdateDevicesFromResponse;
             }
             else
             {
                 devicesFileWatcher.Changed += AddProtocolFromFile;
-                //responseFileWatcher.Changed += null;
+                responseFileWatcher.Changed += UpdateDevicesFromResponse;
             }
 
             IsWorking = !IsWorking;
@@ -140,101 +149,60 @@ namespace TestApplication.ViewModels.Testing
                 {
                     context.Attach(protocol);
                     context.SaveChanges();
-                });                
+                });
             }
         }
 
+        private void UpdateDevicesFromResponse(object sender, FileSystemEventArgs e)
+        {
+            Thread.Sleep(1000);
 
+            string text;
+
+            using (StreamReader sr2 = File.OpenText(ResponsePath))
+            {
+                text = sr2.ReadToEnd();
+            }
+
+            Regex regex = new Regex(@"(?<DevEui>\w{16})\s(?<Snr>\d+\.?\d*)\s(?<PackageType>\w{2})(?<FactoryNumber>\w{8})(?<Time>\w{8})(?<Unused>.*)");
+
+            MatchCollection matches = regex.Matches(text);
+            foreach (Match match in matches)
+            {
+                Device device = context.Devices.Where(d => d.DevEui == match.Groups["DevEui"].Value.Trim()).FirstOrDefault();
+
+                if (device != null)
+                {
+                    device.Snr = match.Groups["Snr"].Value.Trim();
+                    device.FactoryNumber = BitConverter.ToString(Encoding.GetEncoding(1251).GetBytes(match.Groups["FactoryNumber"].Value));
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        [Obsolete("Не использовать")]
         private void Scan()
         {
             try
             {
-                using (StreamReader sr = File.OpenText(DevicesPath))
-                {
-                    string s = @"devName:(\r\n|\r|\n)*(?<DevName>.{0,})(\r\n|\r|\n)*DevEui:(\r\n|\r|\n)*(?<DevEui>.{0,})(\r\n|\r|\n)*AppEui:(\r\n|\r|\n)*(?<AppEui>.{0,})(\r\n|\r|\n)*AppKey:(\r\n|\r|\n)*(?<AppKey>.{0,})(\r\n|\r|\n)*DevAddr:(\r\n|\r|\n)*(?<DevAdd>.{0,})(\r\n|\r|\n)*AppSKey:(\r\n|\r|\n)*(?<AppSKey>.{0,})(\r\n|\r|\n)*NwkSKEY:(\r\n|\r|\n)*(?<NwkSKey>.{0,})(\r\n|\r|\n)?";
-                    Regex regex = new Regex(s);
+                Services.Excel.Export.ProtocolToXlsx(ProtocolPath, Protocol);
 
-                    string text = sr.ReadToEnd();
-                    MatchCollection matches = regex.Matches(text);
+                //File.WriteAllText(DevicesPath, String.Empty);
 
-                    if (matches.Count > 24)
-                    {
-                        throw new Exception("Отсканируйте не больше 24 сканеров");
-                    }
-                    else if (matches.Count == 0)
-                    {
-                        throw new Exception("Отсканируйте хотя бы один сканер");
-                    }
-                    else
-                    {
-                        Protocol = new Protocol()
-                        {
-                            DateTime = DateTime.Now,
-                            Devices = new ObservableCollection<Device>()
-                        };
+                MessageBox.Show("Протокол успешно создан");
 
-                        int i = 1;
-
-                        foreach (Match match in matches)
-                        {
-                            Protocol.Devices.Add(new Device
-                            {
-                                Index = i,
-                                DevName = match.Groups["DevName"].Value.Trim(),
-                                DevEui = match.Groups["DevEui"].Value.Trim(),
-                                AppEui = match.Groups["AppEui"].Value.Trim(),
-                                AppKey = match.Groups["AppKey"].Value.Trim(),
-                                //DevAdd = int.Parse(match.Groups["DevAdd"].Value.Trim()).ToString("X8"),
-                                DevAdd = match.Groups["DevAdd"].Value.Trim(),
-                                AppSKey = match.Groups["AppSKey"].Value.Trim(),
-                                NwkSKey = match.Groups["NwkSKey"].Value.Trim()
-                            });
-
-                            i++;
-                        }
-
-                        context.Protocols.Add(Protocol);
-                        context.SaveChanges();
-                    }
-                    sr.Close();
-
-                    FileSystemEventHandler fileChangedEventHandler = null;
-                    fileChangedEventHandler = delegate (object sender, FileSystemEventArgs e)
-                    {
-                        using (StreamReader sr2 = File.OpenText(@"D:\StendLoRa\stend\Прочие файлы\Otvet.txt"))
-                        {
-
-                            string s2 = @"(?<DevEui>\w{16})\s+(?<Snr>\w+|\w+\.\w{1})\s+(?<PackageType>\w{2})(?<FactoryNumber>\w{8})(?<Time>\w{8})(?<NenuzhnayaHuynya>\w{54}$)";
-                            Regex regex2 = new Regex(s2);
-
-                            string text2 = sr2.ReadToEnd();
-                            MatchCollection matches2 = regex.Matches(text2);
-
-                            foreach (Match match in matches2)
-                            {
-                                Device device = context.Devices.Where(d => d.DevEui == match.Groups["DevEui"].Value.Trim()).FirstOrDefault();
-                                device.Snr = match.Groups["Snr"].Value.Trim();
-                                device.FactoryNumber = BitConverter.ToString(Encoding.GetEncoding(1251).GetBytes(match.Groups["FactoryNumber"].Value));
-                                context.SaveChanges();
-                            }
-
-                            //MessageBox.Show("Huy");
-                        }
-                        responseFileWatcher.Changed -= fileChangedEventHandler;
-                    };
-                    responseFileWatcher.Changed += fileChangedEventHandler;
-
-                    Services.Excel.Export.ProtocolToXlsx(ProtocolPath, Protocol);
-
-                    //File.WriteAllText(DevicesPath, String.Empty);
-
-                    MessageBox.Show("Протокол успешно создан");
-                }
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+        }
+
+        private string responsePath;
+        public string ResponsePath
+        {
+            get => responsePath;
+            set => Notify(ref responsePath, value);
         }
 
         private string devicesPath;
