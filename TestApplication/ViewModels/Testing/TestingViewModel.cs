@@ -83,13 +83,11 @@ namespace TestApplication.ViewModels.Testing
                     string text = sr.ReadToEnd();
                     MatchCollection matches = regex.Matches(text);
 
-                    //if (matches.Count > 24)
-                    //{
-                    //    throw new Exception("Отсканируйте не больше 24 сканеров");
-                    //}
-                    //else 
-                    
-                    if (matches.Count == 0)
+                    if (matches.Count > 24)
+                    {
+                        throw new Exception("Отсканируйте не больше 24 сканеров");
+                    }
+                    else if (matches.Count == 0)
                     {
                         throw new Exception("Отсканируйте хотя бы один сканер");
                     }
