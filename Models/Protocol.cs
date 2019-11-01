@@ -17,6 +17,6 @@ namespace Models
         public string Tester { get; set; }
         public bool IsClosed { get; set; }
 
-        public ObservableCollection<Device> Devices { get; set; }
+        public virtual ObservableCollection<Device> Devices { get; set; }
     }
 }
