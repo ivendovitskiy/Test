@@ -36,10 +36,6 @@ namespace TestApplication.ViewModels.Testing
             //ResponsePath = @"C:\Users\LifarenkoKO\Desktop\Otvet.txt";
             //ProtocolPath = @"D:\StendLoRa\stend\Прочие файлы\С номерами";
 
-            DevicesPath = @"D:\StendLoRa\LoRa Scaner 1.3.1\Devices.txt";
-            ResponsePath = @"D:\StendLoRa\LoRa Scaner 1.3.1\Otvet.txt";
-            ProtocolPath = @"C:\Users\Admin\Desktop";
-
             IsWorking = false;
 
             //DevicesPath = @"C:\Users\LifarenkoKO\Desktop\Test\Devices.txt";
@@ -48,8 +44,9 @@ namespace TestApplication.ViewModels.Testing
             //DevicesPath = @"C:\Users\Morri\Desktop\Test\Прочие файлы\Протокол №56.txt";
             //ProtocolPath = @"C:\Users\Morri\Desktop;
 
-            //DevicesPath = @"C:\Users\Иван\Desktop\Test\Прочие файлы\Протокол №56.txt";
-            //ProtocolPath = @"C:\Users\Иван\Desktop\Test\Прочие файлы";
+            DevicesPath = @"C:\Users\Иван\Desktop\Test\Прочие файлы\devices.txt";
+            ResponsePath = @"C:\Users\Иван\Desktop\Test\Прочие файлы\Otvet.txt";
+            ProtocolPath = @"C:\Users\Иван\Desktop\Test\Прочие файлы";
 
             //watcher = new FileSystemWatcher(@"C:\Users\Morri\Desktop\Test\Прочие файлы\")
             //watcher = new FileSystemWatcher(@"C:\Users\Иван\Desktop\Test\Прочие файлы\")
@@ -178,9 +175,9 @@ namespace TestApplication.ViewModels.Testing
                 if (device != null)
                 {
                     device.Snr = match.Groups["Snr"].Value.Trim();
-                    device.FactoryNumber = BitConverter.ToString(Encoding.GetEncoding(1251).GetBytes(match.Groups["FactoryNumber"].Value));
+                    device.FactoryNumber = Convert.ToUInt32(reverseWord(match.Groups["FactoryNumber"].Value.Trim(), match.Groups["FactoryNumber"].Value.Trim().Length), 16).ToString();
+                    //MessageBox.Show(match.Groups["FactoryNumber"].Value.Trim().Length.ToString()); // проверочка
                     context.SaveChanges();
-                    MessageBox.Show("darova");
                 }
             }
         }
@@ -244,5 +241,16 @@ namespace TestApplication.ViewModels.Testing
             get => protocol;
             set => Notify(ref protocol, value);
         }
+
+        public string reverseWord (string s, int length)
+        {
+            string result = "";
+            for (int i = 1; i < length; i += 2)
+            {
+                result = result + s[length - i - 1] + s[length - i];
+            }
+            return result;
+        }
+
     }
 }
