@@ -36,17 +36,18 @@ namespace TestApplication.ViewModels.Testing
             //ResponsePath = @"C:\Users\LifarenkoKO\Desktop\Otvet.txt";
             //ProtocolPath = @"D:\StendLoRa\stend\Прочие файлы\С номерами";
 
-            IsWorking = false;
-
-            //DevicesPath = @"C:\Users\LifarenkoKO\Desktop\Test\Devices.txt";
-            //ProtocolPath = @"C:\Users\LifarenkoKO\Desktop\";
-
             //DevicesPath = @"C:\Users\Morri\Desktop\Test\Прочие файлы\Протокол №56.txt";
             //ProtocolPath = @"C:\Users\Morri\Desktop;
 
-            DevicesPath = @"C:\Users\Иван\Desktop\Test\Прочие файлы\devices.txt";
-            ResponsePath = @"C:\Users\Иван\Desktop\Test\Прочие файлы\Otvet.txt";
-            ProtocolPath = @"C:\Users\Иван\Desktop\Test\Прочие файлы";
+            IsWorking = false;
+
+            DevicesPath = @"D:\StendLoRa\LoRa Scaner 1.3.1\devices.txt";
+            ResponsePath = @"D:\StendLoRa\LoRa Scaner 1.3.1\Otvet.txt";
+            ProtocolPath = @"D:\StendLoRa\stend\Прочие файлы\С номерами";
+
+            //DevicesPath = @"C:\Users\Иван\Desktop\Test\Прочие файлы\devices.txt";
+            //ResponsePath = @"C:\Users\Иван\Desktop\Test\Прочие файлы\Otvet.txt";
+            //ProtocolPath = @"C:\Users\Иван\Desktop\Test\Прочие файлы";
 
             //watcher = new FileSystemWatcher(@"C:\Users\Morri\Desktop\Test\Прочие файлы\")
             //watcher = new FileSystemWatcher(@"C:\Users\Иван\Desktop\Test\Прочие файлы\")
@@ -110,11 +111,13 @@ namespace TestApplication.ViewModels.Testing
                 matches = regex.Matches(streamReader.ReadToEnd());
             }
 
-            if (matches.Count > 24)
-            {
-                throw new Exception("Отсканируйте не больше 24 сканеров");
-            }
-            else if (matches.Count == 0)
+            //if (matches.Count > 24)
+            //{
+            //    throw new Exception("Отсканируйте не больше 24 сканеров");
+            //}
+            //else 
+            
+            if (matches.Count == 0)
             {
                 throw new Exception("Отсканируйте хотя бы один сканер");
             }
