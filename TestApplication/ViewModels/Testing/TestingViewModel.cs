@@ -32,9 +32,13 @@ namespace TestApplication.ViewModels.Testing
 
             Protocols = context.Protocols.Local.ToObservableCollection();
 
-            DevicesPath = @"C:\Users\LifarenkoKO\Desktop\Devices.txt";
-            ResponsePath = @"C:\Users\LifarenkoKO\Desktop\Otvet.txt";
-            ProtocolPath = @"D:\StendLoRa\stend\Прочие файлы\С номерами";
+            //DevicesPath = @"C:\Users\LifarenkoKO\Desktop\Devices.txt";
+            //ResponsePath = @"C:\Users\LifarenkoKO\Desktop\Otvet.txt";
+            //ProtocolPath = @"D:\StendLoRa\stend\Прочие файлы\С номерами";
+
+            DevicesPath = @"D:\StendLoRa\LoRa Scaner 1.3.1\Devices.txt";
+            ResponsePath = @"D:\StendLoRa\LoRa Scaner 1.3.1\Otvet.txt";
+            ProtocolPath = @"C:\Users\Admin\Desktop";
 
             IsWorking = false;
 
@@ -176,6 +180,7 @@ namespace TestApplication.ViewModels.Testing
                     device.Snr = match.Groups["Snr"].Value.Trim();
                     device.FactoryNumber = BitConverter.ToString(Encoding.GetEncoding(1251).GetBytes(match.Groups["FactoryNumber"].Value));
                     context.SaveChanges();
+                    MessageBox.Show("darova");
                 }
             }
         }
