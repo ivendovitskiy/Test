@@ -94,6 +94,7 @@ namespace TestApplication.ViewModels.Testing
             {
                 devicesFileWatcher.Changed += AddProtocolFromFile;
                 responseFileWatcher.Changed += UpdateDevicesFromResponse;
+                //Scan();
             }
 
             IsWorking = !IsWorking;
@@ -115,9 +116,7 @@ namespace TestApplication.ViewModels.Testing
             //{
             //    throw new Exception("Отсканируйте не больше 24 сканеров");
             //}
-            //else 
-            
-            if (matches.Count == 0)
+            /*else*/ if (matches.Count == 0)
             {
                 throw new Exception("Отсканируйте хотя бы один сканер");
             }
@@ -173,7 +172,7 @@ namespace TestApplication.ViewModels.Testing
             MatchCollection matches = regex.Matches(text);
             foreach (Match match in matches)
             {
-                Device device = context.Devices.Where(d => d.DevEui == match.Groups["DevEui"].Value.Trim()).FirstOrDefault();
+                Device device = context.Devices.Where(d => d.DevEui == match.Groups["DevEui"].Value.Trim()).LastOrDefault();
 
                 if (device != null)
                 {
