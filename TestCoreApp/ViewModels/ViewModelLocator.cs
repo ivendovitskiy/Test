@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TestCoreApp.Data;
 using TestCoreApp.Services.Navigation;
+using TestCoreApp.ViewModels.Settings;
 using TestCoreApp.ViewModels.Testing;
 
 namespace TestCoreApp.ViewModels
@@ -20,6 +21,7 @@ namespace TestCoreApp.ViewModels
 
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<TestingViewModel>();
+            SimpleIoc.Default.Register<SettingsViewModel>();
 
             SetupNavigation();
         }
@@ -34,12 +36,18 @@ namespace TestCoreApp.ViewModels
             get => ServiceLocator.Current.GetInstance<TestingViewModel>();
         }
 
+        public SettingsViewModel Settings
+        {
+            get => ServiceLocator.Current.GetInstance<SettingsViewModel>();
+        }
+
 
         private static void SetupNavigation()
         {
             var navigationService = new FrameNavigationService();
 
-            //navigationService.Configure();
+            navigationService.Configure("Testing", new Uri("../Views/Testing/TestingPage.xaml", UriKind.Relative));
+            navigationService.Configure("Settings", new Uri("../Views/Settings/SettingsPage.xaml", UriKind.Relative));
 
             SimpleIoc.Default.Register<IFrameNavigationService>(() => navigationService);
             SimpleIoc.Default.Register(() => new TestDbContext());

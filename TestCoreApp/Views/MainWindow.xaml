@@ -8,38 +8,13 @@
         Title="Создание протокола"
         Height="450"
         Width="800"
-        DataContext="{Binding Source={StaticResource Locator}, Path=Testing}">
+        DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="600" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-
-        <DataGrid Grid.Column="0"
-                  Margin="10 10"
-                  AutoGenerateColumns="True"
-                  ItemsSource="{Binding Protocols, Mode=OneWay}"
-                  IsReadOnly="True" />
-
-        <StackPanel Grid.Column="1">
-            <Button Margin="50, 50"
-                    Height="50"
-                    Command="{Binding StartOrStopCommand}">
-                <Button.Style>
-                    <Style TargetType="Button"
-                           BasedOn="{StaticResource {x:Type Button}}">
-                        <Setter Property="Content"
-                                Value="Старт" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsWorking}"
-                                         Value="True">
-                                <Setter Property="Content"
-                                        Value="Стоп" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
+        <StackPanel>
+            <Button Command="{Binding DisplayTestingCommand}">Хуй</Button>
+            <Button Command="{Binding DisplaySettingsCommand}">Пизда</Button>
+            <Frame x:Name="MainFrame"
+                   NavigationUIVisibility="Hidden" />
         </StackPanel>
     </Grid>
 </Window>
