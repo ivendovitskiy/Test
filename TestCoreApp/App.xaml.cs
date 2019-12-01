@@ -13,5 +13,9 @@ namespace TestCoreApp
     /// </summary>
     public partial class App : Application
     {
+        private void  OnStart(object sender, StartupEventArgs e)
+        {
+
+        }
     }
 }

@@ -10,7 +10,23 @@
       Title="SettingsPage"
       DataContext="{Binding Source={StaticResource Locator}, Path=Settings}">
 
-    <Grid>
-
-    </Grid>
+    <StackPanel>
+        <Label>
+            Путь для сохранения файла протокола
+        </Label>
+        <TextBox Text="{Binding ProtocolPath}" />
+        <Label>
+            Путь для открытия файла с отсканированными устройствами
+        </Label>
+        <TextBox Text="{Binding DevicesPath}" />
+        <Label>
+            Путь для открытия файла с ответами сервера
+        </Label>
+        <TextBox Text="{Binding ResponsePath}" />
+        <Button Command="{Binding SaveCommand}"
+                Width="70"
+                Height="30"
+                Margin="10, 10"
+                Content="Сохранить" />
+    </StackPanel>
 </Page>

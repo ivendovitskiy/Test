@@ -7,13 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestForm", "TestForm\TestForm.csproj", "{200F5CEC-E9A4-41C5-938A-00990E665490}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApplication", "TestApplication\TestApplication.csproj", "{7665B3F0-DD1D-4F14-9574-2EDF30FD7E16}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VegaServerApi", "VegaServerApi\VegaServerApi.csproj", "{79BEE39E-5955-4984-BD98-E5CE3B01E0EF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppTest", "ConsoleAppTest\ConsoleAppTest.csproj", "{1094498E-5F7C-43D6-8D7E-B3EEDCB576FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCoreApp", "TestCoreApp\TestCoreApp.csproj", "{B3ADA31F-9B12-44A7-96DE-0A08F112D8ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestCoreApp", "TestCoreApp\TestCoreApp.csproj", "{B3ADA31F-9B12-44A7-96DE-0A08F112D8ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{200F5CEC-E9A4-41C5-938A-00990E665490}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{200F5CEC-E9A4-41C5-938A-00990E665490}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{200F5CEC-E9A4-41C5-938A-00990E665490}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7665B3F0-DD1D-4F14-9574-2EDF30FD7E16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7665B3F0-DD1D-4F14-9574-2EDF30FD7E16}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7665B3F0-DD1D-4F14-9574-2EDF30FD7E16}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7665B3F0-DD1D-4F14-9574-2EDF30FD7E16}.Release|Any CPU.Build.0 = Release|Any CPU
 		{79BEE39E-5955-4984-BD98-E5CE3B01E0EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{79BEE39E-5955-4984-BD98-E5CE3B01E0EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79BEE39E-5955-4984-BD98-E5CE3B01E0EF}.Release|Any CPU.ActiveCfg = Release|Any CPU

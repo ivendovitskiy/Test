@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using TestCoreApp.Data;
+using TestCoreApp.Services.Settings;
 
 namespace TestCoreApp.ViewModels.Testing
 {
@@ -30,33 +31,15 @@ namespace TestCoreApp.ViewModels.Testing
             context = new TestDbContext();
             context.Protocols.Include(i => i.Devices).Where(p => p.IsClosed == false).Load();
 
+            settingsService = new SettingsService();
+
             Protocols = context.Protocols.Local.ToObservableCollection();
-
-            //DevicesPath = @"C:\Users\LifarenkoKO\Desktop\Devices.txt";
-            //ResponsePath = @"C:\Users\LifarenkoKO\Desktop\Otvet.txt";
-            //ProtocolPath = @"D:\StendLoRa\stend\Прочие файлы\С номерами";
-
-            //DevicesPath = @"C:\Users\Morri\Desktop\Test\Прочие файлы\Протокол №56.txt";
-            //ProtocolPath = @"C:\Users\Morri\Desktop;
 
             IsWorking = false;
 
-            DevicesPath = @"D:\StendLoRa\LoRa Scaner 1.3.1\devices.txt";
-            ResponsePath = @"D:\StendLoRa\LoRa Scaner 1.3.1\Otvet.txt";
-            ProtocolPath = @"D:\StendLoRa\stend\Прочие файлы\С номерами";
-
-            //DevicesPath = @"C:\Users\Иван\Desktop\Test\Прочие файлы\devices.txt";
-            //ResponsePath = @"C:\Users\Иван\Desktop\Test\Прочие файлы\Otvet.txt";
-            //ProtocolPath = @"C:\Users\Иван\Desktop\Test\Прочие файлы";
-
-            //watcher = new FileSystemWatcher(@"C:\Users\Morri\Desktop\Test\Прочие файлы\")
-            //watcher = new FileSystemWatcher(@"C:\Users\Иван\Desktop\Test\Прочие файлы\")
-            //responseFileWatcher = new FileSystemWatcher(@"C:\Users\LifarenkoKO\Desktop\")
-            //{
-            //    NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName,
-            //    Filter = "Otvet.txt",
-            //    EnableRaisingEvents = true
-            //};
+            DevicesPath = settingsService.Settings.DevicesPath;
+            ResponsePath = settingsService.Settings.ResponsePath;
+            ProtocolPath = settingsService.Settings.ProtocolPath;
 
             devicesFileWatcher = new FileSystemWatcher(Path.GetDirectoryName(DevicesPath))
             {
@@ -78,6 +61,7 @@ namespace TestCoreApp.ViewModels.Testing
         }
 
         private readonly TestDbContext context;
+        private readonly SettingsService settingsService;
         private readonly FileSystemWatcher responseFileWatcher;
         private readonly FileSystemWatcher devicesFileWatcher;
         public ICommand ScanCommand { get; private set; }
@@ -116,7 +100,7 @@ namespace TestCoreApp.ViewModels.Testing
             //    throw new Exception("Отсканируйте не больше 24 сканеров");
             //}
             //else 
-            
+
             if (matches.Count == 0)
             {
                 throw new Exception("Отсканируйте хотя бы один сканер");
@@ -245,7 +229,7 @@ namespace TestCoreApp.ViewModels.Testing
             set => Notify(ref protocol, value);
         }
 
-        public string ReverseWord (string s, int length)
+        public string ReverseWord(string s, int length)
         {
             string result = "";
             for (int i = 1; i < length; i += 2)

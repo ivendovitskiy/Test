@@ -6,7 +6,8 @@
              xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:TestCoreApp"
              xmlns:vm="clr-namespace:TestCoreApp.ViewModels"
-             StartupUri="Views/MainWindow.xaml">
+             StartupUri="Views/MainWindow.xaml"
+             Startup="OnStart">
     <Application.Resources>
         <ResourceDictionary>
             <vm:ViewModelLocator x:Key="Locator"
