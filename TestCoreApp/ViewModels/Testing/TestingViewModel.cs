@@ -97,7 +97,7 @@ namespace TestCoreApp.ViewModels.Testing
 
             Protocol protocol = new Protocol();
 
-            protocol.Tester = "sdsd";
+            protocol.Tester = "Ендовицкий И.Н.";
             protocol.DateTime = DateTime.Now;
             protocol.Devices = new ObservableCollection<Device>(devices);
 
@@ -156,17 +156,26 @@ namespace TestCoreApp.ViewModels.Testing
                 text = sr2.ReadToEnd();
             }
 
-            Regex regex = new Regex(@"(?<DevEui>\w{16})\s(?<Snr>\d+\.?\d*)\s(?<PackageType>\w{2})(?<FactoryNumber>\w{8})(?<Time>\w{8})(?<Unused>.*)");
+            Regex regex = new Regex(@"(?<DevEui>\w{16})\s(?<Snr>\d+\.?\d*)\s(?<PackageType>\w{2})(?<FactoryNumber>\w{8})(?<CurrentTime>\w{8})(?<Model>\w{2})(?<Phases>\w{2})(?<Tarrifs>\w{2})(?<Rellay>\w{2})(?<ReleaseDate>\w{8})(?<SoftwareVerison>\w{8})(?<Indications>\w{8})(?<Temperature>\w{2})(?<Stasus>\w{8})(?<Reason>\w{4})(?<UUID>\w{4})(?<Unused>.*)");
 
             MatchCollection matches = regex.Matches(text);
             foreach (Match match in matches)
             {
-                Device device = ScannedDevices.Where(d => d.DevEui == match.Groups["DevEui"].Value.Trim()).FirstOrDefault();
+                Device device = ScannedDevices.Where(d => d.DevEui == match.Groups["DevEui"].Value.Trim()).LastOrDefault();
 
                 if (device != null)
                 {
                     device.Snr = match.Groups["Snr"].Value.Trim();
                     device.FactoryNumber = Convert.ToUInt32(ReverseWord(match.Groups["FactoryNumber"].Value.Trim(), match.Groups["FactoryNumber"].Value.Trim().Length), 16).ToString();
+                    device.SoftwareVersion = (Convert.ToDouble(Convert.ToUInt32(ReverseWord(match.Groups["SoftwareVersion"].Value.Trim(), match.Groups["SoftwareVersion"].Value.Trim().Length), 16)) / 10).ToString();
+                    if (device.Snr != null)
+                    {
+                        device.Notes += "1-й пакет";
+                    }
+                    if ((Convert.ToUInt32(ReverseWord(match.Groups["FactoryNumber"].Value.Trim(), match.Groups["FactoryNumber"].Value.Trim().Length), 16) < 2800000000) || (Convert.ToUInt32(ReverseWord(match.Groups["FactoryNumber"].Value.Trim(), match.Groups["FactoryNumber"].Value.Trim().Length), 16) > 2800001000))
+                    {
+                        device.Notes += "Номер?";
+                    }
                 }
             }
         }

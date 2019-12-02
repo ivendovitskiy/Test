@@ -192,7 +192,7 @@ namespace TestCoreApp.Services.Excel
                 var cell_C = row.CreateCell(2);
                 cell_C.CellStyle = cellStyle;
                 cell_C.SetCellType(CellType.String);
-                //cell_C.SetCellValue(device.DevEui); //версия ПО
+                cell_C.SetCellValue(device.SoftwareVersion); //версия ПО
 
                 var cell_D = row.CreateCell(3);
                 cell_D.CellStyle = cellStyle;
@@ -237,7 +237,7 @@ namespace TestCoreApp.Services.Excel
                 var cell_L = row.CreateCell(11);
                 cell_L.CellStyle = cellStyle;
                 cell_L.SetCellType(CellType.String);
-                //cell_L.SetCellValue(device.DevEui); //примечание
+                cell_L.SetCellValue(device.Notes); //примечание
 
                 x++;
             }
@@ -245,7 +245,7 @@ namespace TestCoreApp.Services.Excel
             var testerRow = sheet.CreateRow(j + protocol.Devices.Count + 2);
 
             testerRow.CreateCell(5).SetCellValue("Испытание провёл:");
-            testerRow.CreateCell(6).SetCellValue(protocol.Tester = "Ендовицкий Иван Николаевич");
+            testerRow.CreateCell(6).SetCellValue(protocol.Tester = "Ендовицкий И.Н.");
 
 
             sheet.AddMergedRegion(new CellRangeAddress(j + protocol.Devices.Count + 2, j + protocol.Devices.Count + 2, 6, 11));
