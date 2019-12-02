@@ -5,46 +5,101 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:TestCoreApp.Views.Testing"
       mc:Ignorable="d"
-      d:DesignHeight="450"
-      d:DesignWidth="800"
+      d:DesignHeight="720"
+      d:DesignWidth="1280"
       DataContext="{Binding Source={StaticResource Locator}, Path=Testing}">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120" />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="310" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <DataGrid Grid.Column="0"
+        <Button Grid.Row="0"
+                Grid.Column="1"
+                Width="90"
+                Height="50"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Margin="10 20 20 10"
+                Command="{Binding StartOrStopCommand}">
+            <Button.Style>
+                <Style TargetType="Button"
+                       BasedOn="{StaticResource {x:Type Button}}">
+                    <Setter Property="Content"
+                            Value="Старт" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsWorking}"
+                                     Value="True">
+                            <Setter Property="Content"
+                                    Value="Стоп" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <DataGrid x:Name="protocolsDataGrid"
+                  Grid.Column="0"
+                  Grid.Row="0"
+                  Grid.RowSpan="3"
                   Margin="10 10"
-                  AutoGenerateColumns="True"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  AutoGenerateColumns="False"
                   ItemsSource="{Binding Protocols, Mode=OneWay}"
-                  IsReadOnly="True" />
+                  IsReadOnly="True"
+                  CanUserResizeRows="False"
+                  CanUserResizeColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id"
+                                    Binding="{Binding Id}"
+                                    Width="20">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment"
+                                    Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Дата"
+                                    Width="160"
+                                    Binding="{Binding DateTime,  StringFormat='{}{0:dd MMM, yyyy, hh:mm:ss}'}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment"
+                                    Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Удалить" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
 
+        <DataGrid x:Name="devicesDataGrid"
+                  Grid.Row="1"
+                  Grid.Column="1"
+                  Margin="10"
+                  AutoGenerateColumns="True"
+                  ItemsSource="{Binding ElementName=protocolsDataGrid, Path=SelectedItem.Devices}" />
 
-
-        <StackPanel Grid.Column="1">
-            <Button Margin="50, 50"
-                    Height="50"
-                    Command="{Binding StartOrStopCommand}">
-                <Button.Style>
-                    <Style TargetType="Button"
-                           BasedOn="{StaticResource {x:Type Button}}">
-                        <Setter Property="Content"
-                                Value="Старт" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsWorking}"
-                                         Value="True">
-                                <Setter Property="Content"
-                                        Value="Стоп" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
+        <StackPanel Grid.Column="1"
+                    Grid.Row="2">
             <ListBox x:Name="scannedDevicesListBox"
                      ItemsSource="{Binding ScannedDevices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      SelectionMode="Multiple"
-                     Height="263">
+                     Height="263"
+                     Margin="10">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}">
                         <Style.Triggers>
