@@ -167,15 +167,15 @@ namespace TestCoreApp.ViewModels.Testing
                 {
                     device.Snr = match.Groups["Snr"].Value.Trim();
                     device.FactoryNumber = Convert.ToUInt32(ReverseWord(match.Groups["FactoryNumber"].Value.Trim(), match.Groups["FactoryNumber"].Value.Trim().Length), 16).ToString();
-                    device.SoftwareVersion = (Convert.ToDouble(Convert.ToUInt32(ReverseWord(match.Groups["SoftwareVersion"].Value.Trim(), match.Groups["SoftwareVersion"].Value.Trim().Length), 16)) / 10).ToString();
-                    if (device.Snr != null)
-                    {
-                        device.Notes += "1-й пакет";
-                    }
-                    if ((Convert.ToUInt32(ReverseWord(match.Groups["FactoryNumber"].Value.Trim(), match.Groups["FactoryNumber"].Value.Trim().Length), 16) < 2800000000) || (Convert.ToUInt32(ReverseWord(match.Groups["FactoryNumber"].Value.Trim(), match.Groups["FactoryNumber"].Value.Trim().Length), 16) > 2800001000))
-                    {
-                        device.Notes += "Номер?";
-                    }
+                    //device.SoftwareVersion = (Convert.ToDouble(Convert.ToUInt32(ReverseWord(match.Groups["SoftwareVersion"].Value.Trim(), match.Groups["SoftwareVersion"].Value.Trim().Length), 16)) / 10).ToString();
+                    //if (device.Snr != null)
+                    //{
+                    //    device.Notes += "1-й пакет";
+                    //}
+                    //if ((Convert.ToUInt32(ReverseWord(match.Groups["FactoryNumber"].Value.Trim(), match.Groups["FactoryNumber"].Value.Trim().Length), 16) < 2800000000) || (Convert.ToUInt32(ReverseWord(match.Groups["FactoryNumber"].Value.Trim(), match.Groups["FactoryNumber"].Value.Trim().Length), 16) > 2800001000))
+                    //{
+                    //    device.Notes += "Номер?";
+                    //}
                 }
             }
         }
