@@ -103,7 +103,7 @@ namespace TestCoreApp.ViewModels.Testing
             Protocols.Add(protocol);
             context.SaveChanges();
 
-            Services.Excel.Export.ProtocolToXlsx(ProtocolPath, Protocol);
+            Services.Excel.Export.ProtocolToXlsx(ProtocolPath, protocol);
         }
 
         private void AddScannedDevicesFromFile(object sender, FileSystemEventArgs e)
@@ -213,13 +213,6 @@ namespace TestCoreApp.ViewModels.Testing
         {
             get => isWorking;
             set => Notify(ref isWorking, value);
-        }
-
-        private Protocol protocol;
-        public Protocol Protocol
-        {
-            get => protocol;
-            set => Notify(ref protocol, value);
         }
 
         public string ReverseWord(string s, int length)
