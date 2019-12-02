@@ -7,6 +7,7 @@ using NPOI.SS.UserModel;
 using NPOI.SS.Util;
 using NPOI.XSSF.UserModel;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -35,6 +36,8 @@ namespace TestCoreApp.ViewModels.Testing
 
             Protocols = context.Protocols.Local.ToObservableCollection();
 
+            ScannedDevices = new ObservableCollection<Device>();
+
             IsWorking = false;
 
             DevicesPath = settingsService.Settings.DevicesPath;
@@ -48,42 +51,62 @@ namespace TestCoreApp.ViewModels.Testing
                 EnableRaisingEvents = true
             };
 
-            responseFileWatcher = new FileSystemWatcher(Path.GetDirectoryName(DevicesPath))
+            responseFileWatcher = new FileSystemWatcher(Path.GetDirectoryName(ResponsePath))
             {
                 NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName,
                 Filter = Path.GetFileName(ResponsePath),
                 EnableRaisingEvents = true
             };
 
-
-            ScanCommand = new RelayCommand(Scan);
             StartOrStopCommand = new RelayCommand(StartOrStop);
+            CreateProtocolCommand = new RelayCommand<object>(CreateProtocol);
         }
 
         private readonly TestDbContext context;
         private readonly SettingsService settingsService;
         private readonly FileSystemWatcher responseFileWatcher;
         private readonly FileSystemWatcher devicesFileWatcher;
-        public ICommand ScanCommand { get; private set; }
-        public ICommand StartOrStopCommand { get; private set; }
 
         private void StartOrStop()
         {
             if (IsWorking)
             {
-                devicesFileWatcher.Changed -= AddProtocolFromFile;
-                responseFileWatcher.Changed -= UpdateDevicesFromResponse;
+                devicesFileWatcher.Changed -= AddScannedDevicesFromFile;
+                responseFileWatcher.Changed -= UpdateScannedDevicesFromResponse;
             }
             else
             {
-                devicesFileWatcher.Changed += AddProtocolFromFile;
-                responseFileWatcher.Changed += UpdateDevicesFromResponse;
+                devicesFileWatcher.Changed += AddScannedDevicesFromFile;
+                responseFileWatcher.Changed += UpdateScannedDevicesFromResponse;
             }
 
             IsWorking = !IsWorking;
         }
 
-        private void AddProtocolFromFile(object sender, FileSystemEventArgs e)
+        private void CreateProtocol(object selectedItems)
+        {
+            IList items = (IList)selectedItems;
+            List<Device> devices = new List<Device>(items.Cast<Device>());
+
+            for (int i = 0; i < devices.Count(); i++)
+            {
+                ScannedDevices.Remove(devices[i]);
+            }
+            items.Clear();
+
+            Protocol protocol = new Protocol();
+
+            protocol.Tester = "sdsd";
+            protocol.DateTime = DateTime.Now;
+            protocol.Devices = new ObservableCollection<Device>(devices);
+
+            Protocols.Add(protocol);
+            context.SaveChanges();
+
+            Services.Excel.Export.ProtocolToXlsx(ProtocolPath, Protocol);
+        }
+
+        private void AddScannedDevicesFromFile(object sender, FileSystemEventArgs e)
         {
             Thread.Sleep(1000);
 
@@ -95,29 +118,13 @@ namespace TestCoreApp.ViewModels.Testing
                 matches = regex.Matches(streamReader.ReadToEnd());
             }
 
-            //if (matches.Count > 24)
-            //{
-            //    throw new Exception("Отсканируйте не больше 24 сканеров");
-            //}
-            //else 
+            int i = 1;
 
-            if (matches.Count == 0)
+            App.Current.Dispatcher.Invoke((Action)delegate
             {
-                throw new Exception("Отсканируйте хотя бы один сканер");
-            }
-            else
-            {
-                Protocol protocol = new Protocol
-                {
-                    DateTime = DateTime.Now,
-                    Devices = new ObservableCollection<Device>()
-                };
-
-                int i = 1;
-
                 foreach (Match match in matches)
                 {
-                    protocol.Devices.Add(new Device
+                    ScannedDevices.Add(new Device
                     {
                         Index = i,
                         DevName = match.Groups["DevName"].Value.Trim(),
@@ -132,16 +139,12 @@ namespace TestCoreApp.ViewModels.Testing
 
                     i++;
                 }
-
-                App.Current.Dispatcher.Invoke((Action)delegate
-                {
-                    context.Attach(protocol);
-                    context.SaveChanges();
-                });
-            }
+            });
         }
 
-        private void UpdateDevicesFromResponse(object sender, FileSystemEventArgs e)
+       
+
+        private void UpdateScannedDevicesFromResponse(object sender, FileSystemEventArgs e)
         {
             Thread.Sleep(1000);
 
@@ -157,35 +160,18 @@ namespace TestCoreApp.ViewModels.Testing
             MatchCollection matches = regex.Matches(text);
             foreach (Match match in matches)
             {
-                Device device = context.Devices.Where(d => d.DevEui == match.Groups["DevEui"].Value.Trim()).FirstOrDefault();
+                Device device = ScannedDevices.Where(d => d.DevEui == match.Groups["DevEui"].Value.Trim()).FirstOrDefault();
 
                 if (device != null)
                 {
                     device.Snr = match.Groups["Snr"].Value.Trim();
                     device.FactoryNumber = Convert.ToUInt32(ReverseWord(match.Groups["FactoryNumber"].Value.Trim(), match.Groups["FactoryNumber"].Value.Trim().Length), 16).ToString();
-                    //MessageBox.Show(match.Groups["FactoryNumber"].Value.Trim().Length.ToString()); // проверочка
-                    context.SaveChanges();
                 }
             }
         }
 
-        [Obsolete("Не использовать")]
-        private void Scan()
-        {
-            try
-            {
-                Services.Excel.Export.ProtocolToXlsx(ProtocolPath, Protocol);
-
-                //File.WriteAllText(DevicesPath, String.Empty);
-
-                MessageBox.Show("Протокол успешно создан");
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        public ICommand StartOrStopCommand { get; private set; }
+        public ICommand CreateProtocolCommand { get; private set; }
 
         private string responsePath;
         public string ResponsePath
@@ -213,6 +199,13 @@ namespace TestCoreApp.ViewModels.Testing
         {
             get => protocols;
             set => Notify(ref protocols, value);
+        }
+
+        private ObservableCollection<Device> scannedDevices;
+        public ObservableCollection<Device> ScannedDevices
+        {
+            get => scannedDevices;
+            set => Notify(ref scannedDevices, value);
         }
 
         private bool isWorking;

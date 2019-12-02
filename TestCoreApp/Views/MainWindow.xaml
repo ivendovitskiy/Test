@@ -11,8 +11,13 @@
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
     <Grid>
         <StackPanel>
-            <Button Command="{Binding DisplayTestingCommand}">Хуй</Button>
-            <Button Command="{Binding DisplaySettingsCommand}">Пизда</Button>
+            <Menu Height="25"
+                  VerticalAlignment="Top">
+                <MenuItem Header="Тестирование"
+                          Command="{Binding DisplayTestingCommand}" />
+                <MenuItem Header="Настройки"
+                          Command="{Binding DisplaySettingsCommand}" />
+            </Menu>
             <Frame x:Name="MainFrame"
                    NavigationUIVisibility="Hidden" />
         </StackPanel>

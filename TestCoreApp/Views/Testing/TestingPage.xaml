@@ -10,7 +10,7 @@
       DataContext="{Binding Source={StaticResource Locator}, Path=Testing}">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="600" />
+            <ColumnDefinition Width="400" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
@@ -19,6 +19,8 @@
                   AutoGenerateColumns="True"
                   ItemsSource="{Binding Protocols, Mode=OneWay}"
                   IsReadOnly="True" />
+
+
 
         <StackPanel Grid.Column="1">
             <Button Margin="50, 50"
@@ -39,6 +41,41 @@
                     </Style>
                 </Button.Style>
             </Button>
+            <ListBox x:Name="scannedDevicesListBox"
+                     ItemsSource="{Binding ScannedDevices, Mode=TwoWay}"
+                     SelectionMode="Multiple"
+                     Height="263">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
+                            <!-- Assumes MVVM and you wish to bind to properties and commands -->
+                            <TextBlock Grid.Column="0"
+                                       Text="{Binding AppEui}" />
+                            <TextBlock Grid.Column="1"
+                                       Text="Snr:" />
+                            <TextBlock Grid.Column="2"
+                                       Text="{Binding Snr}" />
+                            <TextBlock Grid.Column="3"
+                                       Text="FN:" />
+                            <TextBlock Grid.Column="4"
+                                       Text="{Binding FactoryNumber}" />
+                            <TextBlock Grid.Column="5"
+                                       Text="{Binding ProtocolId}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button Content="Сформировать протокол"
+                    Command="{Binding CreateProtocolCommand}"
+                    CommandParameter="{Binding ElementName=scannedDevicesListBox, Path=SelectedItems}" />
         </StackPanel>
     </Grid>
 </Page>
