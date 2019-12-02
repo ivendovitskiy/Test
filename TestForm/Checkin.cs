@@ -54,7 +54,7 @@ namespace TestForm
             //{
             //    return;
             //}
-            using (StreamReader sr = File.OpenText(@"D:\Стенд LoRa\ПО Вега\v1.2.4\Devices.txt"))
+            using (StreamReader sr = File.OpenText(@"D:\StendLoRa\LoRa Scaner 1.3.1\Devices.txt"))
             {
                 string s = @"devName:(\r\n|\r|\n)*(?<DevName>.{0,})(\r\n|\r|\n)*DevEui:(\r\n|\r|\n)*(?<DevEui>.{0,})(\r\n|\r|\n)*AppEui:(\r\n|\r|\n)*(?<AppEui>.{0,})(\r\n|\r|\n)*AppKey:(\r\n|\r|\n)*(?<AppKey>.{0,})(\r\n|\r|\n)*DevAdd:(\r\n|\r|\n)*(?<DevAdd>.{0,})(\r\n|\r|\n)*AppSKey:(\r\n|\r|\n)*(?<AppSKey>.{0,})(\r\n|\r|\n)*NwkSKEY:(\r\n|\r|\n)*(?<NwkSKey>.{0,})(\r\n|\r|\n)?";
                 Regex regex = new Regex(s);
