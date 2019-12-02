@@ -173,14 +173,16 @@ namespace TestCoreApp.Services.Excel
             cellStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
             cellStyle.BorderDiagonal = BorderDiagonal.Backward;
 
+            int x = 1;
+
             foreach (var device in protocol.Devices)
             {
-                var row = sheet.CreateRow(j + device.Index);
+                var row = sheet.CreateRow(j + x);
 
                 var cell_A = row.CreateCell(0);
                 cell_A.CellStyle = cellStyle;
                 cell_A.SetCellType(CellType.String);
-                cell_A.SetCellValue(device.Index);
+                cell_A.SetCellValue(x);
 
                 var cell_B = row.CreateCell(1);
                 cell_B.CellStyle = cellStyle;
@@ -237,6 +239,7 @@ namespace TestCoreApp.Services.Excel
                 cell_L.SetCellType(CellType.String);
                 //cell_L.SetCellValue(device.DevEui); //примечание
 
+                x++;
             }
 
             var testerRow = sheet.CreateRow(j + protocol.Devices.Count + 2);

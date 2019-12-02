@@ -59,8 +59,9 @@ namespace TestCoreApp.ViewModels.Testing
             };
 
             StartOrStopCommand = new RelayCommand(StartOrStop);
-            CreateProtocolCommand = new RelayCommand<object>(CreateProtocol);
+            CreateProtocolCommand = new RelayCommand<object>(CreateProtocol, CreateProtocolCanExecute, true);
         }
+
 
         private readonly TestDbContext context;
         private readonly SettingsService settingsService;
@@ -177,6 +178,16 @@ namespace TestCoreApp.ViewModels.Testing
                     }
                 }
             }
+        }
+
+        public bool CreateProtocolCanExecute(object obj)
+        {
+            if(((IList)obj)?.Count == 0)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public ICommand StartOrStopCommand { get; private set; }
