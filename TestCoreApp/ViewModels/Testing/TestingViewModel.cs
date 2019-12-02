@@ -100,7 +100,7 @@ namespace TestCoreApp.ViewModels.Testing
             protocol.DateTime = DateTime.Now;
             protocol.Devices = new ObservableCollection<Device>(devices);
 
-            Protocols.Add(protocol);
+            context.Attach(protocol);
             context.SaveChanges();
 
             Services.Excel.Export.ProtocolToXlsx(ProtocolPath, protocol);
@@ -142,7 +142,7 @@ namespace TestCoreApp.ViewModels.Testing
             });
         }
 
-       
+
 
         private void UpdateScannedDevicesFromResponse(object sender, FileSystemEventArgs e)
         {
