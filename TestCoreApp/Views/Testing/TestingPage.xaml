@@ -8,6 +8,18 @@
       d:DesignHeight="720"
       d:DesignWidth="1280"
       DataContext="{Binding Source={StaticResource Locator}, Path=Testing}">
+    <Page.Resources>
+        <Style x:Key="Steez"
+               TargetType="DataGrid">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=protocolsDataGrid, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged}"
+                             Value="{x:Null}">
+                    <Setter Property="Visibility"
+                            Value="Hidden" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="120" />
@@ -91,7 +103,8 @@
                   Grid.Column="1"
                   Margin="10"
                   AutoGenerateColumns="True"
-                  ItemsSource="{Binding ElementName=protocolsDataGrid, Path=SelectedItem.Devices}" />
+                  ItemsSource="{Binding ElementName=protocolsDataGrid, Path=SelectedItem.Devices}"
+                  Style="{StaticResource Steez}" />
 
         <StackPanel Grid.Column="1"
                     Grid.Row="2">
