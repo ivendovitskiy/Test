@@ -166,13 +166,13 @@ namespace TestCoreApp.ViewModels.Testing
                 if (device != null)
                 {
                     device.Snr = match.Groups["Snr"].Value.Trim();
-                    device.FactoryNumber = Convert.ToUInt64(ReverseWord(match.Groups["FactoryNumber"].Value.Trim(), match.Groups["FactoryNumber"].Value.Trim().Length), 16).ToString();
-                    device.SoftwareVersion = (Convert.ToDouble(Convert.ToUInt64(ReverseWord(match.Groups["SoftwareVersion"].Value.Trim(), match.Groups["SoftwareVersion"].Value.Trim().Length), 16)) / 10).ToString();
+                    device.FactoryNumber = Convert.ToUInt64(ReverseWord(match.Groups["FactoryNumber"].Value.Trim()), 16).ToString();
+                    device.SoftwareVersion = DevideBy10((Convert.ToUInt64(ReverseWord(match.Groups["SoftwareVersion"].Value.Trim()), 16)).ToString());
                     if (device.Snr != null)
                     {
                         device.Notes += "1-й пакет";
                     }
-                    if ((Convert.ToUInt32(ReverseWord(match.Groups["FactoryNumber"].Value.Trim(), match.Groups["FactoryNumber"].Value.Trim().Length), 16) < 2800000000) || (Convert.ToUInt32(ReverseWord(match.Groups["FactoryNumber"].Value.Trim(), match.Groups["FactoryNumber"].Value.Trim().Length), 16) > 2800001000))
+                    if ((Convert.ToUInt32(ReverseWord(match.Groups["FactoryNumber"].Value.Trim()), 16) < 2800000000) || (Convert.ToUInt32(ReverseWord(match.Groups["FactoryNumber"].Value.Trim()), 16) > 2800001000))
                     {
                         device.Notes += "Номер?";
                     }
@@ -235,8 +235,9 @@ namespace TestCoreApp.ViewModels.Testing
             set => Notify(ref isWorking, value);
         }
 
-        public string ReverseWord(string s, int length)
+        public string ReverseWord(string s)
         {
+            int length = s.Length;
             string result = "";
             for (int i = 1; i < length; i += 2)
             {
