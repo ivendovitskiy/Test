@@ -29,10 +29,14 @@ namespace TestCoreApp.ViewModels.Testing
     {
         public TestingViewModel()
         {
-            context = new TestDbContext();
+            settingsService = new SettingsService();
+
+            var options = new DbContextOptionsBuilder().UseSqlServer(settingsService.Settings.ConnectionString).Options;
+
+            context = new TestDbContext(options);
             context.Protocols.Include(i => i.Devices).Where(p => p.IsClosed == false).Load();
 
-            settingsService = new SettingsService();
+            
 
             Protocols = context.Protocols.Local.ToObservableCollection();
 

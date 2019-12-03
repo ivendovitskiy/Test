@@ -10,19 +10,23 @@
       Title="SettingsPage"
       DataContext="{Binding Source={StaticResource Locator}, Path=Settings}">
 
-    <StackPanel>
+    <StackPanel Margin="20">
         <Label>
             Путь для сохранения файла протокола
         </Label>
-        <TextBox Text="{Binding ProtocolPath}" />
+        <TextBox Text="{Binding Settings.ProtocolPath}" />
         <Label>
             Путь для открытия файла с отсканированными устройствами
         </Label>
-        <TextBox Text="{Binding DevicesPath}" />
+        <TextBox Text="{Binding Settings.DevicesPath}" />
         <Label>
             Путь для открытия файла с ответами сервера
         </Label>
-        <TextBox Text="{Binding ResponsePath}" />
+        <TextBox Text="{Binding Settings.ResponsePath}" />
+        <Label>
+            Строка подключения к базе данных
+        </Label>
+        <TextBox Text="{Binding Settings.ConnectionString}" />
         <Button Command="{Binding SaveCommand}"
                 Width="70"
                 Height="30"

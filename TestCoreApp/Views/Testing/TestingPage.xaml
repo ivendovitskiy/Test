@@ -66,7 +66,8 @@
                   ItemsSource="{Binding Protocols, Mode=OneWay}"
                   IsReadOnly="True"
                   CanUserResizeRows="False"
-                  CanUserResizeColumns="False">
+                  CanUserResizeColumns="False"
+                  VerticalScrollBarVisibility="Visible">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id"
                                     Binding="{Binding Id}"
@@ -104,7 +105,8 @@
                   Margin="10"
                   AutoGenerateColumns="True"
                   ItemsSource="{Binding ElementName=protocolsDataGrid, Path=SelectedItem.Devices}"
-                  Style="{StaticResource Steez}" />
+                  Style="{StaticResource Steez}"
+                  VerticalScrollBarVisibility="Visible" />
 
         <StackPanel Grid.Column="1"
                     Grid.Row="2">
@@ -112,7 +114,8 @@
                      ItemsSource="{Binding ScannedDevices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      SelectionMode="Multiple"
                      Height="263"
-                     Margin="10">
+                     Margin="10"
+                     >
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}">
                         <Style.Triggers>

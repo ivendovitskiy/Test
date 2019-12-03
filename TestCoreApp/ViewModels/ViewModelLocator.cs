@@ -50,7 +50,7 @@ namespace TestCoreApp.ViewModels
             navigationService.Configure("Settings", new Uri("../Views/Settings/SettingsPage.xaml", UriKind.Relative));
 
             SimpleIoc.Default.Register<IFrameNavigationService>(() => navigationService);
-            SimpleIoc.Default.Register(() => new TestDbContext());
+            //SimpleIoc.Default.Register(() => new TestDbContext());
         }
     }
 }
