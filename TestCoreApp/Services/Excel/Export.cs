@@ -217,22 +217,22 @@ namespace TestCoreApp.Services.Excel
                 var cell_H = row.CreateCell(7);
                 cell_H.CellStyle = cellStyle;
                 cell_H.SetCellType(CellType.String);
-                //cell_H.SetCellValue(device.DevEui); //отклонение времени до коррекции
+                //cell_H.SetCellValue(device.TimeBefore); //отклонение времени до коррекции
 
                 var cell_I = row.CreateCell(8);
                 cell_I.CellStyle = cellStyle;
                 cell_I.SetCellType(CellType.String);
-                //cell_I.SetCellValue(device.DevEui); //отклонение времени после коррекции
+                //cell_I.SetCellValue(device.TimeAfter); //отклонение времени после коррекции
 
                 var cell_J = row.CreateCell(9);
                 cell_J.CellStyle = cellStyle;
                 cell_J.SetCellType(CellType.String);
-                //cell_J.SetCellValue(device.DevEui); //реле откл.
+                //cell_J.SetCellValue(device.RelayOff); //реле откл.
 
                 var cell_K = row.CreateCell(10);
                 cell_K.CellStyle = cellStyle;
                 cell_K.SetCellType(CellType.String);
-                //cell_K.SetCellValue(device.DevEui); //реле вкл.
+                //cell_K.SetCellValue(device.RelayOn); //реле вкл.
 
                 var cell_L = row.CreateCell(11);
                 cell_L.CellStyle = cellStyle;
