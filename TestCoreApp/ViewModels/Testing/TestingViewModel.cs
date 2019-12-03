@@ -160,7 +160,7 @@ namespace TestCoreApp.ViewModels.Testing
                 text = sr2.ReadToEnd();
             }
 
-            Regex regex = new Regex(@"(?<DevEui>\w{16})\s(?<Snr>\d+\.?\d*)\s(?<PackageType>\w{2})(?<FactoryNumber>\w{8})(?<CurrentTime>\w{8})(?<Model>\w{2})(?<Phases>\w{2})(?<Tarrifs>\w{2})(?<Rellay>\w{2})(?<ReleaseDate>\w{8})(?<SoftwareVerison>\w{8})(?<Indications>\w{8})(?<Temperature>\w{2})(?<Stasus>\w{8})(?<Reason>\w{4})(?<UUID>\w{4})(?<Unused>.*)");
+            Regex regex = new Regex(@"(?<DevEui>\w{16})\s(?<Snr>\d+\.?\d*)\s(?<PackageType>\w{2})(?<FactoryNumber>\w{8})(?<CurrentTime>\w{8})(?<Model>\w{2})(?<Phases>\w{2})(?<Tarrifs>\w{2})(?<Rellay>\w{2})(?<ReleaseDate>\w{8})(?<SoftwareVersion>\w{8})(?<Indications>\w{8})(?<Temperature>\w{2})(?<Stasus>\w{8})(?<Reason>\w{4})(?<UUID>\w{4})(?<Unused>.*)");
 
             MatchCollection matches = regex.Matches(text);
             foreach (Match match in matches)
