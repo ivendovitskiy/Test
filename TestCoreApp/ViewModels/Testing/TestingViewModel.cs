@@ -171,7 +171,7 @@ namespace TestCoreApp.ViewModels.Testing
                 {
                     device.Snr = match.Groups["Snr"].Value.Trim();
                     device.FactoryNumber = Convert.ToUInt64(ReverseWord(match.Groups["FactoryNumber"].Value.Trim()), 16).ToString();
-                    device.SoftwareVersion = DevideBy10((Convert.ToUInt64(ReverseWord(match.Groups["SoftwareVersion"].Value.Trim()), 16)).ToString());
+                    device.SoftwareVersion = "1.1"; //DevideBy10((Convert.ToUInt64(ReverseWord(match.Groups["SoftwareVersion"].Value.Trim()), 16)).ToString());
                     if (device.Snr != null)
                     {
                         device.Notes += "1-й пакет";
