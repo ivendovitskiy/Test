@@ -9,7 +9,7 @@
       d:DesignWidth="1280"
       DataContext="{Binding Source={StaticResource Locator}, Path=Testing}">
     <Page.Resources>
-        <Style x:Key="Steez"
+        <Style x:Key="ProtocolDevicesVisibility"
                TargetType="DataGrid">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding ElementName=protocolsDataGrid, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged}"
@@ -19,17 +19,44 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="ScannedDevicesVisibility"
+               TargetType="ListBox">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=devicesDataGrid, Path=Visibility, UpdateSourceTrigger=PropertyChanged}"
+                             Value="Visible">
+                    <Setter Property="Visibility"
+                            Value="Hidden" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=devicesDataGrid, Path=Visibility, UpdateSourceTrigger=PropertyChanged}"
+                             Value="Hidden">
+                    <Setter Property="Visibility"
+                            Value="Visible" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="120" />
-            <RowDefinition />
+            <RowDefinition Height="120"
+                           MaxHeight="120" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="310" />
+            <ColumnDefinition Width="310"
+                              MaxWidth="310" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+
+        <Button Grid.Row="0"
+                Grid.Column="1"
+                Width="90"
+                Height="50"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Margin="10 20 150 10"
+                Content="Сформировать протокол"
+                Command="{Binding CreateProtocolCommand}"
+                CommandParameter="{Binding ElementName=scannedDevicesListBox, Path=SelectedItems}" />
 
         <Button Grid.Row="0"
                 Grid.Column="1"
@@ -67,7 +94,8 @@
                   IsReadOnly="True"
                   CanUserResizeRows="False"
                   CanUserResizeColumns="False"
-                  VerticalScrollBarVisibility="Visible">
+                  VerticalScrollBarVisibility="Visible"
+                  SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id"
                                     Binding="{Binding Id}"
@@ -102,62 +130,100 @@
         <DataGrid x:Name="devicesDataGrid"
                   Grid.Row="1"
                   Grid.Column="1"
-                  Margin="10"
-                  AutoGenerateColumns="True"
+                  Margin="30"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch"
+                  AutoGenerateColumns="False"
                   ItemsSource="{Binding ElementName=protocolsDataGrid, Path=SelectedItem.Devices}"
-                  Style="{StaticResource Steez}"
-                  VerticalScrollBarVisibility="Visible" />
+                  VerticalScrollBarVisibility="Visible"
+                  Style="{StaticResource ProtocolDevicesVisibility}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id"
+                                    Binding="{Binding Id}"
+                                    Width="Auto" />
+                <DataGridTextColumn Header="DevName"
+                                    Binding="{Binding DevName}"
+                                    Width="Auto" />
+                <DataGridTextColumn Header="DevEui"
+                                    Binding="{Binding DevEui}"
+                                    Width="Auto" />
+                <DataGridTextColumn Header="AppEui"
+                                    Binding="{Binding AppEui}"
+                                    Width="Auto" />
+                <DataGridTextColumn Header="AppKey"
+                                    Binding="{Binding AppKey}"
+                                    Width="Auto" />
+                <DataGridTextColumn Header="DevAdd"
+                                    Binding="{Binding DevAdd}"
+                                    Width="Auto" />
+                <DataGridTextColumn Header="AppSKey"
+                                    Binding="{Binding AppSKey}"
+                                    Width="Auto" />
+                <DataGridTextColumn Header="NwkSKey"
+                                    Binding="{Binding NwkSKey}"
+                                    Width="Auto" />
+                <DataGridTextColumn Header="Snr"
+                                    Binding="{Binding Snr}"
+                                    Width="Auto" />
+                <DataGridTextColumn Header="FactoryNumber"
+                                    Binding="{Binding FactoryNumber}"
+                                    Width="Auto" />
+                <DataGridTextColumn Header="SoftwareVersion"
+                                    Binding="{Binding SoftwareVersion}"
+                                    Width="Auto" />
+                <DataGridTextColumn Header="Notes"
+                                    Binding="{Binding Notes}"
+                                    Width="Auto" />
+            </DataGrid.Columns>
+        </DataGrid>
 
-        <StackPanel Grid.Column="1"
-                    Grid.Row="2">
-            <ListBox x:Name="scannedDevicesListBox"
-                     ItemsSource="{Binding ScannedDevices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     SelectionMode="Multiple"
-                     Height="263"
-                     Margin="10"
-                     >
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListBoxItem}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Path=Snr}"
-                                         Value="{x:Null}">
-                                <Setter Property="Focusable"
-                                        Value="False" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="50" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
-                            </Grid.ColumnDefinitions>
-                            <!-- Assumes MVVM and you wish to bind to properties and commands -->
-                            <TextBlock Grid.Column="0"
-                                       Text="{Binding AppEui}" />
-                            <TextBlock Grid.Column="1"
-                                       Text="Snr:" />
-                            <TextBlock Grid.Column="2"
-                                       Text="{Binding Snr}" />
-                            <TextBlock Grid.Column="3"
-                                       Text="FN:" />
-                            <TextBlock Grid.Column="4"
-                                       Text="{Binding FactoryNumber}" />
-                            <TextBlock Grid.Column="5"
-                                       Text="{Binding ProtocolId}" />
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            <Button Content="Сформировать протокол"
-                    Command="{Binding CreateProtocolCommand}"
-                    CommandParameter="{Binding ElementName=scannedDevicesListBox, Path=SelectedItems}" />
-        </StackPanel>
+        <ListBox x:Name="scannedDevicesListBox"
+                 Grid.Column="1"
+                 Grid.Row="1"
+                 VerticalAlignment="Stretch"
+                 HorizontalAlignment="Stretch"
+                 ItemsSource="{Binding ScannedDevices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 SelectionMode="Multiple"
+                 Margin="30"
+                 Style="{StaticResource ScannedDevicesVisibility}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=Snr}"
+                                     Value="{x:Null}">
+                            <Setter Property="Focusable"
+                                    Value="False" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <!-- Assumes MVVM and you wish to bind to properties and commands -->
+                        <TextBlock Grid.Column="0"
+                                   Text="{Binding AppEui}" />
+                        <TextBlock Grid.Column="1"
+                                   Text="Snr:" />
+                        <TextBlock Grid.Column="2"
+                                   Text="{Binding Snr}" />
+                        <TextBlock Grid.Column="3"
+                                   Text="FN:" />
+                        <TextBlock Grid.Column="4"
+                                   Text="{Binding FactoryNumber}" />
+                        <TextBlock Grid.Column="5"
+                                   Text="{Binding ProtocolId}" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Page>
