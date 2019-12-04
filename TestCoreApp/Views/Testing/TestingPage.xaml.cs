@@ -22,5 +22,10 @@ namespace TestCoreApp.Views.Testing
         {
             InitializeComponent();
         }
+
+        private void protocolsDataGrid_LostFocus(object sender, RoutedEventArgs e)
+        {
+            protocolsDataGrid.SelectedItem = null;
+        }
     }
 }

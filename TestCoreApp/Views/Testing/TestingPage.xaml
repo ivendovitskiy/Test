@@ -8,7 +8,7 @@
       d:DesignHeight="720"
       d:DesignWidth="1280"
       DataContext="{Binding Source={StaticResource Locator}, Path=Testing}">
-    <Page.Resources>
+    <!--<Page.Resources>
         <Style x:Key="ProtocolDevicesVisibility"
                TargetType="DataGrid">
             <Style.Triggers>
@@ -34,8 +34,30 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+    </Page.Resources>-->
+    <Page.Resources>
+        <Style x:Key="ProtocolDevicesVisibility"
+               TargetType="Popup">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=protocolsDataGrid, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged}"
+                             Value="{x:Null}">
+                    <Setter Property="IsOpen"
+                            Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="protocolsGridFocus"
+               TargetType="Popup">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=protocolsDataGrid, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged}"
+                             Value="{x:Null}">
+                    <Setter Property="IsOpen"
+                            Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Page.Resources>
-    <Grid>
+    <Grid x:Name="grid">
         <Grid.RowDefinitions>
             <RowDefinition Height="120"
                            MaxHeight="120" />
@@ -46,7 +68,6 @@
                               MaxWidth="310" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-
         <Button Grid.Row="0"
                 Grid.Column="1"
                 Width="90"
@@ -57,7 +78,6 @@
                 Content="Сформировать протокол"
                 Command="{Binding CreateProtocolCommand}"
                 CommandParameter="{Binding ElementName=scannedDevicesListBox, Path=SelectedItems}" />
-
         <Button Grid.Row="0"
                 Grid.Column="1"
                 Width="90"
@@ -81,7 +101,6 @@
                 </Style>
             </Button.Style>
         </Button>
-
         <DataGrid x:Name="protocolsDataGrid"
                   Grid.Column="0"
                   Grid.Row="0"
@@ -95,7 +114,8 @@
                   CanUserResizeRows="False"
                   CanUserResizeColumns="False"
                   VerticalScrollBarVisibility="Visible"
-                  SelectionMode="Single">
+                  SelectionMode="Single"
+                  LostFocus="protocolsDataGrid_LostFocus">            
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id"
                                     Binding="{Binding Id}"
@@ -126,57 +146,59 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-
-        <DataGrid x:Name="devicesDataGrid"
-                  Grid.Row="1"
-                  Grid.Column="1"
-                  Margin="30"
-                  VerticalAlignment="Stretch"
-                  HorizontalAlignment="Stretch"
-                  AutoGenerateColumns="False"
-                  ItemsSource="{Binding ElementName=protocolsDataGrid, Path=SelectedItem.Devices}"
-                  VerticalScrollBarVisibility="Visible"
-                  Style="{StaticResource ProtocolDevicesVisibility}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Id"
-                                    Binding="{Binding Id}"
-                                    Width="Auto" />
-                <DataGridTextColumn Header="DevName"
-                                    Binding="{Binding DevName}"
-                                    Width="Auto" />
-                <DataGridTextColumn Header="DevEui"
-                                    Binding="{Binding DevEui}"
-                                    Width="Auto" />
-                <DataGridTextColumn Header="AppEui"
-                                    Binding="{Binding AppEui}"
-                                    Width="Auto" />
-                <DataGridTextColumn Header="AppKey"
-                                    Binding="{Binding AppKey}"
-                                    Width="Auto" />
-                <DataGridTextColumn Header="DevAdd"
-                                    Binding="{Binding DevAdd}"
-                                    Width="Auto" />
-                <DataGridTextColumn Header="AppSKey"
-                                    Binding="{Binding AppSKey}"
-                                    Width="Auto" />
-                <DataGridTextColumn Header="NwkSKey"
-                                    Binding="{Binding NwkSKey}"
-                                    Width="Auto" />
-                <DataGridTextColumn Header="Snr"
-                                    Binding="{Binding Snr}"
-                                    Width="Auto" />
-                <DataGridTextColumn Header="FactoryNumber"
-                                    Binding="{Binding FactoryNumber}"
-                                    Width="Auto" />
-                <DataGridTextColumn Header="SoftwareVersion"
-                                    Binding="{Binding SoftwareVersion}"
-                                    Width="Auto" />
-                <DataGridTextColumn Header="Notes"
-                                    Binding="{Binding Notes}"
-                                    Width="Auto" />
-            </DataGrid.Columns>
-        </DataGrid>
-
+        <Popup x:Name="devicesPopup"
+               IsOpen="True"
+               Style="{StaticResource ProtocolDevicesVisibility}"
+               StaysOpen="True"
+               Placement="Relative"
+               PlacementTarget="{Binding ElementName=grid}">            
+            <DataGrid x:Name="devicesDataGrid"
+                      Margin="30"                      
+                      VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch"
+                      AutoGenerateColumns="False"
+                      ItemsSource="{Binding ElementName=protocolsDataGrid, Path=SelectedItem.Devices}"
+                      VerticalScrollBarVisibility="Visible">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id"
+                                        Binding="{Binding Id}"
+                                        Width="Auto" />
+                    <DataGridTextColumn Header="DevName"
+                                        Binding="{Binding DevName}"
+                                        Width="Auto" />
+                    <DataGridTextColumn Header="DevEui"
+                                        Binding="{Binding DevEui}"
+                                        Width="Auto" />
+                    <DataGridTextColumn Header="AppEui"
+                                        Binding="{Binding AppEui}"
+                                        Width="Auto" />
+                    <DataGridTextColumn Header="AppKey"
+                                        Binding="{Binding AppKey}"
+                                        Width="Auto" />
+                    <DataGridTextColumn Header="DevAdd"
+                                        Binding="{Binding DevAdd}"
+                                        Width="Auto" />
+                    <DataGridTextColumn Header="AppSKey"
+                                        Binding="{Binding AppSKey}"
+                                        Width="Auto" />
+                    <DataGridTextColumn Header="NwkSKey"
+                                        Binding="{Binding NwkSKey}"
+                                        Width="Auto" />
+                    <DataGridTextColumn Header="Snr"
+                                        Binding="{Binding Snr}"
+                                        Width="Auto" />
+                    <DataGridTextColumn Header="FactoryNumber"
+                                        Binding="{Binding FactoryNumber}"
+                                        Width="Auto" />
+                    <DataGridTextColumn Header="SoftwareVersion"
+                                        Binding="{Binding SoftwareVersion}"
+                                        Width="Auto" />
+                    <DataGridTextColumn Header="Notes"
+                                        Binding="{Binding Notes}"
+                                        Width="Auto" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Popup>
         <ListBox x:Name="scannedDevicesListBox"
                  Grid.Column="1"
                  Grid.Row="1"
@@ -184,8 +206,7 @@
                  HorizontalAlignment="Stretch"
                  ItemsSource="{Binding ScannedDevices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  SelectionMode="Multiple"
-                 Margin="30"
-                 Style="{StaticResource ScannedDevicesVisibility}">
+                 Margin="30">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
                     <Style.Triggers>
