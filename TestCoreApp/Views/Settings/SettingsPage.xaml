@@ -1,0 +1,36 @@
+﻿<Page x:Class="TestCoreApp.Views.Settings.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:TestCoreApp.Views.Settings"
+      mc:Ignorable="d"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
+      Title="SettingsPage"
+      DataContext="{Binding Source={StaticResource Locator}, Path=Settings}">
+
+    <StackPanel Margin="20">
+        <Label>
+            Путь для сохранения файла протокола
+        </Label>
+        <TextBox Text="{Binding Settings.ProtocolPath}" />
+        <Label>
+            Путь для открытия файла с отсканированными устройствами
+        </Label>
+        <TextBox Text="{Binding Settings.DevicesPath}" />
+        <Label>
+            Путь для открытия файла с ответами сервера
+        </Label>
+        <TextBox Text="{Binding Settings.ResponsePath}" />
+        <Label>
+            Строка подключения к базе данных
+        </Label>
+        <TextBox Text="{Binding Settings.ConnectionString}" />
+        <Button Command="{Binding SaveCommand}"
+                Width="70"
+                Height="30"
+                Margin="10, 10"
+                Content="Сохранить" />
+    </StackPanel>
+</Page>

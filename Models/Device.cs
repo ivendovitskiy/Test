@@ -21,6 +21,8 @@ namespace Models
         private string nwkSKey;
         private string snr;
         private string factoryNumber;
+        private string softwareVersion;
+        private string notes;
         private Protocol protocol;
 
         [Key]
@@ -111,8 +113,19 @@ namespace Models
             set => Notify(ref protocol, value);
         }
 
+        public string SoftwareVersion
+        {
+            get => softwareVersion;
+            set => Notify(ref softwareVersion, value);
+        }
+
+        public string Notes
+        {
+            get => notes;
+            set => Notify(ref notes, value);
+        }
+
         //public string Position { get; set; }
-        //public string SoftwareVersion { get; set; }
         //public string DevEui { get; set; }
         //public string DevAdddNwkSKey { get; set; }
         //public string AppSKeyAppEuiAppKey { get; set; }        
