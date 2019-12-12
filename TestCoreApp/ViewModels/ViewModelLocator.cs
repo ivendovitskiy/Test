@@ -22,6 +22,7 @@ namespace TestCoreApp.ViewModels
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<TestingViewModel>();
             SimpleIoc.Default.Register<SettingsViewModel>();
+            SimpleIoc.Default.Register<ProtocolViewModel>();
 
             SetupNavigation();
         }
@@ -34,6 +35,11 @@ namespace TestCoreApp.ViewModels
         public TestingViewModel Testing
         {
             get => ServiceLocator.Current.GetInstance<TestingViewModel>();
+        }
+
+        public ProtocolViewModel Protocol
+        {
+            get => SimpleIoc.Default.GetInstanceWithoutCaching<ProtocolViewModel>();
         }
 
         public SettingsViewModel Settings
@@ -49,7 +55,7 @@ namespace TestCoreApp.ViewModels
             navigationService.Configure("Testing", new Uri("../Views/Testing/TestingPage.xaml", UriKind.Relative));
             navigationService.Configure("Settings", new Uri("../Views/Settings/SettingsPage.xaml", UriKind.Relative));
 
-            SimpleIoc.Default.Register<IFrameNavigationService>(() => navigationService);
+            SimpleIoc.Default.Register<IFrameNavigationService>(() => navigationService);            
             //SimpleIoc.Default.Register(() => new TestDbContext());
         }
     }

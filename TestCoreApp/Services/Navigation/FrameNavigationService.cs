@@ -2,54 +2,55 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Navigation;
 
 namespace TestCoreApp.Services.Navigation
 {
     public class FrameNavigationService : IFrameNavigationService, INotifyPropertyChanged
     {
-        private readonly Dictionary<string, Uri> _pagesByKey;
-        private readonly List<string> _historic;
-        private string _currentPageKey;
+        private readonly Dictionary<string, Uri> pagesByKey;
+        private readonly List<string> historic;
+        private string currentPageKey;
 
         public string CurrentPageKey
         {
             get
             {
-                return _currentPageKey;
+                return currentPageKey;
             }
 
             private set
             {
-                if (_currentPageKey == value)
+                if (currentPageKey == value)
                 {
                     return;
                 }
 
-                _currentPageKey = value;
+                currentPageKey = value;
                 OnPropertyChanged("CurrentPageKey");
             }
         }
 
-        public object Parameter { get; private set; }
 
         public FrameNavigationService()
         {
-            _pagesByKey = new Dictionary<string, Uri>();
-            _historic = new List<string>();
+            this.pagesByKey = new Dictionary<string, Uri>();
+            this.historic = new List<string>();
         }
 
         public void GoBack()
         {
-            if (_historic.Count > 1)
+            if (historic.Count > 1)
             {
-                _historic.RemoveAt(_historic.Count - 1);
-                NavigateTo(_historic.Last(), null);
+                this.historic.RemoveAt(historic.Count - 1);
+                NavigateTo(this.historic.Last(), null);
             }
         }
 
@@ -80,9 +81,9 @@ namespace TestCoreApp.Services.Navigation
 
         public virtual void NavigateTo(string pageKey, object parameter)
         {
-            lock (_pagesByKey)
+            lock (pagesByKey)
             {
-                if (!_pagesByKey.ContainsKey(pageKey))
+                if (!pagesByKey.ContainsKey(pageKey))
                 {
                     throw new ArgumentException(string.Format("No such page: {0} ", pageKey), "pageKey");
                 }
@@ -91,26 +92,76 @@ namespace TestCoreApp.Services.Navigation
 
                 if (frame != null)
                 {
-                    frame.Source = _pagesByKey[pageKey];
+                    frame.Source = pagesByKey[pageKey];
                 }
 
-                Parameter = parameter;
-                _historic.Add(pageKey);
+                historic.Add(pageKey);
                 CurrentPageKey = pageKey;
             }
         }
 
+        public void NavigateTo(string pageKey, string propertyName, object parameter)
+        {
+            if (parameter == null)
+            {
+                throw new ArgumentNullException("parameter");
+            }
+
+
+
+            lock (pagesByKey)
+            {
+                if (!pagesByKey.ContainsKey(pageKey))
+                {
+                    throw new ArgumentException(string.Format("No such page: {0} ", pageKey), "pageKey");
+                }
+
+                Frame frame = (Frame)GetDescendantFromName(Application.Current.MainWindow, "MainFrame");
+
+
+                if (frame != null)
+                {
+                    frame.Source = pagesByKey[pageKey];
+
+                    LoadCompletedEventHandler eventHandler = null;
+                    eventHandler = delegate (object sender, NavigationEventArgs e)
+                    {
+                        Page page = (Page)frame.Content;
+
+                        PropertyInfo property = page.DataContext.GetType().GetProperty(propertyName);
+
+                        Type vmType = page.DataContext.GetType();
+
+
+                        if (property.PropertyType == parameter.GetType())
+                        {
+                            property.SetValue(Convert.ChangeType(page.DataContext, vmType), Convert.ChangeType(parameter, property.PropertyType), null);
+                        }
+
+                        frame.LoadCompleted -= eventHandler;
+                    };
+
+                    frame.LoadCompleted += eventHandler;
+                }
+
+                historic.Add(pageKey);
+                CurrentPageKey = pageKey;
+            }
+        }
+
+
+
         public void Configure(string key, Uri pageType)
         {
-            lock (_pagesByKey)
+            lock (pagesByKey)
             {
-                if (_pagesByKey.ContainsKey(key))
+                if (pagesByKey.ContainsKey(key))
                 {
-                    _pagesByKey[key] = pageType;
+                    pagesByKey[key] = pageType;
                 }
                 else
                 {
-                    _pagesByKey.Add(key, pageType);
+                    pagesByKey.Add(key, pageType);
                 }
             }
         }

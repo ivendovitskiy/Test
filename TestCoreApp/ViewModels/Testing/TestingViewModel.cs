@@ -21,22 +21,21 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using TestCoreApp.Data;
+using TestCoreApp.Services.Navigation;
 using TestCoreApp.Services.Settings;
 
 namespace TestCoreApp.ViewModels.Testing
 {
     public class TestingViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        public TestingViewModel()
+        private TestingViewModel()
         {
             settingsService = new SettingsService();
 
             var options = new DbContextOptionsBuilder().UseSqlServer(settingsService.Settings.ConnectionString).Options;
 
             context = new TestDbContext(options);
-            context.Protocols.Include(i => i.Devices).Where(p => p.IsClosed == false).Load();
-
-            
+            context.Protocols.Include(i => i.Devices).Where(p => p.IsClosed == false).Load();            
 
             Protocols = context.Protocols.Local.ToObservableCollection();
 
@@ -66,8 +65,14 @@ namespace TestCoreApp.ViewModels.Testing
             CreateProtocolCommand = new RelayCommand<object>(CreateProtocol, CreateProtocolCanExecute, true);
         }
 
+        public TestingViewModel(IFrameNavigationService navigator) : this()
+        {
+            this.navigator = navigator;
+        }
+
 
         private readonly TestDbContext context;
+        private readonly IFrameNavigationService navigator;
         private readonly SettingsService settingsService;
         private readonly FileSystemWatcher responseFileWatcher;
         private readonly FileSystemWatcher devicesFileWatcher;

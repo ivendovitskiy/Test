@@ -9,8 +9,7 @@ namespace TestCoreApp.Services.Navigation
 {
     public interface IFrameNavigationService : INavigationService
     {
-        object Parameter { get; }
-
         void ClearHistory();
+        void NavigateTo(string pageKey, string propertyName, object parameter);
     }
 }
