@@ -242,7 +242,7 @@ namespace TestCoreApp.ViewModels.Testing
         public string ReverseWord(string s)
         {
             int length = s.Length;
-            string result = "";
+            string result = string.Empty;
             for (int i = 1; i < length; i += 2)
             {
                 result = result + s[length - i - 1] + s[length - i];
@@ -253,7 +253,7 @@ namespace TestCoreApp.ViewModels.Testing
         public string DevideBy10(string s)
         {
             int length = s.Length;
-            string result = "";
+            string result = string.Empty;
             for (int i = 0; i < length - 1; ++i)
             {
                 result += s[i];
