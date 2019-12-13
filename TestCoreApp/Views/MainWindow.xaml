@@ -6,20 +6,25 @@
         xmlns:local="clr-namespace:TestCoreApp"
         mc:Ignorable="d"
         Title="Создание протокола"
+        MinHeight="420"
+        MinWidth="720"
         Height="450"
         Width="800"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
     <Grid>
-        <StackPanel>
-            <Menu Height="25"
-                  VerticalAlignment="Top">
-                <MenuItem Header="Тестирование"
-                          Command="{Binding DisplayTestingCommand}" />
-                <MenuItem Header="Настройки"
-                          Command="{Binding DisplaySettingsCommand}" />
-            </Menu>
-            <Frame x:Name="MainFrame"
-                   NavigationUIVisibility="Hidden" />
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0"
+              VerticalAlignment="Top">
+            <MenuItem Header="Тестирование"
+                      Command="{Binding DisplayTestingCommand}" />
+            <MenuItem Header="Настройки"
+                      Command="{Binding DisplaySettingsCommand}" />
+        </Menu>
+        <Frame Grid.Row="1"
+               x:Name="MainFrame"
+               NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>
