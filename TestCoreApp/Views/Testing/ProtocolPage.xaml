@@ -8,8 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ProtocolPage"
       DataContext="{Binding Source={StaticResource Locator}, Path=Protocol}">
-
     <Grid>
-        
+        <TextBlock>Хуй</TextBlock>
     </Grid>
 </Page>

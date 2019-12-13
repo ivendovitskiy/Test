@@ -35,7 +35,7 @@ namespace TestCoreApp.ViewModels.Testing
             var options = new DbContextOptionsBuilder().UseSqlServer(settingsService.Settings.ConnectionString).Options;
 
             context = new TestDbContext(options);
-            context.Protocols.Include(i => i.Devices).Where(p => p.IsClosed == false).Load();            
+            context.Protocols.Include(i => i.Devices).Where(p => p.IsClosed == false).Load();
 
             Protocols = context.Protocols.Local.ToObservableCollection();
 
@@ -63,13 +63,13 @@ namespace TestCoreApp.ViewModels.Testing
 
             StartOrStopCommand = new RelayCommand(StartOrStop);
             CreateProtocolCommand = new RelayCommand<object>(CreateProtocol, CreateProtocolCanExecute, true);
+            OpenProtocolCommand = new RelayCommand<Protocol>(OpenProtocol);
         }
 
         public TestingViewModel(IFrameNavigationService navigator) : this()
         {
             this.navigator = navigator;
         }
-
 
         private readonly TestDbContext context;
         private readonly IFrameNavigationService navigator;
@@ -91,6 +91,11 @@ namespace TestCoreApp.ViewModels.Testing
             }
 
             IsWorking = !IsWorking;
+        }
+
+        private void OpenProtocol(Protocol protocol)
+        {
+            navigator.NavigateTo("Protocol", "Protocol", protocol);
         }
 
         private void CreateProtocol(object selectedItems)
@@ -189,9 +194,33 @@ namespace TestCoreApp.ViewModels.Testing
             }
         }
 
+
+        private string ReverseWord(string s)
+        {
+            int length = s.Length;
+            string result = string.Empty;
+            for (int i = 1; i < length; i += 2)
+            {
+                result = result + s[length - i - 1] + s[length - i];
+            }
+            return result;
+        }
+
+        private string DevideBy10(string s)
+        {
+            int length = s.Length;
+            string result = string.Empty;
+            for (int i = 0; i < length - 1; ++i)
+            {
+                result += s[i];
+            }
+            result += "." + s[length - 1];
+            return result;
+        }
+
         public bool CreateProtocolCanExecute(object obj)
         {
-            if(((IList)obj)?.Count == 0)
+            if (((IList)obj)?.Count == 0)
             {
                 return false;
             }
@@ -201,6 +230,7 @@ namespace TestCoreApp.ViewModels.Testing
 
         public ICommand StartOrStopCommand { get; private set; }
         public ICommand CreateProtocolCommand { get; private set; }
+        public ICommand OpenProtocolCommand { get; private set; }
 
         private string responsePath;
         public string ResponsePath
@@ -242,29 +272,6 @@ namespace TestCoreApp.ViewModels.Testing
         {
             get => isWorking;
             set => Notify(ref isWorking, value);
-        }
-
-        public string ReverseWord(string s)
-        {
-            int length = s.Length;
-            string result = string.Empty;
-            for (int i = 1; i < length; i += 2)
-            {
-                result = result + s[length - i - 1] + s[length - i];
-            }
-            return result;
-        }
-
-        public string DevideBy10(string s)
-        {
-            int length = s.Length;
-            string result = string.Empty;
-            for (int i = 0; i < length - 1; ++i)
-            {
-                result += s[i];
-            }
-            result += "." + s[length - 1];
-            return result;
         }
     }
 }

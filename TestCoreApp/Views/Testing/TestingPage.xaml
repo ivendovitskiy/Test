@@ -165,6 +165,15 @@
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
+                            <Button Content="Открыть" 
+                                    Command="{Binding ElementName=protocolsDataGrid, Path=DataContext.OpenProtocolCommand}"
+                                    CommandParameter="{Binding}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
                             <Button Content="Удалить" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

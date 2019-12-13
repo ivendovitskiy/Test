@@ -10,6 +10,7 @@ namespace TestCoreApp.Services.Navigation
     public interface IFrameNavigationService : INavigationService
     {
         void ClearHistory();
+        void NavigateTo(string pageKey);
         void NavigateTo(string pageKey, string propertyName, object parameter);
     }
 }
