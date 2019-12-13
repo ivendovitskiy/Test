@@ -1,6 +1,7 @@
 ﻿using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,45 +30,50 @@ namespace TestCoreApp.ViewModels
 
             SimpleIoc.Default.Register<TestDbContext>();
 
-            
-            SetupNavigation();
+            IServiceCollection serviceCollection = new ServiceCollection();
+            ConfigureServices(serviceCollection);
+            Services = serviceCollection.BuildServiceProvider();
         }
 
-        public MainViewModel Main
+        private static void ConfigureServices(IServiceCollection serviceCollection)
         {
-            get => ServiceLocator.Current.GetInstance<MainViewModel>();
-        }
+            serviceCollection.AddSingleton<SettingsService>();
 
-        public TestingViewModel Testing
-        {
-            get => ServiceLocator.Current.GetInstance<TestingViewModel>();
-        }
+            serviceCollection.AddDbContext<TestDbContext>(options => options.UseSqlServer(new SettingsService().Settings.ConnectionString), ServiceLifetime.Transient);
 
-        public ProtocolViewModel Protocol
-        {
-            get => SimpleIoc.Default.GetInstanceWithoutCaching<ProtocolViewModel>();
-        }
-
-        public SettingsViewModel Settings
-        {
-            get => ServiceLocator.Current.GetInstance<SettingsViewModel>();
-        }
-
-        public TestDbContext Context
-        {
-            get => new TestDbContext(new DbContextOptionsBuilder().UseSqlServer(SimpleIoc.Default.GetInstanceWithoutCaching<SettingsViewModel>().Settings.ConnectionString).Options);
-        }
-
-        private static void SetupNavigation()
-        {
             var navigationService = new FrameNavigationService();
-
             navigationService.Configure("Testing", new Uri("../Views/Testing/TestingPage.xaml", UriKind.Relative));
             navigationService.Configure("Protocol", new Uri("../Views/Testing/ProtocolPage.xaml", UriKind.Relative));
             navigationService.Configure("Settings", new Uri("../Views/Settings/SettingsPage.xaml", UriKind.Relative));
 
-            SimpleIoc.Default.Register<IFrameNavigationService>(() => navigationService);
-            //SimpleIoc.Default.Register(() => new TestDbContext());
+            serviceCollection.AddSingleton<IFrameNavigationService>(navigationService);
+
+            serviceCollection.AddTransient<MainViewModel>();
+            serviceCollection.AddTransient<TestingViewModel>();
+            serviceCollection.AddTransient<SettingsViewModel>();
+            serviceCollection.AddTransient<ProtocolViewModel>();
+        }
+
+        public static IServiceProvider Services { get; private set; }
+
+        public MainViewModel Main
+        {
+            get => Services.GetRequiredService<MainViewModel>();
+        }
+
+        public TestingViewModel Testing
+        {
+            get => Services.GetRequiredService<TestingViewModel>();
+        }
+
+        public ProtocolViewModel Protocol
+        {
+            get => Services.GetRequiredService<ProtocolViewModel>();
+        }
+
+        public SettingsViewModel Settings
+        {
+            get => Services.GetRequiredService<SettingsViewModel>();
         }
     }
 }

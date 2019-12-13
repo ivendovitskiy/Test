@@ -29,23 +29,28 @@ namespace TestCoreApp.ViewModels.Testing
     public class TestingViewModel : ViewModelBase, INotifyPropertyChanged
     {
         private TestingViewModel()
+        {                    
+            ScannedDevices = new ObservableCollection<Device>();
+
+            IsWorking = false;      
+
+            StartOrStopCommand = new RelayCommand(StartOrStop);
+            CreateProtocolCommand = new RelayCommand<object>(CreateProtocol, CreateProtocolCanExecute, true);
+            OpenProtocolCommand = new RelayCommand<Protocol>(OpenProtocol);
+        }
+
+        public TestingViewModel(IFrameNavigationService navigator, TestDbContext context, SettingsService settings) : this()
         {
-            settingsService = new SettingsService();
+            this.navigator = navigator;
+            this.context = context;
 
-            var options = new DbContextOptionsBuilder().UseSqlServer(settingsService.Settings.ConnectionString).Options;
-
-            context = new TestDbContext(options);
-            context.Protocols.Include(i => i.Devices).Where(p => p.IsClosed == false).Load();
+            this.context.Protocols.Include(i => i.Devices).Where(p => p.IsClosed == false).Load();
 
             Protocols = context.Protocols.Local.ToObservableCollection();
 
-            ScannedDevices = new ObservableCollection<Device>();
-
-            IsWorking = false;
-
-            DevicesPath = settingsService.Settings.DevicesPath;
-            ResponsePath = settingsService.Settings.ResponsePath;
-            ProtocolPath = settingsService.Settings.ProtocolPath;
+            DevicesPath = settings.Settings.DevicesPath;
+            ResponsePath = settings.Settings.ResponsePath;
+            ProtocolPath = settings.Settings.ProtocolPath;
 
             devicesFileWatcher = new FileSystemWatcher(Path.GetDirectoryName(DevicesPath))
             {
@@ -60,20 +65,10 @@ namespace TestCoreApp.ViewModels.Testing
                 Filter = Path.GetFileName(ResponsePath),
                 EnableRaisingEvents = true
             };
-
-            StartOrStopCommand = new RelayCommand(StartOrStop);
-            CreateProtocolCommand = new RelayCommand<object>(CreateProtocol, CreateProtocolCanExecute, true);
-            OpenProtocolCommand = new RelayCommand<Protocol>(OpenProtocol);
-        }
-
-        public TestingViewModel(IFrameNavigationService navigator) : this()
-        {
-            this.navigator = navigator;
         }
 
         private readonly TestDbContext context;
         private readonly IFrameNavigationService navigator;
-        private readonly SettingsService settingsService;
         private readonly FileSystemWatcher responseFileWatcher;
         private readonly FileSystemWatcher devicesFileWatcher;
 
@@ -193,7 +188,6 @@ namespace TestCoreApp.ViewModels.Testing
                 }
             }
         }
-
 
         private string ReverseWord(string s)
         {
