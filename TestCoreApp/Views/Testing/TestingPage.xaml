@@ -16,8 +16,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="310"
-                              MaxWidth="310" />
+            <ColumnDefinition MinWidth="150"
+                              MaxWidth="400"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Button Grid.Row="0"
@@ -71,10 +71,13 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id"
                                     Binding="{Binding Id}"
-                                    Width="20">
+                                    Width="50"
+                                    >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment"
+                            <Setter Property="VerticalAlignment"
+                                    Value="Center" />
+                            <Setter Property="TextAlignment"
                                     Value="Center" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
@@ -84,7 +87,9 @@
                                     Binding="{Binding DateTime,  StringFormat='{}{0:dd MMM, yyyy, hh:mm:ss}'}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment"
+                            <Setter Property="VerticalAlignment"
+                                    Value="Center" />
+                            <Setter Property="TextAlignment"
                                     Value="Center" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
@@ -92,16 +97,21 @@
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Открыть"
-                                    Command="{Binding ElementName=protocolsDataGrid, Path=DataContext.OpenProtocolCommand}"
-                                    CommandParameter="{Binding}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Удалить" />
+                            <StackPanel Orientation="Horizontal"
+                                        Width="110">
+                                <Button Style="{StaticResource MaterialDesignIconButton}"
+                                        Content="{md:PackIcon Kind=FileDocumentBox}"
+                                        Margin="0,0,10,0"
+                                        Height="30"
+                                        Width="50"
+                                        Command="{Binding ElementName=protocolsDataGrid, Path=DataContext.OpenProtocolCommand}"
+                                        CommandParameter="{Binding}" />
+                                <Button Style="{StaticResource MaterialDesignIconButton}"
+                                        Content="{md:PackIcon Kind=Delete}"
+                                        Margin="0,0,10,0"
+                                        Height="30"
+                                        Width="50"/>
+                            </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
