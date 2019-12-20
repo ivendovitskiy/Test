@@ -29,14 +29,15 @@ namespace TestCoreApp.ViewModels.Testing
     public class TestingViewModel : ViewModelBase, INotifyPropertyChanged
     {
         private TestingViewModel()
-        {                    
+        {
             ScannedDevices = new ObservableCollection<Device>();
 
-            IsWorking = false;      
+            IsWorking = false;
 
             StartOrStopCommand = new RelayCommand(StartOrStop);
             CreateProtocolCommand = new RelayCommand<object>(CreateProtocol, CreateProtocolCanExecute, true);
             OpenProtocolCommand = new RelayCommand<Protocol>(OpenProtocol);
+            ExportProtocolCommand = new RelayCommand<Protocol>(ExportProtocol);
         }
 
         public TestingViewModel(IFrameNavigationService navigator, TestDbContext context, SettingsService settings) : this()
@@ -91,6 +92,11 @@ namespace TestCoreApp.ViewModels.Testing
         private void OpenProtocol(Protocol protocol)
         {
             navigator.NavigateTo("Protocol", "Protocol", protocol);
+        }
+
+        private void ExportProtocol(Protocol protocol)
+        {
+            Services.Excel.Export.ProtocolToXlsx(ProtocolPath, protocol);
         }
 
         private void CreateProtocol(object selectedItems)
@@ -225,6 +231,7 @@ namespace TestCoreApp.ViewModels.Testing
         public ICommand StartOrStopCommand { get; private set; }
         public ICommand CreateProtocolCommand { get; private set; }
         public ICommand OpenProtocolCommand { get; private set; }
+        public ICommand ExportProtocolCommand { get; private set; }
 
         private string responsePath;
         public string ResponsePath

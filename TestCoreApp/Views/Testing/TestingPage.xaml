@@ -98,13 +98,20 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal"
-                                        Width="110">
+                                        Width="160">
                                 <Button Style="{StaticResource MaterialDesignIconButton}"
                                         Content="{md:PackIcon Kind=FileDocumentBox}"
                                         Margin="0,0,10,0"
                                         Height="30"
                                         Width="50"
                                         Command="{Binding ElementName=protocolsDataGrid, Path=DataContext.OpenProtocolCommand}"
+                                        CommandParameter="{Binding}" />
+                                <Button Style="{StaticResource MaterialDesignIconButton}"
+                                        Content="{md:PackIcon Kind=ContentSave}"
+                                        Margin="0,0,10,0"
+                                        Height="30"
+                                        Width="50"
+                                        Command="{Binding ElementName=protocolsDataGrid, Path=DataContext.ExportProtocolCommand}"
                                         CommandParameter="{Binding}" />
                                 <Button Style="{StaticResource MaterialDesignIconButton}"
                                         Content="{md:PackIcon Kind=Delete}"
