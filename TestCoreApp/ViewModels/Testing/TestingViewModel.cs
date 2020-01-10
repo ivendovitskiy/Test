@@ -45,7 +45,7 @@ namespace TestCoreApp.ViewModels.Testing
             this.navigator = navigator;
             this.context = context;
 
-            this.context.Protocols.Include(i => i.Devices).Where(p => p.IsClosed == false).Load();
+            this.context.Protocols.Where(p => p.IsClosed == false).Load();
 
             Protocols = context.Protocols.Local.ToObservableCollection();
 
@@ -110,14 +110,17 @@ namespace TestCoreApp.ViewModels.Testing
             }
             items.Clear();
 
-            Protocol protocol = new Protocol();
-
-            protocol.Tester = "Ендовицкий И.Н.";
-            protocol.DateTime = DateTime.Now;
-            protocol.Devices = new ObservableCollection<Device>(devices);
+            Protocol protocol = new Protocol
+            {
+                Tester = "Ендовицкий И.Н.",
+                DateTime = DateTime.Now,
+                Devices = new ObservableCollection<Device>(devices)
+            };
 
             context.Attach(protocol);
             context.SaveChanges();
+
+            context.Entry(protocol.Devices).State = EntityState.Detached;
 
             Services.Excel.Export.ProtocolToXlsx(ProtocolPath, protocol);
         }

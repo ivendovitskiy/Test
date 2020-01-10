@@ -10,20 +10,26 @@
         MinWidth="720"
         Height="450"
         Width="800"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0"
+        <StackPanel Orientation="Horizontal">
+            <Label>Энрон &#10; Электро</Label>
+        </StackPanel>
+        <Menu Grid.Row="1"
               VerticalAlignment="Top">
             <MenuItem Header="Тестирование"
                       Command="{Binding DisplayTestingCommand}" />
             <MenuItem Header="Настройки"
                       Command="{Binding DisplaySettingsCommand}" />
         </Menu>
-        <Frame Grid.Row="1"
+        <Frame Grid.Row="2"
                x:Name="MainFrame"
                NavigationUIVisibility="Hidden" />
     </Grid>
