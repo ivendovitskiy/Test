@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestCoreApp"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Создание протокола"
         MinHeight="420"
         MinWidth="720"
         Height="450"
@@ -15,13 +15,49 @@
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25" />
+            <RowDefinition Height="40" />
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <Label>Энрон &#10; Электро</Label>
-        </StackPanel>
+        <Grid Grid.Row="0"
+              MouseDown="Image_MouseDown">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0"
+                   VerticalAlignment="Center"
+                   Content="Энрон Электро" 
+                   Margin="20, 0, 0, 0"/>
+            <StackPanel Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                <Button x:Name="MinimizeButton"
+                        Click="MinimizeButton_Click"
+                        Background="{x:Null}"
+                        BorderBrush="{x:Null}"
+                        Command="{Binding }"
+                        Foreground="#DDB04242">
+                    <md:PackIcon Kind="WindowMinimize" />
+                </Button>
+                <Button x:Name="MaximizeButton"
+                        Click="MaximizeButton_Click"
+                        Background="{x:Null}"
+                        BorderBrush="{x:Null}"
+                        Command="{Binding }"
+                        Foreground="#DDB04242">
+                    <md:PackIcon Kind="Fullscreen" />
+                </Button>
+                <Button x:Name="CloseButton"
+                        Click="CloseButton_Click"
+                        Background="{x:Null}"
+                        BorderBrush="{x:Null}"
+                        Command="{Binding }"
+                        Foreground="#DDB04242">
+                    <md:PackIcon Kind="Close" />
+                </Button>
+            </StackPanel>
+        </Grid>
         <Menu Grid.Row="1"
               VerticalAlignment="Top">
             <MenuItem Header="Тестирование"

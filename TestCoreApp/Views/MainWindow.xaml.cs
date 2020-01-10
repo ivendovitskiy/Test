@@ -23,6 +23,38 @@ namespace TestCoreApp.Views
         public MainWindow()
         {
             InitializeComponent();
+            MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+            MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
+        }
+
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Normal)
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                WindowState = WindowState.Normal;
+            }
+        }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState != WindowState.Minimized)
+            {
+                WindowState = WindowState.Minimized;
+            }
         }
     }
 }
