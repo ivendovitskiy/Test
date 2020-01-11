@@ -43,7 +43,8 @@ namespace TestCoreApp.ViewModels
 
             var navigationService = new FrameNavigationService();
             navigationService.Configure("Testing", new Uri("../Views/Testing/TestingPage.xaml", UriKind.Relative));
-            navigationService.Configure("Protocol", new Uri("../Views/Testing/ProtocolPage.xaml", UriKind.Relative));
+            navigationService.Configure("Protocols", new Uri("../Views/Protocol/ProtocolsPage.xaml", UriKind.Relative));
+            navigationService.Configure("Protocol", new Uri("../Views/Protocol/ProtocolPage.xaml", UriKind.Relative));
             navigationService.Configure("Settings", new Uri("../Views/Settings/SettingsPage.xaml", UriKind.Relative));
 
             serviceCollection.AddSingleton<IFrameNavigationService>(navigationService);

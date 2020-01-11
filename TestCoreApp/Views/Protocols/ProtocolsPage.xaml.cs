@@ -11,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TestCoreApp.Views.Testing
+namespace TestCoreApp.Views.Protocols
 {
     /// <summary>
-    /// Interaction logic for ProtocolPage.xaml
+    /// Interaction logic for ProtocolsPage.xaml
     /// </summary>
-    public partial class ProtocolPage : Page
+    public partial class ProtocolsPage : Page
     {
-        public ProtocolPage()
+        public ProtocolsPage()
         {
             InitializeComponent();
         }

@@ -62,6 +62,8 @@
               VerticalAlignment="Top">
             <MenuItem Header="Тестирование"
                       Command="{Binding DisplayTestingCommand}" />
+            <MenuItem Header="Протоколы"
+                      Command="{Binding DisplayProtocolsCommand}" />
             <MenuItem Header="Настройки"
                       Command="{Binding DisplaySettingsCommand}" />
         </Menu>

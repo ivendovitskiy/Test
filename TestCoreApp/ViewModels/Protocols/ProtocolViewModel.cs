@@ -5,7 +5,7 @@ using System.Text;
 using TestCoreApp.Data;
 using TestCoreApp.Services.Navigation;
 
-namespace TestCoreApp.ViewModels.Testing
+namespace TestCoreApp.ViewModels.Protocols
 {
     public class ProtocolViewModel : ViewModelBase
     {
