@@ -27,7 +27,8 @@
                       Margin="20, 10, 20, 10"
                       md:HintAssist.Hint="Search"
                       IsEditable="True"
-                      Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                      Text="{Binding SearchString}">
                 <ComboBoxItem IsSelected="True">Apple</ComboBoxItem>
                 <ComboBoxItem>Banana</ComboBoxItem>
                 <ComboBoxItem>Pear</ComboBoxItem>
@@ -41,7 +42,7 @@
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"
                       AutoGenerateColumns="False"
-                      ItemsSource="{Binding Protocols, Mode=OneWay}"
+                      ItemsSource="{Binding ProtocolsSearchResult, Mode=OneWay}"
                       IsReadOnly="True"
                       CanUserResizeRows="False"
                       CanUserResizeColumns="False"

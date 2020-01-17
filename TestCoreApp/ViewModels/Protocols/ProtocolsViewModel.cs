@@ -23,7 +23,7 @@ namespace TestCoreApp.ViewModels.Protocols
             {
                 new SearchFieldMutator<Protocol, ProtocolSearchModel>
                 (
-                    search => !string.IsNullOrEmpty(search.SearchField),
+                    search => int.TryParse(search.SearchField, out _),
                     (protocols, search) => protocols.Where( p => p.Id == int.Parse(search.SearchField))
                 )
             };
@@ -43,6 +43,31 @@ namespace TestCoreApp.ViewModels.Protocols
         }
 
         public List<SearchFieldMutator<Protocol, ProtocolSearchModel>> ProtocolSearchFieldsMutators { get; set; }
+
+        public string SearchString
+        {
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    var query = context.Protocols.Include(p => p.Devices).AsNoTracking().AsQueryable();
+
+                    foreach(var searchFieldMutator in ProtocolSearchFieldsMutators)
+                    {
+                        query = searchFieldMutator.Apply(new ProtocolSearchModel { SearchField = value, SearchInClosed = true }, query);
+                    }
+
+                    ProtocolsSearchResult = query.ToList();
+                }
+            }
+        }
+
+        private List<Protocol> protocolsSearchResult;
+        public List<Protocol> ProtocolsSearchResult
+        {
+            get => protocolsSearchResult;
+            set => Notify(ref protocolsSearchResult, value);
+        } 
 
         private ObservableCollection<Protocol> protocols;
         public ObservableCollection<Protocol> Protocols
