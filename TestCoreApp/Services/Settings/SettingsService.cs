@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace TestCoreApp.Services.Settings
 {
-    public class SettingsService : PropertyChangedBase
+    public class SettingsService : NotifyPropertyChangedBase
     {
         public SettingsService()
         {

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace TestCoreApp
 {
-    public abstract class PropertyChangedBase : INotifyPropertyChanged
+    public abstract class NotifyPropertyChangedBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

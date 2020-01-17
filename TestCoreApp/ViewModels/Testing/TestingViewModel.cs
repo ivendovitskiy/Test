@@ -26,7 +26,7 @@ using TestCoreApp.Services.Settings;
 
 namespace TestCoreApp.ViewModels.Testing
 {
-    public class TestingViewModel : ViewModelBase, INotifyPropertyChanged
+    public class TestingViewModel : ViewModelBase
     {
         private TestingViewModel()
         {
@@ -96,6 +96,11 @@ namespace TestCoreApp.ViewModels.Testing
 
         private void ExportProtocol(Protocol protocol)
         {
+            if(protocol.Devices == null)
+            {
+                context.Entry(protocol).Collection(p => p.Devices).Load();
+            }
+
             Services.Excel.Export.ProtocolToXlsx(ProtocolPath, protocol);
         }
 

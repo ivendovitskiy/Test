@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace TestCoreApp.Services.Settings
 {
-    public class Settings : PropertyChangedBase
+    public class Settings : NotifyPropertyChangedBase
     {
         private string devicesPath;
         private string responsePath;

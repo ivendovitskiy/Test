@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using TestCoreApp.Data;
 using TestCoreApp.Services.Navigation;
 using TestCoreApp.Services.Settings;
+using TestCoreApp.ViewModels.Protocols;
 using TestCoreApp.ViewModels.Settings;
 using TestCoreApp.ViewModels.Testing;
 
@@ -43,8 +44,8 @@ namespace TestCoreApp.ViewModels
 
             var navigationService = new FrameNavigationService();
             navigationService.Configure("Testing", new Uri("../Views/Testing/TestingPage.xaml", UriKind.Relative));
-            navigationService.Configure("Protocols", new Uri("../Views/Protocol/ProtocolsPage.xaml", UriKind.Relative));
-            navigationService.Configure("Protocol", new Uri("../Views/Protocol/ProtocolPage.xaml", UriKind.Relative));
+            navigationService.Configure("Protocols", new Uri("../Views/Protocols/ProtocolsPage.xaml", UriKind.Relative));
+            navigationService.Configure("Protocol", new Uri("../Views/Protocols/ProtocolPage.xaml", UriKind.Relative));
             navigationService.Configure("Settings", new Uri("../Views/Settings/SettingsPage.xaml", UriKind.Relative));
 
             serviceCollection.AddSingleton<IFrameNavigationService>(navigationService);
@@ -53,6 +54,7 @@ namespace TestCoreApp.ViewModels
             serviceCollection.AddTransient<TestingViewModel>();
             serviceCollection.AddTransient<SettingsViewModel>();
             serviceCollection.AddTransient<ProtocolViewModel>();
+            serviceCollection.AddTransient<ProtocolsViewModel>();
         }
 
         public static IServiceProvider Services { get; private set; }
@@ -70,6 +72,11 @@ namespace TestCoreApp.ViewModels
         public ProtocolViewModel Protocol
         {
             get => Services.GetRequiredService<ProtocolViewModel>();
+        }
+
+        public ProtocolsViewModel Protocols
+        {
+            get => Services.GetRequiredService<ProtocolsViewModel>();
         }
 
         public SettingsViewModel Settings

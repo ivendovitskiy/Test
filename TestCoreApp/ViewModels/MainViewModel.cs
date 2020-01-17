@@ -17,27 +17,37 @@ namespace TestCoreApp.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        public MainViewModel(IFrameNavigationService navigator)
-        {
-            this.navigator = navigator;
+        private readonly IFrameNavigationService navigator;
 
+        private MainViewModel()
+        {
             DisplayTestingCommand = new RelayCommand(DisplayTesting);
+            DisplayProtocolsCommand = new RelayCommand(DisplayProtocols);
             DisplaySettingsCommand = new RelayCommand(DisplaySettings);
         }
 
-        private readonly IFrameNavigationService navigator;
+        public MainViewModel(IFrameNavigationService navigator) : this()
+        {
+            this.navigator = navigator;
+        }
+
+        public ICommand DisplayTestingCommand { get; private set; }
+        public ICommand DisplayProtocolsCommand { get; private set; }
+        public ICommand DisplaySettingsCommand { get; private set; }
 
         private void DisplayTesting()
         {
             navigator.NavigateTo("Testing");
         }
 
+        private void DisplayProtocols()
+        {
+            navigator.NavigateTo("Protocols");
+        }
+
         private void DisplaySettings()
         {
             navigator.NavigateTo("Settings");
         }
-
-        public ICommand DisplayTestingCommand { get; private set; }
-        public ICommand DisplaySettingsCommand { get; private set; }
     }
 }
