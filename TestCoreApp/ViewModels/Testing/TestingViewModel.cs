@@ -190,14 +190,14 @@ namespace TestCoreApp.ViewModels.Testing
                 {
                     device.Snr = match.Groups["Snr"].Value.Trim();
                     device.FactoryNumber = Convert.ToUInt64(ReverseWord(match.Groups["FactoryNumber"].Value.Trim()), 16).ToString();
-                    DevideBy10((Convert.ToUInt64(ReverseWord(match.Groups["SoftwareVersion"].Value.Trim()), 16)).ToString()); //device.SoftwareVersion = "1.1";
+                    device.SoftwareVersion = DevideBy10((Convert.ToUInt64(ReverseWord(match.Groups["SoftwareVersion"].Value.Trim()), 16)).ToString()); //device.SoftwareVersion = "1.1";
                     if (device.Snr != null)
                     {
-                        device.Notes += "1-й пакет";
+                        device.Notes = "1-й пакет";
                     }
                     if ((Convert.ToUInt32(ReverseWord(match.Groups["FactoryNumber"].Value.Trim()), 16) < 2800000000) || (Convert.ToUInt32(ReverseWord(match.Groups["FactoryNumber"].Value.Trim()), 16) > 2800001000))
                     {
-                        device.Notes += "Номер?";
+                        device.Notes = "Номер?";
                     }
                 }
             }
