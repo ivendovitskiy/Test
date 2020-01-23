@@ -25,7 +25,7 @@
             <ComboBox Grid.Row="0"
                       Grid.Column="1"
                       Margin="20, 10, 20, 10"
-                      md:HintAssist.Hint="Search"
+                      md:HintAssist.Hint="Поиск"
                       IsEditable="True"
                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                       Text="{Binding SearchString}">
@@ -103,8 +103,10 @@
             <DataGrid Grid.Column="1"
                       Grid.Row="1"
                       Margin="20"
+                      AutoGenerateColumns="False"
                       VerticalAlignment="Stretch"
-                      HorizontalAlignment="Stretch">
+                      HorizontalAlignment="Stretch"
+                      ItemsSource="{Binding ElementName=protocolsDataGrid,Path=SelectedItem.Devices}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header=""/>
                     <DataGridTextColumn Header="Версия ПО" />

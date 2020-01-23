@@ -4,33 +4,43 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:TestCoreApp.Views.Settings"
+      xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d"
       d:DesignHeight="450"
       d:DesignWidth="800"
       Title="SettingsPage"
       DataContext="{Binding Source={StaticResource Locator}, Path=Settings}">
-
-    <StackPanel Margin="20">
-        <Label>
-            Путь для сохранения файла протокола
-        </Label>
-        <TextBox Text="{Binding Settings.ProtocolPath}" />
-        <Label>
-            Путь для открытия файла с отсканированными устройствами
-        </Label>
-        <TextBox Text="{Binding Settings.DevicesPath}" />
-        <Label>
-            Путь для открытия файла с ответами сервера
-        </Label>
-        <TextBox Text="{Binding Settings.ResponsePath}" />
-        <Label>
-            Строка подключения к базе данных
-        </Label>
-        <TextBox Text="{Binding Settings.ConnectionString}" />
-        <Button Command="{Binding SaveCommand}"
-                Width="70"
-                Height="30"
-                Margin="10, 10"
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBox Grid.Row="0"
+                 md:HintAssist.Hint="Путь для сохранения файла протокола"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                 Text="{Binding Settings.ProtocolPath}" />
+        <TextBox Grid.Row="1"
+                 md:HintAssist.Hint="Путь для открытия файла с отсканированными устройствами"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                 Text="{Binding Settings.DevicesPath}" />
+        <TextBox Grid.Row="2"
+                 md:HintAssist.Hint="Путь для открытия файла с ответами сервера"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                 Text="{Binding Settings.ResponsePath}" />
+        <TextBox Grid.Row="3"
+                 md:HintAssist.Hint="Строка подключения к базе данных"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                 Text="{Binding Settings.ConnectionString}" />
+        <Button Grid.Row="4"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,20,0,0"
+                Command="{Binding SaveCommand}"
+                Width="115"
+                Height="40"
                 Content="Сохранить" />
-    </StackPanel>
+    </Grid>
 </Page>
