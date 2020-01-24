@@ -10,6 +10,18 @@
       d:DesignWidth="800"
       Title="ProtocolsPage"
       DataContext="{Binding Source={StaticResource Locator}, Path=Protocols}">
+    <Page.Resources>
+        <Style x:Key="rightAlignedColumn"
+               TargetType="{x:Type TextBlock}">
+            <Setter Property="TextAlignment"
+                    Value="Right" />
+        </Style>
+        <Style x:Key="rightAlignedColumnHeader"
+               TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="HorizontalAlignment"
+                    Value="Right" />
+        </Style>
+    </Page.Resources>
     <Grid>
         <Grid x:Name="grid">
             <Grid.RowDefinitions>
@@ -106,17 +118,47 @@
                       AutoGenerateColumns="False"
                       VerticalAlignment="Stretch"
                       HorizontalAlignment="Stretch"
+                      CanUserAddRows="False"
                       ItemsSource="{Binding ElementName=protocolsDataGrid,Path=SelectedItem.Devices}">
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader"
+                           BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                        <Setter Property="HorizontalContentAlignment"
+                                Value="Right" />
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header=""/>
-                    <DataGridTextColumn Header="Версия ПО" />
-                    <DataGridTextColumn Header="DevEui" />
-                    <DataGridTextColumn Header="DevAdd/NwkSKey" />
-                    <DataGridTextColumn Header="AppSKey/AppEui/AppKey" />
+                    <DataGridTextColumn Header=""
+                                        Binding="{Binding Id}"
+                                        ElementStyle="{StaticResource rightAlignedColumn}" />
+                    <DataGridTextColumn Header="Версия ПО"
+                                        Binding="{Binding SoftwareVersion}"
+                                        ElementStyle="{StaticResource rightAlignedColumn}" />
+                    <DataGridTextColumn Header="DevEui"
+                                        Binding="{Binding DevEui}"
+                                        ElementStyle="{StaticResource rightAlignedColumn}" />
+                    <DataGridTextColumn Header="DevAdd"
+                                        Binding="{Binding DevAdd}"
+                                        ElementStyle="{StaticResource rightAlignedColumn}" />
+                    <DataGridTextColumn Header="NwkSKey"
+                                        Binding="{Binding NwkSKey}"
+                                        ElementStyle="{StaticResource rightAlignedColumn}" />
+                    <DataGridTextColumn Header="AppSKey"
+                                        Binding="{Binding AppSKey}"
+                                        ElementStyle="{StaticResource rightAlignedColumn}" />
+                    <DataGridTextColumn Header="AppEui"
+                                        Binding="{Binding AppEui}"
+                                        ElementStyle="{StaticResource rightAlignedColumn}" />
+                    <DataGridTextColumn Header="AppKey"
+                                        Binding="{Binding AppKey}"
+                                        ElementStyle="{StaticResource rightAlignedColumn}" />
                     <DataGridTextColumn Header="Качество" />
-                    <DataGridTextColumn Header="Примечание" />
+                    <DataGridTextColumn Header="Примечание"
+                                        Binding="{Binding Notes}"
+                                        ElementStyle="{StaticResource rightAlignedColumn}" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
     </Grid>
 </Page>
+  
