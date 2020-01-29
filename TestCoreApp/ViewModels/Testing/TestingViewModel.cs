@@ -190,7 +190,7 @@ namespace TestCoreApp.ViewModels.Testing
                 {
                     device.Snr = match.Groups["Snr"].Value.Trim();
                     device.FactoryNumber = Convert.ToUInt64(ReverseWord(match.Groups["FactoryNumber"].Value.Trim()), 16).ToString();
-                    //device.TimeBefore = Convert.ToDateTime((Convert.ToUInt64(ReverseWord(match.Groups["TimeBefore"].Value.Trim()), 16))).ToString();
+                    //device.TimeBefore = Convert.ToDateTime(Convert.ToInt64(new DateTime(1970, 1, 1)) + (Convert.ToInt64(ReverseWord(match.Groups["TimeBefore"].Value.Trim()), 16))).ToString("dd:MM:yyyy");
                     device.SoftwareVersion = DevideBy10((Convert.ToUInt64(ReverseWord(match.Groups["SoftwareVersion"].Value.Trim()), 16)).ToString()); //device.SoftwareVersion = "1.1";
                     if (device.Snr != null)
                     {
