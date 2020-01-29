@@ -23,8 +23,8 @@ namespace Models
         private string factoryNumber;
         private string softwareVersion;
         private string notes;
-        //private string relay;
-        //private string timeBefore;
+        private string relay;
+        private string timeBefore;
         private Protocol protocol;
 
         [Key]
@@ -127,17 +127,17 @@ namespace Models
             set => Notify(ref notes, value);
         }
 
-        //public string Relay
-        //{
-        //    get => relay;
-        //    set => Notify(ref relay, value);
-        //}
+        public string Relay
+        {
+            get => relay;
+            set => Notify(ref relay, value);
+        }
 
-        //public string TimeBefore
-        //{
-        //    get => timeBefore;
-        //    set => Notify(ref timeBefore, value);
-        //}
+        public string TimeBefore
+        {
+            get => timeBefore;
+            set => Notify(ref timeBefore, value);
+        }
 
         //public string Position { get; set; }
         //public string DevEui { get; set; }

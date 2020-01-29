@@ -1,5 +1,4 @@
 ﻿using CommonServiceLocator;
-using GalaSoft.MvvmLight.Ioc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -20,17 +19,6 @@ namespace TestCoreApp.ViewModels
     {
         static ViewModelLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
-            SimpleIoc.Default.Register<MainViewModel>();
-            SimpleIoc.Default.Register<TestingViewModel>();
-            SimpleIoc.Default.Register<SettingsViewModel>();
-            SimpleIoc.Default.Register<ProtocolViewModel>();
-
-            SimpleIoc.Default.Register<SettingsService>(() => new SettingsService());
-
-            SimpleIoc.Default.Register<TestDbContext>();
-
             IServiceCollection serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             Services = serviceCollection.BuildServiceProvider();

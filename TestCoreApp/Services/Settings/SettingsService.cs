@@ -46,7 +46,7 @@ namespace TestCoreApp.Services.Settings
                 {
                     json = JsonSerializer.Serialize(new Settings()
                     {
-                        ConnectionString = string.Empty,
+                        ConnectionString = @"Server=(localdb)\mssqllocaldb;Database=Test;Trusted_Connection=True;",
                         DevicesPath = string.Empty,
                         ProtocolPath = string.Empty,
                         ResponsePath = string.Empty

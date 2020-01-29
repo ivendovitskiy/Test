@@ -10,9 +10,19 @@ namespace TestCoreApp.Data
 {
     public class TestDbContext : DbContext
     {
+        public TestDbContext()
+        {
+
+        }
+
         public TestDbContext(DbContextOptions options) : base(options)
         {
             Database.EnsureCreated();
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Test;Trusted_Connection=True;");
         }
 
         public DbSet<Device> Devices { get; set; }
