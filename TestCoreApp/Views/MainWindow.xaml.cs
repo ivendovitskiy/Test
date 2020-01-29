@@ -56,5 +56,10 @@ namespace TestCoreApp.Views
                 WindowState = WindowState.Minimized;
             }
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

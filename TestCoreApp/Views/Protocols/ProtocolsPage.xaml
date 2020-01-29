@@ -61,7 +61,7 @@
                       VerticalScrollBarVisibility="Visible"
                       SelectionMode="Single">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Id"
+                    <DataGridTextColumn Header="№ протокола"
                                         Binding="{Binding Id}"
                                         Width="50">
                         <DataGridTextColumn.ElementStyle>
@@ -128,8 +128,11 @@
                     </Style>
                 </DataGrid.ColumnHeaderStyle>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header=""
-                                        Binding="{Binding Id}"
+                    <DataGridTextColumn Header="№ подвеса"
+                                        Binding="{Binding Index}"
+                                        ElementStyle="{StaticResource rightAlignedColumn}" />
+                    <DataGridTextColumn Header="Заводской №"
+                                        Binding="{Binding FactoryNumber}"
                                         ElementStyle="{StaticResource rightAlignedColumn}" />
                     <DataGridTextColumn Header="Версия ПО"
                                         Binding="{Binding SoftwareVersion}"
@@ -152,7 +155,15 @@
                     <DataGridTextColumn Header="AppKey"
                                         Binding="{Binding AppKey}"
                                         ElementStyle="{StaticResource rightAlignedColumn}" />
-                    <DataGridTextColumn Header="Качество" />
+                    <DataGridTextColumn Header="Качество связи (SNR)"
+                                        Binding="{Binding Snr}"
+                                        ElementStyle="{StaticResource rightAlignedColumn}" />
+                    <DataGridTextColumn Header="Системное время"
+                                        Binding="{Binding TimeBefore}"
+                                        ElementStyle="{StaticResource rightAlignedColumn}" />
+                    <DataGridTextColumn Header="Состояние реле"
+                                        Binding="{Binding Relay}"
+                                        ElementStyle="{StaticResource rightAlignedColumn}" />
                     <DataGridTextColumn Header="Примечание"
                                         Binding="{Binding Notes}"
                                         ElementStyle="{StaticResource rightAlignedColumn}" />

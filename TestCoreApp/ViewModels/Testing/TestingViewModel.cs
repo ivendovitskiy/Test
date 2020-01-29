@@ -179,7 +179,7 @@ namespace TestCoreApp.ViewModels.Testing
                 text = sr2.ReadToEnd();
             }
 
-            Regex regex = new Regex(@"(?<DevEui>\w{16})\s(?<Snr>\d+\.?\d*)\s(?<PackageType>\w{2})(?<FactoryNumber>\w{8})(?<CurrentTime>\w{8})(?<Model>\w{2})(?<Phases>\w{2})(?<Tarrifs>\w{2})(?<Rellay>\w{2})(?<ReleaseDate>\w{8})(?<SoftwareVersion>\w{8})(?<Indications>\w{8})(?<Temperature>\w{2})(?<Stasus>\w{8})(?<Reason>\w{4})(?<UUID>\w{4})(?<Unused>.*)");
+            Regex regex = new Regex(@"(?<DevEui>\w{16})\s(?<Snr>\d+\.?\d*)\s(?<PackageType>\w{2})(?<FactoryNumber>\w{8})(?<CurrentTime>\w{8})(?<Model>\w{2})(?<Phases>\w{2})(?<Tarrifs>\w{2})(?<Garbage>\w{2})(?<ReleaseDate>\w{8})(?<SoftwareVersion>\w{8})(?<Indications>\w{8})(?<Temperature>\w{2})(?<RelayStatus>\w{2})(?<Stasus>\w{6})(?<Reason>\w{4})(?<UUID>\w{4})(?<Unused>.*)");
 
             MatchCollection matches = regex.Matches(text);
             foreach (Match match in matches)
@@ -190,6 +190,7 @@ namespace TestCoreApp.ViewModels.Testing
                 {
                     device.Snr = match.Groups["Snr"].Value.Trim();
                     device.FactoryNumber = Convert.ToUInt64(ReverseWord(match.Groups["FactoryNumber"].Value.Trim()), 16).ToString();
+                    //device.TimeBefore = Convert.ToDateTime((Convert.ToUInt64(ReverseWord(match.Groups["TimeBefore"].Value.Trim()), 16))).ToString();
                     device.SoftwareVersion = DevideBy10((Convert.ToUInt64(ReverseWord(match.Groups["SoftwareVersion"].Value.Trim()), 16)).ToString()); //device.SoftwareVersion = "1.1";
                     if (device.Snr != null)
                     {
@@ -199,6 +200,14 @@ namespace TestCoreApp.ViewModels.Testing
                     {
                         device.Notes = "Номер?";
                     }
+                    //if (match.Groups["RelayStatus"].Value.Trim() == "00" || match.Groups["RelayStatus"].Value.Trim() == "01" || match.Groups["RelayStatus"].Value.Trim() == "02" || match.Groups["RelayStatus"].Value.Trim() == "03")
+                    //{
+                    //    device.Relay = "выкл.";
+                    //}
+                    //else if (match.Groups["RelayStatus"].Value.Trim() == "04" || match.Groups["RelayStatus"].Value.Trim() == "05" || match.Groups["RelayStatus"].Value.Trim() == "06" || match.Groups["RelayStatus"].Value.Trim() == "07")
+                    //{
+                    //    device.Relay = "вкл.";
+                    //}
                 }
             }
         }
