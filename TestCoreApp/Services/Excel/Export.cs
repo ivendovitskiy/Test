@@ -92,44 +92,20 @@ namespace TestCoreApp.Services.Excel
                 },
                 new Header
                 {
-                    Name = "Отклонение по времени (сек)",
+                    Name = "Системное время",
                     Index=7,
-                    ProtocolHeaders=new List<Header>
-                    {
-                        new Header
-                        {
-                            Name = "до корр.",
-                            Index = 0
-                        },
-                        new Header
-                        {
-                            Name = "после корр.",
-                            Index = 1
-                        }
-                    }
+                    ProtocolHeaders=null
                 },
                 new Header
                 {
-                    Name = "Реле",
-                    Index=9,
-                    ProtocolHeaders=new List<Header>
-                    {
-                        new Header
-                        {
-                            Name="откл.",
-                            Index = 0
-                        },
-                        new Header
-                        {
-                            Name = "вкл.",
-                            Index = 1
-                        }
-                    }
+                    Name = "Состояние реле",
+                    Index=8,
+                    ProtocolHeaders=null
                 },
                 new Header
                 {
                     Name = "Примечание",
-                    Index = 11,
+                    Index = 9,
                     ProtocolHeaders = null
                 }
             };
@@ -214,27 +190,37 @@ namespace TestCoreApp.Services.Excel
                 cell_G.SetCellType(CellType.String);
                 cell_G.SetCellValue(device.Snr); //качество связи
 
+                //var cell_H = row.CreateCell(7);
+                //cell_H.CellStyle = cellStyle;
+                //cell_H.SetCellType(CellType.String);
+                ////cell_H.SetCellValue(device.TimeBefore); //отклонение времени до коррекции
+
+                //var cell_I = row.CreateCell(8);
+                //cell_I.CellStyle = cellStyle;
+                //cell_I.SetCellType(CellType.String);
+                ////cell_I.SetCellValue(device.TimeAfter); //отклонение времени после коррекции
+
+                //var cell_J = row.CreateCell(9);
+                //cell_J.CellStyle = cellStyle;
+                //cell_J.SetCellType(CellType.String);
+                ////cell_J.SetCellValue(device.RelayOff); //реле откл.
+
+                //var cell_K = row.CreateCell(10);
+                //cell_K.CellStyle = cellStyle;
+                //cell_K.SetCellType(CellType.String);
+                ////cell_K.SetCellValue(device.RelayOn); //реле вкл.
+
                 var cell_H = row.CreateCell(7);
                 cell_H.CellStyle = cellStyle;
                 cell_H.SetCellType(CellType.String);
-                //cell_H.SetCellValue(device.TimeBefore); //отклонение времени до коррекции
+                cell_H.SetCellValue(device.TimeBefore); //системное время
 
-                var cell_I = row.CreateCell(8);
-                cell_I.CellStyle = cellStyle;
-                cell_I.SetCellType(CellType.String);
-                //cell_I.SetCellValue(device.TimeAfter); //отклонение времени после коррекции
-
-                var cell_J = row.CreateCell(9);
-                cell_J.CellStyle = cellStyle;
-                cell_J.SetCellType(CellType.String);
-                //cell_J.SetCellValue(device.RelayOff); //реле откл.
-
-                var cell_K = row.CreateCell(10);
+                var cell_K = row.CreateCell(8);
                 cell_K.CellStyle = cellStyle;
                 cell_K.SetCellType(CellType.String);
-                //cell_K.SetCellValue(device.RelayOn); //реле вкл.
+                cell_K.SetCellValue(device.Relay); //состояние реле
 
-                var cell_L = row.CreateCell(11);
+                var cell_L = row.CreateCell(9);
                 cell_L.CellStyle = cellStyle;
                 cell_L.SetCellType(CellType.String);
                 cell_L.SetCellValue(device.Notes); //примечание
