@@ -25,10 +25,10 @@ namespace TestCoreApp.Data
             optionsBuilder.UseSqlServer(@"Server=WIN-INFMG8OPRNS;Database=Test;Trusted_Connection=True;");
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Test;Trusted_Connection=True;");
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Test;Trusted_Connection=True;");
+        //}
 
         public DbSet<Device> Devices { get; set; }
         public DbSet<Protocol> Protocols { get; set; }

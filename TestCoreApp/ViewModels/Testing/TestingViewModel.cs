@@ -190,6 +190,7 @@ namespace TestCoreApp.ViewModels.Testing
                 {
                     device.Snr = match.Groups["Snr"].Value.Trim();
                     device.FactoryNumber = Convert.ToUInt64(ReverseWord(match.Groups["FactoryNumber"].Value.Trim()), 16).ToString();
+                    device.TimeBefore = DateTime.Now.ToString();//kostyl'
                     //device.TimeBefore = Convert.ToDateTime(Convert.ToInt64(new DateTime(1970, 1, 1)) + (Convert.ToInt64(ReverseWord(match.Groups["TimeBefore"].Value.Trim()), 16))).ToString("dd:MM:yyyy");
                     device.SoftwareVersion = DevideBy10((Convert.ToUInt64(ReverseWord(match.Groups["SoftwareVersion"].Value.Trim()), 16)).ToString()); //device.SoftwareVersion = "1.1";
                     if (device.Snr != null)
@@ -200,14 +201,26 @@ namespace TestCoreApp.ViewModels.Testing
                     {
                         device.Notes = "Номер?";
                     }
-                    //if (match.Groups["RelayStatus"].Value.Trim() == "00" || match.Groups["RelayStatus"].Value.Trim() == "01" || match.Groups["RelayStatus"].Value.Trim() == "02" || match.Groups["RelayStatus"].Value.Trim() == "03")
-                    //{
-                    //    device.Relay = "выкл.";
-                    //}
-                    //else if (match.Groups["RelayStatus"].Value.Trim() == "04" || match.Groups["RelayStatus"].Value.Trim() == "05" || match.Groups["RelayStatus"].Value.Trim() == "06" || match.Groups["RelayStatus"].Value.Trim() == "07")
-                    //{
-                    //    device.Relay = "вкл.";
-                    //}
+                    if (match.Groups["RelayStatus"].Value.Trim() == "00" || match.Groups["RelayStatus"].Value.Trim() == "01" || match.Groups["RelayStatus"].Value.Trim() == "02" || match.Groups["RelayStatus"].Value.Trim() == "03")
+                    {
+                        device.Relay = "выкл.";
+
+                        //string answer = String.Empty;
+                        //using (StreamWriter sr3 = File.OpenWrite(AnswerPath))
+                        //{
+                        //    sr3.WriteLine("06" + match.Groups["FactoryNumber"].Value.Trim() + "010ff0");
+                        //}
+                        //using (StreamWriter sr3 = File.OpenWrite(AnswerPath))
+                        //{
+                        //    sr3.WriteLine("02" + match.Groups["FactoryNumber"].Value.Trim() + "0ff0");
+                        //}
+                        //записать в файл Zapros.txt строку = "06"+match.Groups["FactoryNumber"].Value.Trim()+"010ff0";
+                        //записать в файл Zapros.txt строку = "02"+match.Groups["FactoryNumber"].Value.Trim()+"0ff0";
+                    }
+                    else if (match.Groups["RelayStatus"].Value.Trim() == "04" || match.Groups["RelayStatus"].Value.Trim() == "05" || match.Groups["RelayStatus"].Value.Trim() == "06" || match.Groups["RelayStatus"].Value.Trim() == "07")
+                    {
+                        device.Relay = "вкл.";
+                    }
                 }
             }
         }
