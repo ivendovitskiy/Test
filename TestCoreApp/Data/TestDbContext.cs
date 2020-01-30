@@ -20,10 +20,10 @@ namespace TestCoreApp.Data
             Database.EnsureCreated();
         }
     
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Server=WIN-INFMG8OPRNS;Database=Test;Trusted_Connection=True;");
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(@"Server=WIN-INFMG8OPRNS;Database=Test;Trusted_Connection=True;");
+        //}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

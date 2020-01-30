@@ -67,7 +67,8 @@
             <MenuItem Header="Настройки"
                       Command="{Binding DisplaySettingsCommand}" />
         </Menu>
-        <md:DialogHost Grid.Row="2">
+        <md:DialogHost Grid.Row="2"
+                       Identifier="MainWindowDialogHost">
             <Frame x:Name="MainFrame"
                    NavigationUIVisibility="Hidden" />
         </md:DialogHost>

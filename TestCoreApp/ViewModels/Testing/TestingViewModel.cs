@@ -117,7 +117,7 @@ namespace TestCoreApp.ViewModels.Testing
 
             Protocol protocol = new Protocol
             {
-                Tester = "Ендовицкий И.Н.",
+                Tester = Tester,
                 DateTime = DateTime.Now,
                 Devices = new ObservableCollection<Device>(devices)
             };
@@ -125,7 +125,7 @@ namespace TestCoreApp.ViewModels.Testing
             context.Attach(protocol);
             context.SaveChanges();
 
-            context.Entry(protocol.Devices).State = EntityState.Detached;
+            //context.Entry(protocol.Devices).State = EntityState.Detached;
 
             Services.Excel.Export.ProtocolToXlsx(ProtocolPath, protocol);
         }
@@ -269,6 +269,13 @@ namespace TestCoreApp.ViewModels.Testing
         {
             get => protocolPath;
             set => Notify(ref protocolPath, value);
+        }
+
+        private string tester;
+        public string Tester
+        {
+            get => tester;
+            set => Notify(ref tester, value);
         }
 
         private ObservableCollection<Protocol> protocols;

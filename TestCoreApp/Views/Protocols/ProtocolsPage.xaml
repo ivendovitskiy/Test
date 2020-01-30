@@ -14,12 +14,12 @@
         <Style x:Key="rightAlignedColumn"
                TargetType="{x:Type TextBlock}">
             <Setter Property="TextAlignment"
-                    Value="Right" />
+                    Value="Center" />
         </Style>
         <Style x:Key="rightAlignedColumnHeader"
                TargetType="{x:Type DataGridColumnHeader}">
             <Setter Property="HorizontalAlignment"
-                    Value="Right" />
+                    Value="Center" />
         </Style>
     </Page.Resources>
     <Grid>
@@ -41,15 +41,18 @@
                       IsEditable="True"
                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                       Text="{Binding SearchString}">
-                <ComboBoxItem IsSelected="True">Apple</ComboBoxItem>
+                <!--<ComboBoxItem IsSelected="True">Apple</ComboBoxItem>
                 <ComboBoxItem>Banana</ComboBoxItem>
                 <ComboBoxItem>Pear</ComboBoxItem>
-                <ComboBoxItem>Orange</ComboBoxItem>
+                <ComboBoxItem>Orange</ComboBoxItem>-->
             </ComboBox>
             <DataGrid x:Name="protocolsDataGrid"
                       Grid.Column="0"
-                      Grid.Row="1"
-                      Margin="10,10,150,10"
+                      Grid.Row="0"
+                      Grid.RowSpan="2"
+                      Margin="10 10"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
                       AutoGenerateColumns="False"
                       ItemsSource="{Binding ProtocolsSearchResult, Mode=OneWay}"
                       IsReadOnly="True"
@@ -73,6 +76,18 @@
                     <DataGridTextColumn Header="Дата"
                                         Width="130"
                                         Binding="{Binding DateTime,  StringFormat=\{0:dd.MM.yy HH:mm:ss\}}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="VerticalAlignment"
+                                        Value="Center" />
+                                <Setter Property="TextAlignment"
+                                        Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Количество счётчиков"
+                                        Binding="{Binding Devices.Count}"
+                                        Width="170">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="VerticalAlignment"
@@ -109,17 +124,19 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid
+            <DataGrid Grid.Column="1"
                       Grid.Row="1"
-                      Margin="255,10,20,10"
+                      Margin="20"
                       AutoGenerateColumns="False"
+                      VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch"
                       CanUserAddRows="False"
-                      ItemsSource="{Binding ElementName=protocolsDataGrid,Path=SelectedItem.Devices}" Grid.ColumnSpan="2">
+                      ItemsSource="{Binding ElementName=protocolsDataGrid,Path=SelectedItem.Devices}">
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="DataGridColumnHeader"
                            BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
                         <Setter Property="HorizontalContentAlignment"
-                                Value="Right" />
+                                Value="Center" />
                     </Style>
                 </DataGrid.ColumnHeaderStyle>
                 <DataGrid.Columns>

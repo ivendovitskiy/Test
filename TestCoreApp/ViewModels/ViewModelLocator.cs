@@ -38,7 +38,7 @@ namespace TestCoreApp.ViewModels
 
             serviceCollection.AddSingleton<IFrameNavigationService>(navigationService);
 
-            serviceCollection.AddTransient<MainViewModel>();
+            serviceCollection.AddSingleton<MainViewModel>();
             serviceCollection.AddTransient<TestingViewModel>();
             serviceCollection.AddTransient<SettingsViewModel>();
             serviceCollection.AddTransient<ProtocolViewModel>();

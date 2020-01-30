@@ -11,32 +11,29 @@
       DataContext="{Binding Source={StaticResource Locator}, Path=Testing}">
     <Grid x:Name="grid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="120"
-                           MaxHeight="120" />
+            <RowDefinition Height="80" />
             <RowDefinition />
+            <RowDefinition Height="70" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="150"
-                              MaxWidth="400"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Button Grid.Row="1"
-                Grid.Column="1"
-                Width="228"
-                Height="50"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Margin="0,0,150,50"
-                Content="Сформировать протокол"
-                Command="{Binding CreateProtocolCommand}"
-                CommandParameter="{Binding ElementName=scannedDevicesListBox, Path=SelectedItems}" RenderTransformOrigin="0.498,12.19" />
-        <Button Grid.Row="1"
-                Grid.Column="1"
+        <TextBox Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Left"
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap"
+                 Margin="15,0,0,0"
+                 Width="400"
+                 MaxWidth="400"
+                 Text="{Binding Tester}"
+                 md:HintAssist.Hint="ФИО тестировщка"/>
+        <Button Grid.Row="0"
                 Width="90"
                 Height="50"
                 HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Margin="0,0,40,50"
+                VerticalAlignment="Center"
+                Margin="0,0,25,0"
                 Command="{Binding StartOrStopCommand}">
             <Button.Style>
                 <Style TargetType="Button"
@@ -54,18 +51,13 @@
             </Button.Style>
         </Button>
         <ListBox x:Name="scannedDevicesListBox"
+                 Grid.Row="1"
+                 VerticalAlignment="Stretch"
+                 HorizontalAlignment="Stretch"
                  ItemsSource="{Binding ScannedDevices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  SelectionMode="Multiple"
-                 Margin="35,10,35,120"
-                 Visibility="Visible" Grid.ColumnSpan="2" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
-            <ListBox.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="-0.317"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="-1.494"/>
-                </TransformGroup>
-            </ListBox.RenderTransform>
+                 Margin="25,10,25,10"
+                 VirtualizingStackPanel.IsVirtualizing="False">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
                     <Style.Triggers>
@@ -81,29 +73,69 @@
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="45" />
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="55" />
+                            <ColumnDefinition Width="220" />
+                            <ColumnDefinition Width="55" />
+                            <ColumnDefinition Width="220" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="115" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="220" />
+                            <ColumnDefinition Width="125" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <!-- Assumes MVVM and you wish to bind to properties and commands -->
                         <TextBlock Grid.Column="0"
-                                   Text="{Binding AppEui}" />
+                                   Text="Заводской №:" />
                         <TextBlock Grid.Column="1"
-                                   Text="Snr:" />
-                        <TextBlock Grid.Column="2"
-                                   Text="{Binding Snr}" />
-                        <TextBlock Grid.Column="3"
-                                   Text="FN:" />
-                        <TextBlock Grid.Column="4"
                                    Text="{Binding FactoryNumber}" />
+                        <TextBlock Grid.Column="2"
+                                   Text="DevEui:" />
+                        <TextBlock Grid.Column="3"
+                                   Text="{Binding DevEui}" />
+                        <TextBlock Grid.Column="4"
+                                   Text="DevAdd:" />
                         <TextBlock Grid.Column="5"
-                                   Text="{Binding ProtocolId}" />
+                                   Text="{Binding DevAdd}" />
+                        <TextBlock Grid.Column="6"
+                                   Text="NwkSKey:" />
+                        <TextBlock Grid.Column="7"
+                                   Text="{Binding NwkSKey}" />
+                        <TextBlock Grid.Column="8"
+                                   Text="AppSKey:" />
+                        <TextBlock Grid.Column="9"
+                                   Text="{Binding AppSKey}" />
+                        <TextBlock Grid.Column="10"
+                                   Text="AppEui:" />
+                        <TextBlock Grid.Column="11"
+                                   Text="{Binding AppEui}" />
+                        <TextBlock Grid.Column="12"
+                                   Text="AppKey:" />
+                        <TextBlock Grid.Column="13"
+                                   Text="{Binding AppKey}" />
+                        <TextBlock Grid.Column="14"
+                                   Text="Качество связи (SNR):" />
+                        <TextBlock Grid.Column="15"
+                                   Text="{Binding Snr}" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <Button Grid.Row="2"
+                Grid.Column="1"
+                Width="200"
+                Height="50"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Margin="0,0,25,0"
+                Content="Сформировать протокол"
+                Command="{Binding CreateProtocolCommand}"
+                CommandParameter="{Binding ElementName=scannedDevicesListBox, Path=SelectedItems}" />
     </Grid>
 </Page>
