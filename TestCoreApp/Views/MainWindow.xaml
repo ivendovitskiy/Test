@@ -8,10 +8,11 @@
         mc:Ignorable="d"
         MinHeight="420"
         MinWidth="720"
-        Height="450"
-        Width="800"
+        Height="720"
+        Width="1280"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
     <Grid>
         <Grid.RowDefinitions>
